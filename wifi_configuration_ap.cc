@@ -1000,8 +1000,17 @@ bool WifiConfigurationAp::ConnectToWifi(const std::string& ssid, const std::stri
 
         wifi_config_t wifi_config;
         bzero(&wifi_config, sizeof(wifi_config));
-        strlcpy((char *)wifi_config.sta.ssid, ssid.c_str(), 32);
-        strlcpy((char *)wifi_config.sta.password, password.c_str(), 64);
+        size_t ssid_len = ssid.size();
+        if (ssid_len > sizeof(wifi_config.sta.ssid)) {
+            ssid_len = sizeof(wifi_config.sta.ssid);
+        }
+        memcpy(wifi_config.sta.ssid, ssid.data(), ssid_len);
+
+        size_t password_len = password.size();
+        if (password_len > sizeof(wifi_config.sta.password)) {
+            password_len = sizeof(wifi_config.sta.password);
+        }
+        memcpy(wifi_config.sta.password, password.data(), password_len);
         wifi_config.sta.scan_method = WIFI_ALL_CHANNEL_SCAN;
         wifi_config.sta.failure_retry_cnt = 1;
 

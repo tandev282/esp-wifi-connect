@@ -6,13 +6,14 @@ It first tries to connect to a Wi-Fi network using the credentials stored in the
 
 The URL to access the web server is `http://192.168.4.1`.
 
-### Screenshot: Wi-Fi Configuration
+### Screenshot: Wi-Fi Configuration v3.2
 
-<img src="assets/ap_v3.png" width="320" alt="Wi-Fi Configuration">
+<img src="assets/ap_v3_2.jpg" width="320" alt="Wi-Fi Configuration v3.2">
 
-### Screenshot: Advanced Options
+## Changelog: v3.3.1
 
-<img src="assets/ap_v3_advanced.png" width="320" alt="Advanced Configuration">
+- Bound SSID/password copies into `wifi_config` so a full 32-byte SSID no longer overflows with `strcpy`.
+- Config portal and SmartConfig now handle a maximum-length SSID without truncating or reading past the buffer.
 
 ## Changelog: v3.3.0
 

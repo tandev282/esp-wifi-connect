@@ -34,6 +34,7 @@ void SsidManager::LoadFromNvs() {
     // ssid, ssid1, ... ssid9
     // password, password1, ... password9
     // channel, channel1, ... channel9 (uint8, optional; missing means unknown)
+    nvs_handle_t nvs_handle;
     auto ret = nvs_open(NVS_NAMESPACE, NVS_READONLY, &nvs_handle);
     if (ret != ESP_OK) {
         // The namespace doesn't exist, just return

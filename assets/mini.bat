@@ -1,0 +1,1 @@
+npx html-minifier-terser wifi_configuration1.html -o wifi_configuration.html ^ --collapse-whitespace ^ --remove-comments ^ --minify-css true ^ --minify-js true

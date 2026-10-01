@@ -127,34 +127,66 @@
 
         input[type="text"],
         input[type="password"],
+        input[type="number"],
         select {
             width: 100%;
-            padding: 11px 12px;
-            font-size: 15px;
+            height: 44px;
+            padding: 11px 14px;
+            font-size: 14.5px;
+            font-family: inherit;
+            font-weight: 500;
             color: var(--text);
-            background: var(--surface-muted);
+            background-color: var(--surface-muted);
             border: 1px solid var(--border);
             border-radius: var(--radius-sm);
             outline: none;
-            transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+            transition: border-color 0.15s, box-shadow 0.15s, background-color 0.15s;
             -webkit-appearance: none;
             appearance: none;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]:hover,
+        input[type="password"]:hover,
+        input[type="number"]:hover,
+        select:hover {
+            border-color: var(--accent);
+            background-color: var(--surface);
+            box-shadow: 0 0 0 3px var(--accent-soft);
         }
 
         input[type="text"]:focus,
         input[type="password"]:focus,
+        input[type="number"]:focus,
         select:focus {
             border-color: var(--accent);
-            background: var(--surface);
+            background-color: var(--surface);
             box-shadow: 0 0 0 3px var(--accent-soft);
         }
 
         select {
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
-            background-position: right 12px center;
+            background-position: right 14px center;
+            background-size: 15px;
             padding-right: 36px;
             cursor: pointer;
+        }
+
+        select optgroup {
+            font-weight: 700;
+            font-size: 13px;
+            color: var(--text-muted);
+            background: var(--surface);
+            padding: 6px 0;
+        }
+
+        select option {
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--text);
+            background: var(--surface);
+            padding: 8px 12px;
         }
 
         form p {
@@ -411,11 +443,53 @@
         }
 
         input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
             width: 20px;
             height: 20px;
-            accent-color: var(--accent);
+            min-width: 20px;
+            border: 1.5px solid var(--border-strong);
+            border-radius: 6px;
+            background-color: var(--surface);
             cursor: pointer;
+            display: inline-grid;
+            place-content: center;
+            margin: 0;
             flex: none;
+            transition: all 0.18s ease-in-out;
+            vertical-align: middle;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        input[type="checkbox"]::before {
+            content: "";
+            width: 9px;
+            height: 5px;
+            border-left: 2px solid #ffffff;
+            border-bottom: 2px solid #ffffff;
+            transform: rotate(-45deg) scale(0);
+            transition: 0.15s transform cubic-bezier(0.16, 1, 0.3, 1);
+            margin-top: -2px;
+        }
+
+        input[type="checkbox"]:checked {
+            background-color: var(--accent) !important;
+            border-color: var(--accent) !important;
+        }
+
+        input[type="checkbox"]:checked::before {
+            transform: rotate(-45deg) scale(1);
+        }
+
+        input[type="checkbox"]:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-soft);
+        }
+
+        input[type="checkbox"]:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
         }
 
         input[type="number"] {
@@ -523,52 +597,70 @@
         }
 
         /* new  */
-        input[type="number"] {
-            width: 100%;
-            padding: 11px 12px;
-            font-size: 15px;
-            color: var(--text);
-            background: var(--surface-muted);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            outline: none;
-            transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
-            -webkit-appearance: none;
-            appearance: none;
-        }
-
-        input[type="number"]:focus {
-            border-color: var(--accent);
-            background: var(--surface);
-            box-shadow: 0 0 0 3px var(--accent-soft);
-        }
-
         #lcd-tab input[type="number"],
-        #lcd-tab select {
-            padding: 9px 12px !important;
+        #lcd-tab input[type="text"] {
+            height: 42px !important;
+            padding: 10px 14px !important;
             border: 1px solid var(--border) !important;
             border-radius: var(--radius-sm) !important;
             box-sizing: border-box !important;
-            background: var(--surface-muted) !important;
+            background-color: var(--surface-muted) !important;
             color: var(--text) !important;
+            font-size: 14px !important;
+            font-family: inherit !important;
+            font-weight: 500 !important;
+            transition: border-color 0.15s, box-shadow 0.15s, background-color 0.15s !important;
         }
 
-        #lcd-tab input[type="number"]:focus,
-        #lcd-tab select:focus {
+        #lcd-tab input[type="number"]:hover,
+        #lcd-tab input[type="text"]:hover {
             border-color: var(--accent) !important;
-            background: var(--surface) !important;
+            background-color: var(--surface) !important;
             box-shadow: 0 0 0 3px var(--accent-soft) !important;
         }
 
-        #lcd-tab label {
-            color: var(--text-muted) !important;
-            font-size: 13px !important;
-            font-weight: 500 !important;
+        #lcd-tab input[type="number"]:focus,
+        #lcd-tab input[type="text"]:focus {
+            border-color: var(--accent) !important;
+            background-color: var(--surface) !important;
+            box-shadow: 0 0 0 3px var(--accent-soft) !important;
+            outline: none !important;
         }
 
-        #lcd-tab label#btn_import_config,
-        #lcd-tab label#btn_import_config span {
-            color: #fff !important;
+        select[style*="display:none"],
+        select[style*="display: none"] {
+            display: none !important;
+        }
+
+        #lcd-tab label {
+            color: var(--text) !important;
+            font-size: 13.5px !important;
+            font-weight: 600 !important;
+            display: block !important;
+        }
+
+        #lcd-tab label > span:first-child,
+        #lcd-tab label > span {
+            color: var(--text) !important;
+            font-weight: 600 !important;
+            display: block !important;
+            margin-bottom: 6px !important;
+        }
+
+        #lcd-tab .checkbox-item span,
+        #lcd-tab .board-trigger-btn span {
+            margin-bottom: 0 !important;
+        }
+
+        #lcd-tab label small,
+        #lcd-tab small {
+            display: block !important;
+            color: var(--text-muted) !important;
+            font-size: 12px !important;
+            font-weight: 400 !important;
+            line-height: 1.35 !important;
+            margin-top: 5px !important;
+            opacity: 0.85;
         }
 
         #lcd-tab .config-group {
@@ -580,70 +672,543 @@
             box-shadow: var(--shadow) !important;
         }
 
+        #lcd-tab .config-header {
+            border-left: 4px solid var(--accent) !important;
+            padding-left: 10px !important;
+            margin-bottom: 16px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 4px !important;
+        }
+
+        #lcd-tab .config-header.main-header {
+            margin-bottom: 20px !important;
+            gap: 6px !important;
+        }
+
+        #lcd-tab .config-main-title,
+        #lcd-tab [data-lang="device_config_main_title"] {
+            font-weight: 700 !important;
+            font-size: 17.5px !important;
+            margin: 0 !important;
+            color: #ffffff !important;
+            text-transform: none !important;
+            letter-spacing: -0.2px !important;
+            line-height: 1.35 !important;
+        }
+
         #lcd-tab .config-title {
             font-weight: 600 !important;
             font-size: 15px !important;
-            margin-bottom: 15px !important;
+            margin: 0 !important;
             color: var(--text) !important;
+            line-height: 1.35 !important;
+        }
+
+        #lcd-tab .config-group > .config-title {
             border-left: 4px solid var(--accent) !important;
             padding-left: 10px !important;
+            margin-bottom: 15px !important;
+        }
+
+        #lcd-tab .config-header .config-title {
+            border-left: none !important;
+            padding-left: 0 !important;
+            margin-bottom: 0 !important;
+        }
+
+        #lcd-tab .config-note-red {
+            color: var(--danger, #ff0000) !important;
+            font-size: 13.5px !important;
+            line-height: 1.45 !important;
+            margin: 0 !important;
+        }
+
+        #lcd-tab .codec-note,
+        #lcd-tab #codec_info_note {
+            background: transparent !important;
+            background-color: transparent !important;
+            color: var(--danger, #ff0000) !important;
+            font-size: 13.5px !important;
+            line-height: 1.45 !important;
+            margin-top: 8px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 3px !important;
+            border: none !important;
+            border-left: none !important;
+            padding: 0 !important;
+            box-shadow: none !important;
+        }
+
+        #lcd-tab .codec-note::before,
+        #lcd-tab .codec-note::after,
+        #lcd-tab #codec_info_note::before,
+        #lcd-tab #codec_info_note::after {
+            display: none !important;
+            content: none !important;
+        }
+
+        #lcd-tab .codec-note div,
+        #lcd-tab .codec-note span,
+        #lcd-tab #codec_info_note div,
+        #lcd-tab #codec_info_note span {
+            background: transparent !important;
+            background-color: transparent !important;
+            color: var(--danger, #ff0000) !important;
+            font-size: 13.5px !important;
+            line-height: 1.45 !important;
+            margin: 0 !important;
+            border: none !important;
+            border-left: none !important;
+            padding: 0 !important;
+            box-shadow: none !important;
+        }
+
+        #lcd-tab .config-note-muted {
+            color: var(--text-muted) !important;
+            font-size: 13px !important;
+            line-height: 1.4 !important;
+            margin: 0 !important;
         }
 
         #lcd-tab .checkbox-grid {
             border-top: 1px dashed var(--border-strong) !important;
-            display: flex !important;
-            flex-wrap: wrap !important;
+            display: grid !important;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)) !important;
             gap: 8px 16px !important;
-            padding-top: 10px !important;
-            margin-top: 4px !important;
+            padding-top: 12px !important;
+            margin-top: 10px !important;
         }
 
         #lcd-tab .checkbox-item {
             color: var(--text) !important;
-            display: flex !important;
+            display: inline-flex !important;
             align-items: center !important;
-            gap: 6px !important;
-            white-space: nowrap !important;
+            gap: 10px !important;
             cursor: pointer !important;
             font-size: 14px !important;
-            padding: 4px 10px !important;
-            border-radius: 6px !important;
-            transition: background 0.15s !important;
+            font-weight: 500 !important;
+            padding: 4px 2px !important;
+            background: transparent !important;
+            border: none !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            box-sizing: border-box !important;
+            user-select: none !important;
+            transition: color 0.15s ease !important;
         }
 
         #lcd-tab .checkbox-item:hover {
-            background: var(--accent-soft, #e8f0fe) !important;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            color: var(--accent) !important;
         }
 
-        #lcd-tab .checkbox-item input[type="checkbox"] {
-            width: auto !important;
+        #lcd-tab .checkbox-item:has(input:checked) {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        #lcd-tab .checkbox-item span {
+            flex: 1 !important;
+            line-height: 1.35 !important;
+            word-break: break-word !important;
             margin: 0 !important;
-            accent-color: var(--accent, #007bff) !important;
         }
 
-        @media (max-width: 500px) {
+        @media (max-width: 600px) {
+            #lcd-tab div[style*="display:grid"],
+            #lcd-tab div[style*="display: grid"],
+            #lcd-tab #simplex_gpio_grid,
+            #lcd-tab #common_i2s_gpio_grid,
+            #lcd-tab #lcd_only_fields div[style*="grid-template-columns"],
+            #lcd-tab #spi_gpio_section div[style*="grid-template-columns"],
+            #lcd-tab #oled_gpio_section div[style*="grid-template-columns"],
+            #lcd-tab #i2c_codec_gpio div[style*="grid-template-columns"],
+            #lcd-tab .config-group div[style*="grid-template-columns"] {
+                grid-template-columns: 1fr !important;
+                gap: 12px !important;
+            }
+
+            #lcd-tab label {
+                display: block !important;
+                width: 100% !important;
+                margin-bottom: 0 !important;
+                font-size: 13.5px !important;
+            }
+
+            #lcd-tab label > span:first-child,
+            #lcd-tab label > span {
+                display: block !important;
+                margin-bottom: 6px !important;
+            }
+
+            #lcd-tab .checkbox-item span,
+            #lcd-tab .board-trigger-btn span {
+                margin-bottom: 0 !important;
+            }
+
+            #lcd-tab input[type="number"],
+            #lcd-tab input[type="text"],
+            #lcd-tab .board-trigger-btn {
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
+            #lcd-tab input[type="number"],
+            #lcd-tab input[type="text"] {
+                display: block !important;
+            }
+
+            #lcd-tab .board-trigger-btn {
+                display: flex !important;
+            }
+
             #lcd-tab .checkbox-grid {
+                grid-template-columns: 1fr !important;
+                gap: 8px !important;
+            }
+
+            #lcd-tab .export-import-actions {
+                grid-template-columns: 1fr !important;
+                gap: 10px !important;
+            }
+
+            .field-inline {
                 flex-direction: column !important;
+                align-items: stretch !important;
+                gap: 6px !important;
+            }
+
+            .field-inline button,
+            .field-inline .board-trigger-btn {
+                width: 100% !important;
+                margin-left: 0 !important;
+            }
+
+            .button-group {
+                grid-template-columns: 1fr !important;
+                gap: 10px !important;
             }
         }
 
-        #lcd-tab .codec-note {
-            background: var(--accent-soft) !important;
-            border-left: 4px solid var(--accent) !important;
-            color: var(--accent-hover) !important;
+        /* ========== Custom Board Preset Styles ========== */
+        .board-preset-group {
+            background: var(--surface) !important;
+            border: 1px solid var(--border) !important;
         }
 
-        #btn_export_config,
-        #btn_import_config {
-            background: var(--accent) !important;
+        .board-trigger-btn {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            width: 100% !important;
+            height: 42px !important;
+            min-height: 42px !important;
+            padding: 0 14px !important;
+            background: var(--surface-muted) !important;
+            border: 1px solid var(--border) !important;
             border-radius: var(--radius-sm) !important;
-            color: #fff !important;
-            border: none !important;
+            color: var(--text) !important;
+            cursor: pointer !important;
+            text-align: left !important;
+            transition: border-color 0.15s, box-shadow 0.15s, background 0.15s !important;
+            box-sizing: border-box !important;
+            font-family: inherit !important;
         }
 
-        #btn_export_config:hover,
-        #btn_import_config:hover {
+        .board-trigger-btn:hover {
+            border-color: var(--accent) !important;
+            background: var(--surface) !important;
+            box-shadow: 0 0 0 3px var(--accent-soft) !important;
+        }
+
+        .board-trigger-title {
+            font-size: 14px !important;
+            font-weight: 500 !important;
+            color: var(--text) !important;
+            line-height: 1.2 !important;
+            flex: 1 !important;
+            min-width: 0 !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            margin: 0 !important;
+            display: block !important;
+        }
+
+        .board-trigger-arrow {
+            font-size: 11px !important;
+            color: var(--text-muted) !important;
+            margin-left: 10px !important;
+            margin-bottom: 0 !important;
+            flex: none !important;
+            line-height: 1 !important;
+            display: inline-block !important;
+        }
+
+        /* Modal Overlay & Bottom Sheet */
+        .board-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(3px);
+            z-index: 2500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .board-modal-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .board-modal-sheet {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 520px;
+            max-height: 85vh;
+            max-height: 85dvh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: translateY(16px);
+            transition: transform 0.2s ease;
+        }
+
+        .board-modal-overlay.open .board-modal-sheet {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 600px) {
+            .board-modal-overlay {
+                align-items: flex-end;
+                padding: 0;
+            }
+            .board-modal-sheet {
+                max-width: 100%;
+                max-height: 82vh;
+                max-height: 82dvh;
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
+                padding-bottom: env(safe-area-inset-bottom, 0px);
+                transform: translateY(100%);
+            }
+            .board-modal-overlay.open .board-modal-sheet {
+                transform: translateY(0);
+            }
+        }
+
+        .board-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 18px;
+            border-bottom: 1px solid var(--border);
+            background: var(--surface-muted);
+            flex: none;
+        }
+
+        .board-modal-title {
+            margin: 0;
+            font-size: 15.5px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .board-modal-sub {
+            margin: 2px 0 0;
+            font-size: 12.5px;
+            color: var(--text-muted);
+        }
+
+        .board-modal-close-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text-muted);
+            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .board-modal-close-btn:hover {
+            color: var(--text);
+            border-color: var(--text-muted);
+        }
+
+        .board-modal-search {
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border);
+            background: var(--surface);
+            position: relative;
+            flex: none;
+        }
+
+        .board-modal-search input {
+            width: 100%;
+            padding: 9px 30px 9px 12px;
+            font-size: 14px;
+            background: var(--surface-muted);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text);
+            outline: none;
+        }
+
+        .board-modal-search input:focus {
+            border-color: var(--accent);
+            background: var(--surface);
+            box-shadow: 0 0 0 2px var(--accent-soft);
+        }
+
+        .board-modal-search .clear-btn {
+            position: absolute;
+            right: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 14px;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .board-modal-body {
+            padding: 12px 16px;
+            padding-bottom: calc(24px + env(safe-area-inset-bottom, 12px));
+            overflow-y: auto;
+            flex: 1;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+        }
+
+        .board-group-title {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-muted);
+            margin: 14px 4px 8px;
+        }
+
+        .board-group-title:first-child {
+            margin-top: 2px;
+        }
+
+        .board-item-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 12px 14px;
+            min-height: 48px;
+            margin-bottom: 6px;
+            background: var(--surface-muted);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: border-color 0.15s, background 0.15s, transform 0.05s;
+            box-sizing: border-box;
+        }
+
+        .board-item-card:hover {
+            border-color: var(--accent);
+            background: var(--accent-soft);
+        }
+
+        .board-item-card:active {
+            transform: scale(0.99);
+        }
+
+        .board-item-card.selected {
+            border-color: var(--accent);
+            background: var(--accent-soft);
+            font-weight: 600;
+        }
+
+        .board-item-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text);
+            line-height: 1.35;
+            flex: 1;
+            min-width: 0;
+            word-break: break-word;
+        }
+
+        .board-badge {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            white-space: nowrap;
+            flex: none;
+        }
+
+        .btn-config-action {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            width: 100% !important;
+            height: 42px !important;
+            min-height: 42px !important;
+            padding: 0 16px !important;
+            border: none !important;
+            border-radius: var(--radius-sm) !important;
+            background: var(--accent) !important;
+            color: #ffffff !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            font-family: inherit !important;
+            cursor: pointer !important;
+            box-sizing: border-box !important;
+            transition: background 0.15s, transform 0.05s, box-shadow 0.15s !important;
+            margin: 0 !important;
+            line-height: 1 !important;
+            text-align: center !important;
+        }
+
+        .btn-config-action:hover {
             background: var(--accent-hover) !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+        }
+
+        .btn-config-action:active {
+            transform: translateY(1px) !important;
+        }
+
+        .btn-config-action span {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px !important;
+            color: #ffffff !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            line-height: 1 !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
         }
 
         .lcd-config {
@@ -757,7 +1322,11 @@
                     <path
                         d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
                 </svg>
-                <select id="language" onchange="changeLanguage()">
+                <button type="button" class="board-trigger-btn" id="language_trigger" onclick="openPickerModal('language')" style="width:auto;padding:7px 12px;min-height:36px;font-size:13px;">
+                    <span class="board-trigger-title" id="language_display">English</span>
+                    <span class="board-trigger-arrow" style="margin-left:6px;">▼</span>
+                </button>
+                <select id="language" onchange="changeLanguage()" style="display:none;" data-picker-title="Ngôn Ngữ Giao Diện (UI Language)" data-picker-sub="Chọn ngôn ngữ hiển thị trên trang cấu hình">
                     <option value="en-US">English</option>
                     <option value="vi-VN">Tiếng Việt</option>
                 </select>
@@ -767,13 +1336,13 @@
         <div class="card">
             <!-- Tabs -->
             <div class="tabs">
-                <div class="tab active" onclick="switchTab('wifi')" data-tab="wifi" data-lang="wifi_tab">Wi-Fi Config</div>
-                <div class="tab" onclick="switchTab('lcd')" data-tab="lcd" data-lang="lcd_tab" style="display: none;">Device Config</div>
+                <div class="tab" onclick="switchTab('wifi')" data-tab="wifi" data-lang="wifi_tab">Wi-Fi Config</div>
+                <div class="tab active" onclick="switchTab('lcd')" data-tab="lcd" data-lang="lcd_tab">Device Config</div>
                 <div class="tab" onclick="switchTab('advanced')" data-tab="advanced" data-lang="advanced_tab">Advanced</div>
             </div>
 
             <!-- Wi-Fi Configuration Tab -->
-            <div id="wifi-tab" class="tab-content active">
+            <div id="wifi-tab" class="tab-content">
                 <!-- Saved Wi-Fi List -->
                 <div class="section" id="saved_list_container" style="display: none;">
                     <h3 data-lang="saved_wifi">Saved Wi-Fi</h3>
@@ -831,7 +1400,11 @@
                         <p class="field-inline">
                             <label for="max_tx_power" data-lang="max_tx_power" style="white-space: nowrap;">Wi-Fi Max TX
                                 Power:</label>
-                            <select id="max_tx_power" name="max_tx_power">
+                            <button type="button" class="board-trigger-btn" id="max_tx_power_trigger" onclick="openPickerModal('max_tx_power')" style="width:auto;min-width:130px;margin-left:auto;">
+                                <span class="board-trigger-title" id="max_tx_power_display">20 dBm</span>
+                                <span class="board-trigger-arrow">▼</span>
+                            </button>
+                            <select id="max_tx_power" name="max_tx_power" style="display:none;" data-picker-title="Công Suất Wi-Fi (Wi-Fi Max TX Power)" data-picker-sub="Chọn mức công suất phát Wi-Fi của ESP32">
                                 <option value="8">2 dBm</option>
                                 <option value="20">5 dBm</option>
                                 <option value="28">7 dBm</option>
@@ -842,7 +1415,7 @@
                                 <option value="60">15 dBm</option>
                                 <option value="66">16 dBm</option>
                                 <option value="72">18 dBm</option>
-                                <option value="80">20 dBm</option>
+                                <option value="80" selected>20 dBm</option>
                             </select>
                         </p>
 
@@ -878,111 +1451,112 @@
             </div>
 
             <!-- LCD Configuration Tab -->
-            <div id="lcd-tab" class="tab-content">
+            <div id="lcd-tab" class="tab-content active">
                 <form onsubmit="submitLcdForm(event)">
-                    <h3 data-lang="device_config_main_title">Cấu Hình Thiết Bị (Device Config)</h3>
-
-                    <p style="color:#ff0000;font-size:14px; line-height:1.4;" data-lang="device_config_main_note">
-                        &#9432; 1. Lần đầu cài Fw và khởi động, <strong>không có màn hình hiển thị</strong>,
-                        <strong>không phát
-                            âm thanh</strong>, hãy config
-                        theo cấu hình phần cứng của bạn. <br>
-                        &#9432; 2. Nhập GPIO từ <strong>0</strong> đến <strong>48</strong>.<br>
-                        &#9432; 3. Các thay đổi sẽ có hiệu lực sau khi <strong>khởi động lại</strong> thiết bị. <br>
-
-                    </p>
+                    <div class="config-header main-header">
+                        <div class="config-main-title" data-lang="device_config_main_title">Cấu Hình Thiết Bị (Device Config)</div>
+                        <div class="config-note-red" data-lang="device_config_main_note">
+                            &#9432; 1. Lần đầu cài Fw và khởi động, <strong>không có màn hình hiển thị</strong>, <strong>không phát âm thanh</strong>, hãy config theo cấu hình phần cứng của bạn. <br>
+                            &#9432; 2. Nhập GPIO từ <strong>0</strong> đến <strong>48</strong>.<br>
+                            &#9432; 3. Các thay đổi sẽ có hiệu lực sau khi <strong>khởi động lại</strong> thiết bị. <br>
+                        </div>
+                    </div>
 
                     <!-- ⓪ Board Preset -->
-                    <div class="config-group" style="background-color:#f0f8ff; border:2px solid #007bff;">
-                        <div class="config-title" style="color:#007bff;" data-lang="board_preset_title">⚡ Cấu Hình Nhanh
-                            - Chọn Mạch Có Sẵn (Quick Setup - Board Preset)</div>
-                        <p style="color:#007bff;font-size:13px; line-height:1.4; margin-top:0;"
-                            data-lang="board_preset_note">
-                            &#9432; Chọn mạch của bạn để <strong>tự động điền tất cả GPIO</strong>. Sau khi chọn, bạn
-                            vẫn có thể
-                            chỉnh sửa thủ công.
-                        </p>
-                        <p>
-                            <label for="board_preset" data-lang="select_board_label">Chọn mạch có sẵn (Select your
-                                board):</label>
-                            <select id="board_preset" onchange="applyBoardPreset()"
-                                style="width:100%;padding:8px;border:2px solid #007bff;border-radius:5px;font-size:14px;font-weight:bold;background:#fff;">
-                                <option value="" data-lang="select_board_option">-- Chọn mạch để tự điền tất cả (Select
-                                    board to auto-fill all) --
-                                </option>
+                    <div class="config-group board-preset-group">
+                        <div class="config-header">
+                            <div class="config-title" data-lang="board_preset_title">Cấu Hình Nhanh - Chọn Mạch Có Sẵn (Quick Setup)</div>
+                            <div class="config-note-red" data-lang="board_preset_note">
+                                &#9432; Chọn mạch của bạn để <strong>tự động điền tất cả GPIO</strong>. Sau khi chọn, bạn
+                                vẫn có thể chỉnh sửa thủ công.
+                            </div>
+                        </div>
+                        <label><span data-lang="select_board_label">Chọn mạch có sẵn (Select your board):</span>
+                            
+                            <!-- Custom Board Selector Trigger Button -->
+                            <button type="button" class="board-trigger-btn" id="board_preset_trigger" onclick="openBoardModal()">
+                                <span class="board-trigger-title" id="board_trigger_title" data-lang="select_board_option">-- Chọn mạch để tự điền tất cả (Select board) --</span>
+                                <span class="board-trigger-arrow">▼</span>
+                            </button>
+
+                            <!-- Hidden select for script compatibility -->
+                            <select id="board_preset" onchange="applyBoardPreset()" style="display:none;">
+                                <option value="" data-lang="select_board_option">-- Chọn mạch để tự điền tất cả (Select board to auto-fill all) --</option>
                                 <optgroup label="Tùy chỉnh">
                                     <option value="custom">Tùy chỉnh (Custom - nhập thủ công)</option>
                                 </optgroup>
-
                                 <optgroup label="Mạch Tím / ESP32-S3 N16R8">
-                                    <option value="machtim_oled_091">Mạch Tím / ESP32-S3 N16R8 - OLED 0.91
-                                    </option>
-                                    <option value="machtim_oled_096">Mạch Tím / ESP32-S3 N16R8 - OLED 0.96
-                                    </option>
-                                    <option value="machtim_st7789_1.3inch">Mạch Tím - TFT ST7789
-                                        1.3inch / 1.54inch</option>
+                                    <option value="machtim_oled_091">Mạch Tím / ESP32-S3 N16R8 - OLED 0.91</option>
+                                    <option value="machtim_oled_096">Mạch Tím / ESP32-S3 N16R8 - OLED 0.96</option>
+                                    <option value="machtim_st7789_1.3inch">Mạch Tím - TFT ST7789 1.3inch / 1.54inch</option>
                                     <option value="esp32s3_retrogo">ESP32-S3 RetroGo - TanDev</option>
                                     <option value="xingzhi_cube_1.54">Xingzhi Cube 1.54inch</option>
                                     <option value="esp32s3_lcd_2.8">Freenove ESP32-S3 Display 2.8 LCD</option>
                                     <option value="esp32s3_ostb_3st_touch">OSTB-3ST Touch</option>
                                 </optgroup>
-
+                                <optgroup label="Khách hàng TanDev">
+                                    <option value="esp32s3mini_kh_default">ESP32 S3 Mini (Giao diện mặc định)</option>
+                                    <option value="esp32s3mini_kh_wechat">ESP32 S3 Mini (Giao diện WeChat)</option>
+                                    <option value="esp32s3zero_kh_default">ESP32 S3 Zero (Giao diện mặc định)</option>
+                                    <option value="esp32s3zero_kh_wechat">ESP32 S3 Zero (Giao diện WeChat)</option>
+                                </optgroup>
                                 <optgroup label="ESP32 S3 Mini / Zero N4R2 (Cấu hình TanDev)">
-                                    <option value="esp32s3mini_oled_091">ESP32 S3 Mini / Zero - OLED 0.91
-                                    </option>
-                                    <option value="esp32s3mini_oled_096">ESP32 S3 Mini / Zero - OLED 0.96
-                                    </option>
+                                    <option value="esp32s3mini_oled_091">ESP32 S3 Mini / Zero - OLED 0.91</option>
+                                    <option value="esp32s3mini_oled_096">ESP32 S3 Mini / Zero - OLED 0.96</option>
                                 </optgroup>
                             </select>
-                        </p>
+                        </label>
                     </div>
 
                     <!-- ⓪ Export / Import Config -->
-                    <div class="config-group" style="background-color:#f6fff6; border:2px solid #28a745;">
-                        <div class="config-title" style="color:#28a745;" data-lang="export_import_title">📤 Xuất / Nhập
-                            Cấu Hình (Export / Import Config)</div>
-                        <p style="color:#555;font-size:13px;line-height:1.4;margin-top:0;"
-                            data-lang="export_import_note">
-                            &#9432; Xuất cấu hình hiện tại ra file <strong>config.json</strong> để chia sẻ hoặc sao lưu.
-                            Nhập file để áp dụng cấu hình nhanh.
-                        </p>
-                        <div style="display:flex;gap:12px;flex-wrap:wrap;">
-                            <button id="btn_export_config" onclick="exportConfig()" style="flex:1;min-width:140px;padding:10px 16px;background:#28a745;color:#fff;
-                               border:none;border-radius:6px;font-size:14px;font-weight:bold;
-                               cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+                    <div class="config-group">
+                        <div class="config-header">
+                            <div class="config-title" data-lang="export_import_title">Xuất / Nhập Cấu Hình (Export / Import Config)</div>
+                            <div class="config-note-red" data-lang="export_import_note">
+                                &#9432; Xuất cấu hình hiện tại ra file <strong>config.json</strong> để chia sẻ hoặc sao lưu.
+                                Nhập file để áp dụng cấu hình nhanh.
+                            </div>
+                        </div>
+                        <div class="export-import-actions" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                            <button type="button" id="btn_export_config" onclick="exportConfig()" class="btn-config-action">
                                 <span data-lang="btn_export">📥 Xuất cấu hình</span>
                             </button>
-                            <label id="btn_import_config" style="flex:1;min-width:140px;padding:10px 16px;background:#17a2b8;color:#fff;
-                               border:none;border-radius:6px;font-size:14px;font-weight:bold;
-                               cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+                            <button type="button" id="btn_import_config" onclick="document.getElementById('import_config_file').click()" class="btn-config-action">
                                 <span data-lang="btn_import">📤 Nhập cấu hình</span>
-                                <input type="file" id="import_config_file" accept=".json,application/json"
-                                    style="display:none;" onchange="importConfig(event)">
-                            </label>
+                            </button>
+                            <input type="file" id="import_config_file" accept=".json,application/json"
+                                style="display:none;" onchange="importConfig(event)">
                         </div>
                         <div id="import_status" style="margin-top:10px;font-size:13px;display:none;"></div>
                     </div>
 
                     <!-- ⓪ Type Screen -->
                     <div class="config-group">
-                        <div class="config-title" data-lang="device_config_group_title">Cấu Hình Thiết Bị (Device
-                            Config)</div>
+                        <div class="config-header">
+                            <div class="config-title" data-lang="device_config_group_title">Cấu Hình Thiết Bị (Device Config)</div>
+                        </div>
 
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
 
                             <!-- Type Screen -->
-                            <label><span data-lang="screen_type">Màn Hình (Type Screen)</span><br>
-                                <select id="screen_type" onchange="onScreenTypeChange()"
-                                    style="width:100%;padding:4px;border:1px solid #ccc;border-radius:3px;">
+                            <label><span data-lang="screen_type">Màn Hình (Type Screen)</span>
+                                <button type="button" class="board-trigger-btn" id="screen_type_trigger" onclick="openPickerModal('screen_type')">
+                                    <span class="board-trigger-title" id="screen_type_display">TFT LCD (SPI)</span>
+                                    <span class="board-trigger-arrow">▼</span>
+                                </button>
+                                <select id="screen_type" onchange="onScreenTypeChange(true)" style="display:none;" data-picker-title="Loại Màn Hình (Screen Type)" data-picker-sub="Chọn chuẩn giao tiếp màn hình">
                                     <option value="0">TFT LCD (SPI)</option>
                                     <option value="1">OLED (I2C - SSD1306 / SH1106)</option>
                                 </select>
                             </label>
 
                             <!-- Language -->
-                            <label><span data-lang="lcd_language_label">Ngôn ngữ (Language)</span><br>
-                                <select id="lcd_language"
-                                    style="width:100%;padding:4px;border:1px solid #ccc;border-radius:3px;">
+                            <label><span data-lang="lcd_language_label">Ngôn ngữ (Language)</span>
+                                <button type="button" class="board-trigger-btn" id="lcd_language_trigger" onclick="openPickerModal('lcd_language')">
+                                    <span class="board-trigger-title" id="lcd_language_display">Tiếng Việt (vi-VN)</span>
+                                    <span class="board-trigger-arrow">▼</span>
+                                </button>
+                                <select id="lcd_language" style="display:none;" data-picker-title="Ngôn Ngữ Thiết Bị (Device Language)" data-picker-sub="Ngôn ngữ hiển thị trên màn hình thiết bị">
                                     <option value="0">Tiếng Việt (vi-VN)</option>
                                     <option value="1">English (en-US)</option>
                                 </select>
@@ -993,24 +1567,27 @@
 
                     <!-- ① Screen Preset -->
                     <div class="config-group">
-                        <div class="config-title" data-lang="screen_preset_title">Màn Hình (Screen Preset)</div>
-                        <p style="color:#ff0000;font-size:14px; line-height:1.4;" data-lang="screen_preset_note">
-                            &#9432; 1. Nếu không dùng, đừng chỉnh sửa hoặc nhập <strong>0</strong>. <br>
-                            &#9432; 2. Khi sử dụng <strong>Xoay Màn Hình (Rotate Screen)</strong>, có thể màn hình sẽ
-                            hiển thị
-                            lệch. Hãy sử dụng
-                            <strong>Độ Lệch X, Y</strong> để căn chỉnh lại. <br>
-                            &#9432; 3. Nếu không có sẵn kích thước màn hình của bạn ở đây, không chọn hoặc tự nhập theo
-                            thiết bị của bạn.
-                        </p>
+                        <div class="config-header">
+                            <div class="config-title" data-lang="screen_preset_title">Màn Hình (Screen Preset)</div>
+                            <div class="config-note-red" data-lang="screen_preset_note">
+                                &#9432; 1. Nếu không dùng, đừng chỉnh sửa hoặc nhập <strong>0</strong>. <br>
+                                &#9432; 2. Khi sử dụng <strong>Xoay Màn Hình (Rotate Screen)</strong>, có thể màn hình sẽ
+                                hiển thị
+                                lệch. Hãy sử dụng
+                                <strong>Độ Lệch X, Y</strong> để căn chỉnh lại. <br>
+                                &#9432; 3. Nếu không có sẵn kích thước màn hình của bạn ở đây, không chọn hoặc tự nhập theo
+                                thiết bị của bạn.
+                            </div>
+                        </div>
 
                         <!-- LCD Preset (hidden when OLED) -->
-                        <div id="lcd_preset_section">
-                            <p>
-                                <label for="lcd_preset" data-lang="select_lcd_preset">Chọn cấu hình có sẵn (Select
-                                    preset):</label>
-                                <select id="lcd_preset" onchange="applyLcdPreset()"
-                                    style="width:100%;padding:5px;border:1px solid #ccc;border-radius:3px;">
+                        <div id="lcd_preset_section" style="margin-bottom:12px;">
+                            <label><span data-lang="select_lcd_preset">Chọn cấu hình có sẵn (Select preset):</span>
+                                <button type="button" class="board-trigger-btn" id="lcd_preset_trigger" onclick="openPickerModal('lcd_preset')">
+                                    <span class="board-trigger-title" id="lcd_preset_display" data-lang="select_preset_option">-- Chọn cấu hình có sẵn để tự điền --</span>
+                                    <span class="board-trigger-arrow">▼</span>
+                                </button>
+                                <select id="lcd_preset" onchange="applyLcdPreset()" style="display:none;" data-picker-title="Cấu Hình Màn Hình Có Sẵn (Screen Preset)" data-picker-sub="Tự động điền thông số độ phân giải, offset và chế độ SPI">
                                     <option value="" data-lang="select_preset_option">-- Chọn cấu hình có sẵn để tự điền
                                         (Select preset to auto-fill) --</option>
 
@@ -1035,70 +1612,79 @@
                                     <optgroup label="GC9A01">
                                         <option value="gc9a01_240x240">GC9A01 240x240 (1.28inch Round)</option>
                                     </optgroup>
-
-                                    <optgroup label="Tùy chỉnh màn hình">
-                                        <option value="custom">Tùy chỉnh (Custom - manual)</option>
-                                    </optgroup>
-
-
                                 </select>
-                            </p>
+                            </label>
                         </div>
 
                         <!-- OLED Preset (hidden by default) -->
-                        <div id="oled_preset_section" style="display:none;">
-                            <p>
-                                <label for="oled_preset" data-lang="select_oled_preset">Chọn loại OLED (Select OLED
-                                    type):</label>
-                                <select id="oled_preset" onchange="applyOledPreset()"
-                                    style="width:100%;padding:5px;border:1px solid #ccc;border-radius:3px;">
+                        <div id="oled_preset_section" style="display:none;margin-bottom:12px;">
+                            <label><span data-lang="select_oled_preset">Chọn loại OLED (Select OLED type):</span>
+                                <button type="button" class="board-trigger-btn" id="oled_preset_trigger" onclick="openPickerModal('oled_preset')">
+                                    <span class="board-trigger-title" id="oled_preset_display" data-lang="select_preset_option">-- Chọn cấu hình có sẵn để tự điền --</span>
+                                    <span class="board-trigger-arrow">▼</span>
+                                </button>
+                                <select id="oled_preset" onchange="applyOledPreset()" style="display:none;" data-picker-title="Chọn Loại OLED (OLED Preset)" data-picker-sub="Tự động điền thông số màn hình OLED SSD1306 / SH1106">
                                     <option value="" data-lang="select_preset_option">-- Chọn cấu hình có sẵn để tự điền
                                         (Select preset to auto-fill) --</option>
                                     <option value="ssd1306_128x64">SSD1306 128x64 (0.96inch)</option>
                                     <option value="ssd1306_128x32">SSD1306 128x32 (0.91inch)</option>
-                                    <option value="sh1106_128x64">SH1106 128x64 (1.3inch) - Bị lỗi hiển thị</option>
+                                    <option value="sh1106_128x64">SH1106 128x64 (1.3inch)</option>
                                 </select>
-                            </p>
+                            </label>
                         </div>
 
                         <!-- LCD-only fields -->
                         <div id="lcd_only_fields">
-                            <div
-                                style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px 12px;margin-bottom:10px;">
-
-                                <label><span data-lang="lcd_driver">Driver (LCD Driver)</span><br>
-                                    <select id="lcd_driver"
-                                        style="width:100%;padding:4px;border:1px solid #ccc;border-radius:3px;">
+                            <!-- Driver: Full width row -->
+                            <div style="margin-bottom:12px;">
+                                <label><span data-lang="lcd_driver">Driver (LCD Driver)</span>
+                                    <button type="button" class="board-trigger-btn" id="lcd_driver_trigger" onclick="openPickerModal('lcd_driver')">
+                                        <span class="board-trigger-title" id="lcd_driver_display">ST7789 / ST7789V</span>
+                                        <span class="board-trigger-arrow">▼</span>
+                                    </button>
+                                    <select id="lcd_driver" style="display:none;" data-picker-title="Driver Màn Hình (LCD Driver)" data-picker-sub="Chọn loại IC điều khiển màn hình LCD">
                                         <option value="0">ST7789 / ST7789V</option>
                                         <option value="3">ST7735 / ST7735S</option>
                                         <option value="1">ILI9341</option>
                                         <option value="2">GC9A01</option>
                                     </select>
                                 </label>
+                            </div>
 
-                                <label><span data-lang="lcd_width">Chiều Rộng (Width)</span><br>
+                            <!-- Width & Height: 2 columns -->
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;margin-bottom:12px;">
+                                <label><span data-lang="lcd_width">Chiều Rộng (Width)</span>
                                     <input type="number" id="lcd_w" min="0" max="1024"
-                                        style="width:100%;padding:4px;box-sizing:border-box;">
+                                        style="width:100%;box-sizing:border-box;">
                                 </label>
 
-                                <label><span data-lang="lcd_height">Chiều Cao (Height)</span><br>
+                                <label><span data-lang="lcd_height">Chiều Cao (Height)</span>
                                     <input type="number" id="lcd_h" min="0" max="1024"
-                                        style="width:100%;padding:4px;box-sizing:border-box;">
+                                        style="width:100%;box-sizing:border-box;">
                                 </label>
+                            </div>
 
-                                <label><span data-lang="lcd_offset_x">Độ Lệch X (Offset X)</span><br>
+                            <!-- Offset X & Offset Y: 2 columns -->
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;margin-bottom:12px;">
+                                <label><span data-lang="lcd_offset_x">Độ Lệch X (Offset X)</span>
                                     <input type="number" id="lcd_off_x" min="0" max="255" value="0"
-                                        style="width:100%;padding:4px;box-sizing:border-box;">
+                                        style="width:100%;box-sizing:border-box;">
                                 </label>
 
-                                <label><span data-lang="lcd_offset_y">Độ Lệch Y (Offset Y)</span><br>
+                                <label><span data-lang="lcd_offset_y">Độ Lệch Y (Offset Y)</span>
                                     <input type="number" id="lcd_off_y" min="0" max="255" value="0"
-                                        style="width:100%;padding:4px;box-sizing:border-box;">
+                                        style="width:100%;box-sizing:border-box;">
                                 </label>
+                            </div>
 
-                                <label><span data-lang="lcd_spi_mode">Chế Độ SPI (SPI Mode)</span><br>
-                                    <select id="lcd_spi_mode"
-                                        style="width:100%;padding:4px;border:1px solid #ccc;border-radius:3px;">
+                            <!-- SPI Mode, RGB Order, Rotate: 3 columns (short labels/values) -->
+                            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px 12px;margin-bottom:12px;">
+                                <label><span data-lang="lcd_spi_mode">Chế Độ SPI (SPI Mode)</span>
+                                    <button type="button" class="board-trigger-btn" id="lcd_spi_mode_trigger" onclick="openPickerModal('lcd_spi_mode')">
+                                        <span class="board-trigger-title" id="lcd_spi_mode_display">0</span>
+                                        <span class="board-trigger-arrow">▼</span>
+                                    </button>
+                                    <select id="lcd_spi_mode" style="display:none;" data-picker-title="Chế Độ SPI (SPI Mode)" data-picker-sub="Chọn chế độ Clock Phase / Polarity (0 hoặc 3)">
                                         <option value="0">0</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -1106,17 +1692,23 @@
                                     </select>
                                 </label>
 
-                                <label><span data-lang="lcd_rgb_order">Thứ Tự Màu (RGB Order)</span><br>
-                                    <select id="lcd_rgb_order"
-                                        style="width:100%;padding:4px;border:1px solid #ccc;border-radius:3px;">
+                                <label><span data-lang="lcd_rgb_order">Thứ Tự Màu (RGB Order)</span>
+                                    <button type="button" class="board-trigger-btn" id="lcd_rgb_order_trigger" onclick="openPickerModal('lcd_rgb_order')">
+                                        <span class="board-trigger-title" id="lcd_rgb_order_display">RGB</span>
+                                        <span class="board-trigger-arrow">▼</span>
+                                    </button>
+                                    <select id="lcd_rgb_order" style="display:none;" data-picker-title="Thứ Tự Màu (RGB Order)" data-picker-sub="Thứ tự kênh màu hiển thị RGB hoặc BGR">
                                         <option value="0">RGB</option>
                                         <option value="1">BGR</option>
                                     </select>
                                 </label>
 
-                                <label><span data-lang="lcd_rotate">Xoay Màn Hình (Rotate Screen)</span><br>
-                                    <select id="lcd_rotate"
-                                        style="width:100%;padding:4px;border:1px solid #ccc;border-radius:3px;">
+                                <label><span data-lang="lcd_rotate">Xoay Màn Hình (Rotate)</span>
+                                    <button type="button" class="board-trigger-btn" id="lcd_rotate_trigger" onclick="openPickerModal('lcd_rotate')">
+                                        <span class="board-trigger-title" id="lcd_rotate_display">0°</span>
+                                        <span class="board-trigger-arrow">▼</span>
+                                    </button>
+                                    <select id="lcd_rotate" style="display:none;" data-picker-title="Xoay Màn Hình (Rotate Screen)" data-picker-sub="Góc xoay hiển thị (0°, 90°, 180°, 270°)">
                                         <option value="0">0°</option>
                                         <option value="90">90°</option>
                                         <option value="180">180°</option>
@@ -1158,39 +1750,41 @@
 
                     <!-- SPI GPIO (hidden when OLED) -->
                     <div class="config-group" id="spi_gpio_section">
-                        <div class="config-title" data-lang="spi_gpio_title">GPIO Màn Hình SPI (Display SPI GPIO)</div>
-                        <p style="color:#ff0000;font-size:14px; line-height:1.4;" data-lang="peripherals_note">
-                            &#9432; Nhập số GPIO tương ứng. Nếu không dùng, nhập <strong>-1</strong>.
-                        </p>
+                        <div class="config-header">
+                            <div class="config-title" data-lang="spi_gpio_title">GPIO Màn Hình SPI (Display SPI GPIO)</div>
+                            <div class="config-note-red" data-lang="spi_gpio_note">
+                                &#9432; Nhập số GPIO tương ứng. Nếu không dùng, nhập <strong>-1</strong>.
+                            </div>
+                        </div>
 
-                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px 12px;">
+                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px 12px;">
 
-                            <label>MOSI-SDA-DIN<br>
+                            <label><span>MOSI-SDA-DIN</span>
                                 <input type="number" id="p_mosi" min="-1" max="48"
                                     style="width:100%;padding:4px;box-sizing:border-box;">
                             </label>
 
-                            <label>CLK-SCK-SCL<br>
+                            <label><span>CLK-SCK-SCL</span>
                                 <input type="number" id="p_clk" min="-1" max="48"
                                     style="width:100%;padding:4px;box-sizing:border-box;">
                             </label>
 
-                            <label>DC-A0-RS-D/C<br>
+                            <label><span>DC-A0-RS-D/C</span>
                                 <input type="number" id="p_dc" min="-1" max="48"
                                     style="width:100%;padding:4px;box-sizing:border-box;">
                             </label>
 
-                            <label>RST-RES-RESET<br>
+                            <label><span>RST-RES-RESET</span>
                                 <input type="number" id="p_rst" min="-1" max="48"
                                     style="width:100%;padding:4px;box-sizing:border-box;">
                             </label>
 
-                            <label>CS-SS-NSS-CE<br>
+                            <label><span>CS-SS-NSS-CE</span>
                                 <input type="number" id="p_cs" min="-1" max="48"
                                     style="width:100%;padding:4px;box-sizing:border-box;">
                             </label>
 
-                            <label>BL-LED-BLK-LEDK<br>
+                            <label><span>BL-LED-BLK-LEDK</span>
                                 <input type="number" id="p_bl" min="-1" max="48"
                                     style="width:100%;padding:4px;box-sizing:border-box;">
                             </label>
@@ -1200,62 +1794,69 @@
 
                     <!-- OLED I2C GPIO (hidden by default) -->
                     <div class="config-group" id="oled_gpio_section" style="display:none;">
-                        <div class="config-title" data-lang="oled_gpio_title">GPIO Màn Hình OLED I2C (Display I2C GPIO)
+                        <div class="config-header">
+                            <div class="config-title" data-lang="oled_gpio_title">GPIO Màn Hình OLED I2C (Display I2C GPIO)
+                            </div>
+                            <div class="config-note-red" data-lang="oled_gpio_note">
+                                &#9432; Nhập số GPIO cho giao tiếp I2C. Nếu không dùng, nhập <strong>-1</strong>.
+                            </div>
                         </div>
-                        <p style="color:#ff0000;font-size:14px; line-height:1.4;" data-lang="oled_gpio_note">
-                            &#9432; Nhập số GPIO cho giao tiếp I2C. Nếu không dùng, nhập <strong>-1</strong>.
-                        </p>
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;">
-                            <label>SDA<br>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;">
+                            <label><span>SDA</span>
                                 <input type="number" id="oled_sda" min="-1" max="48"
                                     style="width:100%;padding:4px;box-sizing:border-box;">
                             </label>
-                            <label>SCL<br>
+                            <label><span>SCL</span>
                                 <input type="number" id="oled_scl" min="-1" max="48"
                                     style="width:100%;padding:4px;box-sizing:border-box;">
                             </label>
                         </div>
                     </div>
 
-                    <!-- ③ Audio & Peripherals GPIO -->
                     <div class="config-group">
-                        <div class="config-title" data-lang="audio_gpio_title">GPIO Mic & Âm Thanh (Mic & Audio GPIO)
+                        <div class="config-header">
+                            <div class="config-title" data-lang="audio_gpio_title">GPIO Mic & Âm Thanh (Mic & Audio GPIO)</div>
+                            <div class="config-note-red" data-lang="audio_codec_note">
+                                &#9432; Khi dùng màn hình OLED, chỉ hỗ trợ <strong>NoAudioCodec Simplex</strong>.
+                            </div>
                         </div>
 
                         <!-- AudioCodec type selector -->
                         <div style="margin-bottom:12px;">
-                            <label style="font-weight:600;"><span data-lang="audio_codec_type">Bộ Audio Codec (Audio
-                                    Codec Type)</span><br>
-                                <select id="audio_codec_type" onchange="onAudioCodecChange()"
-                                    style="width:100%;padding:6px;border:2px solid #007bff;border-radius:5px;font-size:14px;font-weight:bold;background:#fff;margin-top:4px;">
+                            <label><span data-lang="audio_codec_type">Bộ Audio Codec (Audio Codec Type)</span>
+                                <button type="button" class="board-trigger-btn" id="audio_codec_type_trigger" onclick="openPickerModal('audio_codec_type')">
+                                    <span class="board-trigger-title" id="audio_codec_type_display">NoAudioCodec Simplex (I2S – MAX98357 + INMP441…)</span>
+                                    <span class="board-trigger-arrow">▼</span>
+                                </button>
+                                <select id="audio_codec_type" onchange="onAudioCodecChange()" style="display:none;" data-picker-title="Bộ Audio Codec (Audio Codec Type)" data-picker-sub="Chọn cấu hình chip giải mã âm thanh Codec">
                                     <option value="0">NoAudioCodec Simplex (I2S – MAX98357 + INMP441…)</option>
                                     <option value="1">ES8311 (I2C + I2S Duplex)</option>
                                     <option value="2">ES8388 (I2C + I2S Duplex)</option>
                                     <option value="3">Box Audio Codec (ES8311 + ES7210, I2C + I2S Duplex)</option>
                                 </select>
                             </label>
-                            <div class="codec-note" id="codec_info_note" style="display:none;margin-top:8px;">
-                                <span data-lang="note_i2c_codec">ℹ️ Codec này dùng I2S Duplex (Mic + Loa chung bus) và
-                                    điều khiển qua I2C.</span><br>
-                                <span id="codec_extra_note"></span>
+                            <div class="codec-note" id="codec_info_note" style="display:none;">
+                                <div data-lang="note_i2c_codec">&#9432; 1. Codec này dùng <strong>I2S Duplex</strong> (Mic + Loa chung bus) và điều khiển qua <strong>I2C</strong>.</div>
+                                <div id="codec_extra_note"></div>
                             </div>
                         </div>
 
                         <!-- ── SIMPLEX section (NoAudioCodecSimplex, codec_type=0) ── -->
                         <div id="simplex_gpio">
-                            <p style="margin:0 0 6px;font-weight:bold;font-size:14px;" data-lang="simplex_mic_extra">
-                                Micro I2S Riêng (Simplex Mic Extra)</p>
+                            <div style="font-weight:600;font-size:13.5px;color:var(--text);margin:6px 0 8px;border-left:3px solid var(--accent);padding-left:8px;" data-lang="simplex_mic_extra">
+                                Micro I2S Riêng (Simplex Mic Extra)
+                            </div>
                             <div id="simplex_gpio_grid"
-                                style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px 12px;margin-bottom:10px;">
-                                <label><span data-lang="mic_ws">WS (Mic)</span><br>
+                                style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px 12px;margin-bottom:12px;">
+                                <label><span data-lang="mic_ws">WS (Mic)</span>
                                     <input type="number" id="mic_ws" min="-1" max="48"
                                         style="width:100%;padding:4px;box-sizing:border-box;">
                                 </label>
-                                <label><span data-lang="mic_sck">SCK (Mic)</span><br>
+                                <label><span data-lang="mic_sck">SCK (Mic)</span>
                                     <input type="number" id="mic_sck" min="-1" max="48"
                                         style="width:100%;padding:4px;box-sizing:border-box;">
                                 </label>
-                                <label id="mic_din_label"><span data-lang="mic_din">DIN (Mic)</span><br>
+                                <label id="mic_din_label"><span data-lang="mic_din">DIN (Mic)</span>
                                     <input type="number" id="mic_din" min="-1" max="48"
                                         style="width:100%;padding:4px;box-sizing:border-box;">
                                 </label>
@@ -1263,20 +1864,21 @@
                         </div>
 
                         <!-- ── CHÂN I2S CHUNG (Common I2S GPIO) ── -->
-                        <p style="margin:0 0 6px;font-weight:bold;font-size:14px;" data-lang="common_i2s_gpio">Chân I2S
-                            Chung (Common I2S GPIO)</p>
+                        <div style="font-weight:600;font-size:13.5px;color:var(--text);margin:6px 0 8px;border-left:3px solid var(--accent);padding-left:8px;" data-lang="common_i2s_gpio">
+                            Chân I2S Chung (Common I2S GPIO)
+                        </div>
                         <div id="common_i2s_gpio_grid"
-                            style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px 12px;margin-bottom:10px;">
+                            style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px 12px;margin-bottom:10px;">
 
-                            <label><span data-lang="spk_dout">DOUT (Loa)</span><br>
+                            <label><span data-lang="spk_dout">DOUT (Loa)</span>
                                 <input type="number" id="spk_dout" min="-1" max="48"
                                     style="width:100%;padding:4px;box-sizing:border-box;">
                             </label>
-                            <label>BCLK<br>
+                            <label><span>BCLK</span>
                                 <input type="number" id="spk_bclk" min="-1" max="48"
                                     style="width:100%;padding:4px;box-sizing:border-box;">
                             </label>
-                            <label>LRCK / WS<br>
+                            <label><span>LRCK / WS</span>
                                 <input type="number" id="spk_lrck" min="-1" max="48"
                                     style="width:100%;padding:4px;box-sizing:border-box;">
                             </label>
@@ -1284,23 +1886,24 @@
 
                         <!-- ── I2C CODEC section (ES8311 / ES8388 / Box, codec_type=1,2,3) ── -->
                         <div id="i2c_codec_gpio" style="display:none;">
-                            <p style="margin:0 0 6px;font-weight:bold;font-size:14px;" data-lang="i2c_codec_gpio">I2S
-                                MCLK & I2C Codec GPIO</p>
+                            <div style="font-weight:600;font-size:13.5px;color:var(--text);margin:6px 0 8px;border-left:3px solid var(--accent);padding-left:8px;" data-lang="i2c_codec_gpio">
+                                I2S MCLK & I2C Codec GPIO
+                            </div>
                             <div
-                                style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px 12px;margin-bottom:10px;">
-                                <label>MCLK<br>
+                                style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px 12px;margin-bottom:10px;">
+                                <label><span>MCLK</span>
                                     <input type="number" id="i2s_mclk" min="-1" max="48"
                                         style="width:100%;padding:4px;box-sizing:border-box;">
                                 </label>
-                                <label>I2C SDA<br>
+                                <label><span>I2C SDA</span>
                                     <input type="number" id="codec_i2c_sda" min="-1" max="48"
                                         style="width:100%;padding:4px;box-sizing:border-box;">
                                 </label>
-                                <label>I2C SCL<br>
+                                <label><span>I2C SCL</span>
                                     <input type="number" id="codec_i2c_scl" min="-1" max="48"
                                         style="width:100%;padding:4px;box-sizing:border-box;">
                                 </label>
-                                <label><span data-lang="codec_pa_pin">PA (Power Amp)</span><br>
+                                <label><span data-lang="codec_pa_pin">PA (Power Amp)</span>
                                     <input type="number" id="codec_pa_pin" min="-1" max="48"
                                         style="width:100%;padding:4px;box-sizing:border-box;">
                                 </label>
@@ -1311,32 +1914,33 @@
 
 
                     <div class="config-group">
-                        <div class="config-title" data-lang="bluetooth_a2dp_title">ESP32-WROOM (Bluetooth A2DP)</div>
+                        <div class="config-header">
+                            <div class="config-title" data-lang="bluetooth_a2dp_title">ESP32-WROOM (Bluetooth A2DP)</div>
+                            <div class="config-note-red" data-lang="bluetooth_a2dp_note">
+                                &#9432; Nhập số GPIO tương ứng. Nếu không dùng, nhập <strong>-1</strong>. <br>
+                                &#9432; Bluetooth TX, Bluetooth RX dùng để giao tiếp với ESP32-WROOM khi sử dụng Bluetooth.
+                            </div>
+                        </div>
 
-                        <p style="color:#ff0000;font-size:14px; line-height:1.4;" data-lang="bluetooth_a2dp_note">
-                            &#9432; Nhập số GPIO tương ứng. Nếu không dùng, nhập <strong>-1</strong>. <br>
-                            &#9432; Bluetooth TX, Bluetooth RX dùng để giao tiếp với ESP32-WROOM khi sử dụng Bluetooth.
-                        </p>
-
-                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px 12px;margin-bottom:10px;">
-                            <label>Bluetooth TX<br>
+                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px 12px;margin-bottom:10px;">
+                            <label><span>Bluetooth TX</span>
                                 <input type="number" id="p_bluetooth_uart_tx" min="-1" max="48"
                                     style="width:100%;padding:4px;box-sizing:border-box;">
-                                <small style="color:gray;" data-lang="note_bt_tx">
+                                <small data-lang="note_bt_tx">
                                     Bluetooth TX trên ESP32-S3 nối với RX trên ESP32-WROOM.
                                 </small>
                             </label>
-                            <label>Bluetooth RX<br>
+                            <label><span>Bluetooth RX</span>
                                 <input type="number" id="p_bluetooth_uart_rx" min="-1" max="48"
                                     style="width:100%;padding:4px;box-sizing:border-box;">
-                                <small style="color:gray;" data-lang="note_bt_rx">
+                                <small data-lang="note_bt_rx">
                                     Bluetooth RX trên ESP32-S3 nối với TX trên ESP32-WROOM.
                                 </small>
                             </label>
-                            <label>Bluetooth DIN<br>
+                            <label><span>Bluetooth DIN</span>
                                 <input type="number" id="p_dout2" min="-1" max="48"
                                     style="width:100%;padding:4px;box-sizing:border-box;">
-                                <small style="color:gray;" data-lang="note_bt_din">
+                                <small data-lang="note_bt_din">
                                     Bluetooth DIN dùng để truyền âm thanh sang ESP32-WROOM khi sử dụng Bluetooth.
                                 </small>
                             </label>
@@ -1344,81 +1948,78 @@
                     </div>
 
                     <div class="config-group">
-                        <div class="config-title" data-lang="peripherals_title">Thiết Bị Ngoại Vi (Peripherals)</div>
+                        <div class="config-header">
+                            <div class="config-title" data-lang="peripherals_title">Thiết Bị Ngoại Vi (Peripherals)</div>
+                            <div class="config-note-red" data-lang="peripherals_note">
+                                &#9432; Nhập số GPIO tương ứng. Nếu không dùng, nhập <strong>-1</strong>.
+                            </div>
+                        </div>
 
-                        <p style="color:#ff0000;font-size:14px; line-height:1.4;" data-lang="peripherals_note">
-                            &#9432; Nhập số GPIO tương ứng. Nếu không dùng, nhập <strong>-1</strong>.
-                        </p>
-
-                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px 12px;margin-bottom:10px;">
-                            <label><span data-lang="status_led">LED Trạng Thái (Status LED)</span><br>
+                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px 12px;margin-bottom:10px;">
+                            <label><span data-lang="status_led">LED Trạng Thái (Status LED)</span>
                                 <input type="number" id="p_led" min="-1" max="48"
                                     style="width:100%;padding:4px;box-sizing:border-box;">
-                                <small style="color:gray;" data-lang="note_led_status">
+                                <small data-lang="note_led_status">
                                     LED RGB WS2812 báo trạng thái thiết bị hoặc nháy theo nhạc khi được bật.
                                 </small>
                             </label>
 
-                            <label><span data-lang="led_count">Số lượng LED (Quantity LED)</span><br>
+                            <label><span data-lang="led_count">Số lượng LED (Quantity LED)</span>
                                 <input type="number" id="led_count" min="1" max="128"
                                     style="width:100%;padding:4px;box-sizing:border-box;">
-                                <small style="color:gray;" data-lang="note_led_count">
+                                <small data-lang="note_led_count">
                                     Số lượng bóng LED RGB WS2812 được sử dụng. Tối thiểu là 1 bóng, tối đa là 128 bóng.
                                 </small>
                             </label>
 
                             <label>
-                                <span data-lang="wakeup_button">Nút WakeUp (WakeUp Button)</span><br>
+                                <span data-lang="wakeup_button">Nút WakeUp (WakeUp Button)</span>
                                 <input type="number" id="p_boot" min="-1" max="48"
                                     style="width:100%;padding:4px;box-sizing:border-box;">
                             </label>
 
-                            <label><span data-lang="vol_up_button">Nút Tăng Âm (Vol+ Button)</span><br>
+                            <label><span data-lang="vol_up_button">Nút Tăng Âm (Vol+ Button)</span>
                                 <input type="number" id="p_vol_up" min="-1" max="48"
                                     style="width:100%;padding:4px;box-sizing:border-box;">
                             </label>
 
-                            <label><span data-lang="vol_dn_button">Nút Giảm Âm (Vol- Button)</span><br>
+                            <label><span data-lang="vol_dn_button">Nút Giảm Âm (Vol- Button)</span>
                                 <input type="number" id="p_vol_dn" min="-1" max="48"
                                     style="width:100%;padding:4px;box-sizing:border-box;">
                             </label>
 
-                            <label><span data-lang="battery_level">Báo Pin (Battery Level)</span><br>
+                            <label><span data-lang="battery_level">Báo Pin (Battery Level)</span>
                                 <input type="number" id="p_bat" min="-1" max="48"
                                     style="width:100%;padding:4px;box-sizing:border-box;">
-                                <small style="color:gray;" data-lang="note_battery">
+                                <small data-lang="note_battery">
                                     Hiển thị mức pin hiện tại.
                                 </small>
                             </label>
 
-                            <label><span data-lang="charging_pin">Báo Sạc Pin (Charging Pin)</span><br>
+                            <label><span data-lang="charging_pin">Báo Sạc Pin (Charging Pin)</span>
                                 <input type="number" id="p_chg" min="-1" max="48"
                                     style="width:100%;padding:4px;box-sizing:border-box;">
-                                <small style="color:gray;" data-lang="note_charging">
+                                <small data-lang="note_charging">
                                     Hiển thị trạng thái sạc pin. Dùng với module sạc có chân báo sạc như TP4056,...
                                 </small>
                             </label>
 
-                            <label style="display:flex;flex-direction:column;gap:4px;">
-                                <span data-lang="charging_active_level">Mức Kích Sạc (Charging Active Level)</span>
-                                <label
-                                    style="display:flex;align-items:center;gap:8px;margin-top:4px;font-weight:normal;">
-                                    <input type="checkbox" id="charging_active_level"
-                                        style="width:auto;accent-color:#007bff;">
-                                    <span data-lang="note_active_high">Active HIGH <small style="color:gray;">(mặc định:
-                                            tắt = Active LOW)</small></span>
+                            <div>
+                                <span data-lang="charging_active_level" style="font-size:13.5px;color:var(--text);font-weight:600;display:block;margin-bottom:4px;">Mức Kích Sạc (Charging Active Level)</span>
+                                <label class="checkbox-item" style="padding:6px 0 !important;">
+                                    <input type="checkbox" id="charging_active_level">
+                                    <span data-lang="note_active_high">Active HIGH <small style="color:var(--text-muted);display:inline !important;">(mặc định: tắt = Active LOW)</small></span>
                                 </label>
-                                <small style="color:gray;" data-lang="note_charging_active">
-                                    &#9432; Bật nếu chân báo sạc lên <strong>HIGH</strong> khi đang sạc (VD: một số mạch
-                                    tự chế).<br>
+                                <small data-lang="note_charging_active" style="display:block;margin-top:4px;color:var(--text-muted);font-size:12px;line-height:1.35;opacity:0.85;">
+                                    &#9432; Bật nếu chân báo sạc lên <strong>HIGH</strong> khi đang sạc (VD: một số mạch tự chế).<br>
                                     Tắt nếu chân kéo xuống <strong>LOW</strong> khi đang sạc (TP4056, BQ24, mặc định).
                                 </small>
-                            </label>
+                            </div>
 
-                            <label><span data-lang="led_extension">Đèn Mở Rộng (Led Extension)</span><br>
+                            <label><span data-lang="led_extension">Đèn Mở Rộng (Led Extension)</span>
                                 <input type="number" id="p_lamp" min="-1" max="48"
                                     style="width:100%;padding:4px;box-sizing:border-box;">
-                                <small style="color:gray;" data-lang="note_lamp">
+                                <small data-lang="note_lamp">
                                     Khi yêu cầu bật đèn, nó sẽ xuất điện áp 3.3V trên GPIO này để bật tắt đèn/relay bên
                                     ngoài.
                                 </small>
@@ -1432,7 +2033,6 @@
                         <button type="button" class="btn-reboot" onclick="rebootDevice()">
                             <span data-lang="reboot_device">Khởi động lại (Reboot)</span>
                         </button>
-                        <br> <br>
                     </div>
 
                 </form>
@@ -1477,11 +2077,20 @@
                 save: 'Save',
                 lcd_tab: 'Device Config',
                 device_config_main_title: 'Device Configuration',
-                device_config_main_note: '&#9432; 1. First time boot has no screen output, please configure hardware first.<br>&#9432; 2. Enter GPIO from 0 to 48.<br>&#9432; 3. Changes apply after reboot.',
-                board_preset_title: '⚡ Quick Setup - Board Preset',
+                device_config_main_note: '&#9432; 1. First time boot has <strong>no screen output</strong>, <strong>no audio</strong>, please configure hardware first.<br>&#9432; 2. Enter GPIO from <strong>0</strong> to <strong>48</strong>.<br>&#9432; 3. Changes apply after <strong>rebooting</strong>.',
+                board_preset_title: 'Quick Setup - Board Preset',
                 board_preset_note: '&#9432; Select your board to auto-fill all GPIOs. You can manually edit them later.',
                 select_board_label: 'Select your board:',
                 select_board_option: '-- Select board to auto-fill all --',
+                board_modal_title: 'Select Board Preset',
+                board_modal_sub: 'Auto-fill GPIO pins and display settings for your board',
+                board_search_placeholder: 'Search board name, display, chip...',
+                board_search_no_results: 'No matching board presets found',
+                board_custom_select: 'Click to select board preset...',
+                generic_modal_title: 'Select Option',
+                generic_modal_sub: 'Choose an option from the list below',
+                generic_search_placeholder: 'Search options...',
+                generic_no_results: 'No matching options found',
                 export_import_title: '📤 Export / Import Config',
                 export_import_note: '&#9432; Export current config to config.json for backup. Import to apply quickly.',
                 btn_export: '📥 Export Config',
@@ -1513,7 +2122,8 @@
                 oled_gpio_title: 'Display I2C GPIO',
                 oled_gpio_note: '&#9432; Enter GPIO for I2C. If unused, enter -1.',
                 audio_gpio_title: 'Mic & Audio GPIO',
-                audio_codec_type: 'Audio Codec Type (OLED only supports <strong>NoAudioCodec Simplex</strong>)',
+                audio_codec_type: 'Audio Codec Type',
+                audio_codec_note: '&#9432; When using OLED screen, only supports <strong>NoAudioCodec Simplex</strong>.',
                 common_i2s_gpio: 'Common I2S GPIO',
                 spk_dout: 'DOUT (Speaker)',
                 mic_din: 'DIN (Mic)',
@@ -1602,10 +2212,10 @@
                 'note_active_high': 'Active HIGH <small style="color:gray;">(default: off = Active LOW)</small>',
                 'note_charging_active': '&#9432; Turn on if the pin goes <strong>HIGH</strong> when charging.<br>Turn off if the pin is pulled <strong>LOW</strong> when charging (TP4056, BQ24).',
                 'note_lamp': 'Outputs 3.3V on this GPIO to turn on external lights/relays.',
-                'note_i2c_codec': 'ℹ️ This codec uses I2S Duplex (Mic + Speaker share bus) and is controlled via I2C.',
-                'codec_es8311': 'ES8311: Speaker + Mic share 1 I2S Duplex bus.',
-                'codec_es8388': 'ES8388: Speaker + Mic share 1 I2S Duplex bus. Supports Input Reference for echo cancellation.',
-                'codec_box': 'Box Codec: ES8311 (Speaker) + ES7210 (Mic), needs I2C addr configuration for ES7210.',
+                'note_i2c_codec': '&#9432; 1. This codec uses <strong>I2S Duplex</strong> (Mic + Speaker share bus) and is controlled via <strong>I2C</strong>.',
+                'codec_es8311': '&#9432; 2. <strong>ES8311</strong>: Speaker + Mic share 1 I2S Duplex bus.',
+                'codec_es8388': '&#9432; 2. <strong>ES8388</strong>: Speaker + Mic share 1 I2S Duplex bus. Supports Input Reference for echo cancellation.',
+                'codec_box': '&#9432; 2. <strong>Box Codec</strong>: ES8311 (Speaker) + ES7210 (Mic), needs I2C addr configuration for ES7210.',
             },
             'vi-VN': {
                 title: 'Cấu hình mạng',
@@ -1627,67 +2237,77 @@
                 pypass_device: 'Bypass Device (Gỡ tài khoản tạm thời)',
                 save: 'Lưu',
                 lcd_tab: 'Cấu Hình Thiết Bị',
-                device_config_main_title: 'Cấu Hình Thiết Bị (Device Config)',
-                device_config_main_note: '&#9432; 1. Lần đầu cài Fw và khởi động, không có màn hình hiển thị, không phát âm thanh, hãy config theo cấu hình phần cứng của bạn.<br>&#9432; 2. Nhập GPIO từ 0 đến 48.<br>&#9432; 3. Các thay đổi sẽ có hiệu lực sau khi khởi động lại thiết bị.',
-                board_preset_title: '⚡ Cấu Hình Nhanh - Chọn Mạch Có Sẵn (Quick Setup)',
+                device_config_main_title: 'Cấu Hình Thiết Bị',
+                device_config_main_note: '&#9432; 1. Lần đầu cài Fw và khởi động, <strong>không có màn hình hiển thị</strong>, <strong>không phát âm thanh</strong>, hãy config theo cấu hình phần cứng của bạn.<br>&#9432; 2. Nhập GPIO từ <strong>0</strong> đến <strong>48</strong>.<br>&#9432; 3. Các thay đổi sẽ có hiệu lực sau khi <strong>khởi động lại</strong> thiết bị.',
+                board_preset_title: 'Cấu Hình Nhanh - Chọn Mạch Có Sẵn',
                 board_preset_note: '&#9432; Chọn mạch của bạn để tự động điền tất cả GPIO. Sau khi chọn, bạn vẫn có thể chỉnh sửa thủ công.',
-                select_board_label: 'Chọn mạch có sẵn (Select your board):',
-                select_board_option: '-- Chọn mạch để tự điền tất cả (Select board to auto-fill all) --',
-                export_import_title: '📤 Xuất / Nhập Cấu Hình (Export / Import Config)',
+                select_board_label: 'Chọn mạch có sẵn:',
+                select_board_option: '-- Chọn mạch để tự điền tất cả',
+                board_modal_title: 'Chọn Mạch Có Sẵn',
+                board_modal_sub: 'Tự động điền tất cả chân GPIO và thông số màn hình',
+                board_search_placeholder: 'Tìm kiếm tên mạch, màn hình, chip...',
+                board_search_no_results: 'Không tìm thấy mạch phù hợp',
+                board_custom_select: 'Nhấn để chọn danh sách mạch...',
+                generic_modal_title: 'Tùy Chọn',
+                generic_modal_sub: 'Chọn một mục từ danh sách bên dưới',
+                generic_search_placeholder: 'Tìm kiếm tùy chọn...',
+                generic_no_results: 'Không tìm thấy tùy chọn phù hợp',
+                export_import_title: '📤 Xuất / Nhập cấu hình',
                 export_import_note: '&#9432; Xuất cấu hình hiện tại ra file config.json để chia sẻ hoặc sao lưu. Nhập file để áp dụng cấu hình nhanh.',
                 btn_export: '📥 Xuất cấu hình',
                 btn_import: '📤 Nhập cấu hình',
                 device_config_group_title: 'Cấu Hình Thiết Bị',
-                screen_type: 'Màn Hình (Type Screen)',
-                lcd_language_label: 'Ngôn ngữ (Language)',
-                screen_preset_title: 'Màn Hình (Screen Preset)',
+                screen_type: 'Màn Hình',
+                lcd_language_label: 'Ngôn ngữ',
+                screen_preset_title: 'Màn Hình',
                 screen_preset_note: '&#9432; 1. Nếu không dùng, đừng chỉnh sửa hoặc nhập 0.<br>&#9432; 2. Khi sử dụng Xoay Màn Hình, có thể màn hình sẽ hiển thị lệch. Hãy sử dụng Độ Lệch X, Y để căn chỉnh lại.<br>&#9432; 3. Nếu không có sẵn kích thước màn hình của bạn ở đây, không chọn hoặc tự nhập theo thiết bị của bạn.',
-                select_lcd_preset: 'Chọn cấu hình có sẵn (Select preset):',
+                select_lcd_preset: 'Chọn cấu hình có sẵn:',
                 select_preset_option: '-- Chọn cấu hình có sẵn để tự điền --',
-                select_oled_preset: 'Chọn loại OLED (Select OLED type):',
-                lcd_driver: 'Driver (LCD Driver)',
-                lcd_width: 'Chiều Rộng (Width)',
-                lcd_height: 'Chiều Cao (Height)',
-                lcd_offset_x: 'Độ Lệch X (Offset X)',
-                lcd_offset_y: 'Độ Lệch Y (Offset Y)',
-                lcd_spi_mode: 'Chế Độ SPI (SPI Mode)',
-                lcd_rgb_order: 'Thứ Tự Màu (RGB Order)',
-                lcd_rotate: 'Xoay Màn Hình (Rotate Screen)',
-                lcd_mirror_x: 'Lật X (Mirror X)',
-                lcd_mirror_y: 'Lật Y (Mirror Y)',
-                lcd_swap_xy: 'Hoán Đổi XY (Swap XY)',
-                lcd_invert_color: 'Đảo Màu (Invert Color)',
-                lcd_bl_inv: 'Đảo Đèn Nền (Backlight Invert)',
+                select_oled_preset: 'Chọn loại OLED:',
+                lcd_driver: 'Driver:',
+                lcd_width: 'Chiều Rộng',
+                lcd_height: 'Chiều Cao',
+                lcd_offset_x: 'Độ Lệch X:',
+                lcd_offset_y: 'Độ Lệch Y:',
+                lcd_spi_mode: 'Chế Độ SPI:',
+                lcd_rgb_order: 'Thứ Tự Màu:',
+                lcd_rotate: 'Xoay Màn Hình',
+                lcd_mirror_x: 'Lật X',
+                lcd_mirror_y: 'Lật Y',
+                lcd_swap_xy: 'Hoán Đổi XY',
+                lcd_invert_color: 'Đảo Màu',
+                lcd_bl_inv: 'Đảo Đèn Nền',
                 lcd_wechat: 'Giao diện WeChat',
-                spi_gpio_title: 'GPIO Màn Hình SPI (Display SPI GPIO)',
+                spi_gpio_title: 'GPIO Màn Hình SPI',
                 spi_gpio_note: '&#9432; Nhập số GPIO tương ứng. Nếu không dùng, nhập -1.',
-                oled_gpio_title: 'GPIO Màn Hình OLED I2C (Display I2C GPIO)',
+                oled_gpio_title: 'GPIO Màn Hình OLED I2C',
                 oled_gpio_note: '&#9432; Nhập số GPIO cho giao tiếp I2C. Nếu không dùng, nhập -1.',
-                audio_gpio_title: 'GPIO Mic & Âm Thanh (Mic & Audio GPIO)',
-                audio_codec_type: 'Bộ Audio Codec (Khi dùng màn hình OLED, chỉ hỗ trợ <strong>NoAudioCodec Simplex</strong>) ',
-                common_i2s_gpio: 'Chân I2S Chung (Common I2S GPIO)',
+                audio_gpio_title: 'GPIO Mic & Âm Thanh',
+                audio_codec_type: 'Bộ Audio Codec',
+                audio_codec_note: '&#9432; Khi dùng màn hình OLED, chỉ hỗ trợ <strong>NoAudioCodec Simplex</strong>.',
+                common_i2s_gpio: 'Chân I2S Chung',
                 spk_dout: 'DOUT (Loa)',
                 mic_din: 'DIN (Mic)',
-                simplex_mic_extra: 'Micro I2S Riêng (Simplex Mic Extra)',
+                simplex_mic_extra: 'Micro I2S Riêng',
                 mic_ws: 'WS (Mic)',
                 mic_sck: 'SCK (Mic)',
                 i2c_codec_gpio: 'I2S MCLK & I2C Codec GPIO',
                 codec_pa_pin: 'PA (Power Amp)',
                 bluetooth_a2dp_title: 'ESP32-WROOM (Bluetooth A2DP)',
                 bluetooth_a2dp_note: '&#9432; Nhập số GPIO tương ứng. Nếu không dùng, nhập -1.<br>&#9432; Bluetooth TX, Bluetooth RX dùng để giao tiếp với ESP32-WROOM.',
-                peripherals_title: 'Thiết Bị Ngoại Vi (Peripherals)',
+                peripherals_title: 'Thiết Bị Ngoại Vi',
                 peripherals_note: '&#9432; Nhập số GPIO tương ứng. Nếu không dùng, nhập -1.',
-                status_led: 'LED Trạng Thái (Status LED)',
-                led_count: 'Số lượng LED (Quantity LED)',
-                wakeup_button: 'Nút WakeUp (WakeUp Button)',
-                vol_up_button: 'Nút Tăng Âm (Vol+ Button)',
-                vol_dn_button: 'Nút Giảm Âm (Vol- Button)',
-                battery_level: 'Báo Pin (Battery Level)',
-                charging_pin: 'Báo Sạc Pin (Charging Pin)',
-                charging_active_level: 'Mức Kích Sạc (Charging Active Level)',
-                led_extension: 'Đèn Mở Rộng (Led Extension)',
-                save_config: 'Lưu Cấu Hình (Save Config)',
-                reboot_device: 'Khởi động lại (Reboot)',
+                status_led: 'LED Trạng Thái',
+                led_count: 'Số lượng LED',
+                wakeup_button: 'Nút WakeUp',
+                vol_up_button: 'Nút Tăng Âm',
+                vol_dn_button: 'Nút Giảm Âm',
+                battery_level: 'Báo Pin',
+                charging_pin: 'Báo Sạc Pin',
+                charging_active_level: 'Mức Kích Sạc',
+                led_extension: 'Đèn Mở Rộng',
+                save_config: 'Lưu Cấu Hình',
+                reboot_device: 'Khởi động lại',
 
                 // Script messages
                 err_empty: '⚠ Nếu không dùng, hãy nhập -1',
@@ -1752,10 +2372,10 @@
                 'note_active_high': 'Active HIGH <small style="color:gray;">(mặc định: tắt = Active LOW)</small>',
                 'note_charging_active': '&#9432; Bật nếu chân báo sạc lên <strong>HIGH</strong> khi đang sạc (VD: một số mạch tự chế).<br>Tắt nếu chân kéo xuống <strong>LOW</strong> khi đang sạc (TP4056, BQ24, mặc định).',
                 'note_lamp': 'Khi yêu cầu bật đèn, nó sẽ xuất điện áp 3.3V trên GPIO này để bật tắt đèn/relay bên ngoài.',
-                'note_i2c_codec': 'ℹ️ Codec này dùng I2S Duplex (Mic + Loa chung bus) và điều khiển qua I2C.',
-                'codec_es8311': 'ES8311: Loa + Mic chung 1 bus I2S Duplex.',
-                'codec_es8388': 'ES8388: Loa + Mic chung 1 bus I2S Duplex. Hỗ trợ Input Reference cho echo cancel.',
-                'codec_box': 'Box Codec: ES8311 (Loa) + ES7210 (Mic), cần cấu hình I2C addr cho ES7210.',
+                'note_i2c_codec': '&#9432; 1. Codec này dùng <strong>I2S Duplex</strong> (Mic + Loa chung bus) và điều khiển qua <strong>I2C</strong>.',
+                'codec_es8311': '&#9432; 2. <strong>ES8311</strong>: Loa + Mic chung 1 bus I2S Duplex.',
+                'codec_es8388': '&#9432; 2. <strong>ES8388</strong>: Loa + Mic chung 1 bus I2S Duplex. Hỗ trợ Input Reference cho echo cancel.',
+                'codec_box': '&#9432; 2. <strong>Box Codec</strong>: ES8311 (Loa) + ES7210 (Mic), cần cấu hình I2C addr cho ES7210.',
             },
         };
 
@@ -1821,11 +2441,32 @@
                 element.value = translations[lang][key];
             });
 
+            // Update placeholders
+            document.querySelectorAll('[data-lang-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-lang-placeholder');
+                element.placeholder = translations[lang][key];
+            });
+
+            // Re-render board modal if present
+            if (typeof renderBoardModalList === 'function') {
+                renderBoardModalList();
+            }
+            if (typeof updateAllPickerDisplays === 'function') {
+                updateAllPickerDisplays();
+            }
+            if (typeof renderGenericSelectList === 'function' && typeof activePickerSelectId !== 'undefined' && activePickerSelectId) {
+                renderGenericSelectList();
+            }
+
             // Update AP list text based on 5G support
             const apList = document.getElementById('ap_list');
             if (apList.firstChild) {
                 const selectText = support5G ? translations[lang].select_wifi_5g : translations[lang].select_wifi;
                 apList.firstChild.textContent = selectText;
+            }
+
+            if (typeof onAudioCodecChange === 'function') {
+                onAudioCodecChange();
             }
 
             // Save language preference
@@ -1966,7 +2607,7 @@
             const btn = document.getElementById('button');
             const err = document.getElementById('error');
             const hasSsid = ssid.value.trim().length > 0;
-            const isOpenNetwork = selectedApAuthMode === 0;
+            const isOpenNetwork = (selectedApAuthMode === 0);
 
             if (!hasSsid) {
                 btn.disabled = true;
@@ -1976,7 +2617,7 @@
 
             if (!isOpenNetwork && pwd.length < 8) {
                 btn.disabled = true;
-                err.textContent = pwd.length > 0 ? t('password_too_short') : '';
+                err.textContent = '';
                 return;
             }
 
@@ -2004,10 +2645,10 @@
             loadingOverlay.classList.add('show');
 
             const pwd = document.getElementById('password').value;
-            if (pwd.length > 0 && pwd.length < 8) {
+            const isOpenNetwork = (selectedApAuthMode === 0);
+            if (!isOpenNetwork && pwd.length < 8) {
                 wifiSubmitting = false;
-                button.disabled = false;
-                validatePassword();
+                button.disabled = true;
                 loadingOverlay.classList.remove('show');
                 return;
             }
@@ -2087,7 +2728,7 @@
 
         // ========== UI Functions ==========
 
-        let showDeviceConfigTab = false;
+        let showDeviceConfigTab = true;
 
         /**
          * Switch between tabs
@@ -2337,10 +2978,94 @@
             // ==========================================
             // TFT LCD
             // ==========================================
+            // Khách hàng TanDev (ST7789 240x240)
+            'esp32s3mini_kh_default': {
+                screen_type: 0,
+                lcd_preset: 'st7789_240x240',
+                // Screen params
+                drv: 0, w: 240, h: 240, ox: 0, oy: 0,
+                mx: 0, my: 0, xy: 0, inv: 1, rgb: 0, spi: 3, bli: 0, rot: 0, wechat: 0,
+                // SPI display GPIO
+                p_mosi: 11, p_clk: 10, p_dc: 13, p_rst: 12, p_cs: -1, p_bl: 43,
+                // OLED I2C (not used)
+                oled_sda: -1, oled_scl: -1,
+                // Audio I2S
+                mic_ws: 4, mic_sck: 5, mic_din: 6,
+                spk_dout: 7, spk_bclk: 8, spk_lrck: 9,
+                //Bluetooth UART
+                p_bluetooth_uart_tx: -1, p_bluetooth_uart_rx: -1, p_dout2: -1,
+                // Peripherals
+                p_led: 48, led_count: 1, p_boot: 1,
+                p_vol_up: 2, p_vol_dn: 3,
+                p_bat: -1, p_chg: -1, p_lamp: -1
+            },
+
+            'esp32s3mini_kh_wechat': {
+                screen_type: 0,
+                lcd_preset: 'st7789_240x240',
+                // Screen params
+                drv: 0, w: 240, h: 240, ox: 0, oy: 0,
+                mx: 0, my: 0, xy: 0, inv: 1, rgb: 0, spi: 3, bli: 0, rot: 0, wechat: 1,
+                // SPI display GPIO
+                p_mosi: 11, p_clk: 10, p_dc: 13, p_rst: 12, p_cs: -1, p_bl: 43,
+                // OLED I2C (not used)
+                oled_sda: -1, oled_scl: -1,
+                // Audio I2S
+                mic_ws: 4, mic_sck: 5, mic_din: 6,
+                spk_dout: 7, spk_bclk: 8, spk_lrck: 9,
+                //Bluetooth UART
+                p_bluetooth_uart_tx: -1, p_bluetooth_uart_rx: -1, p_dout2: -1,
+                // Peripherals
+                p_led: 48, led_count: 1, p_boot: 1,
+                p_vol_up: 2, p_vol_dn: 3,
+                p_bat: -1, p_chg: -1, p_lamp: -1
+            },
+
+            'esp32s3zero_kh_default': {
+                screen_type: 0,
+                lcd_preset: 'st7789_240x240',
+                // Screen params
+                drv: 0, w: 240, h: 240, ox: 0, oy: 0,
+                mx: 0, my: 0, xy: 0, inv: 1, rgb: 0, spi: 3, bli: 0, rot: 0, wechat: 0,
+                // SPI display GPIO
+                p_mosi: 11, p_clk: 10, p_dc: 13, p_rst: 12, p_cs: -1, p_bl: 14,
+                // OLED I2C (not used)
+                oled_sda: -1, oled_scl: -1,
+                // Audio I2S
+                mic_ws: 4, mic_sck: 5, mic_din: 6,
+                spk_dout: 7, spk_bclk: 8, spk_lrck: 9,
+                //Bluetooth UART
+                p_bluetooth_uart_tx: -1, p_bluetooth_uart_rx: -1, p_dout2: -1,
+                // Peripherals
+                p_led: 21, led_count: 1, p_boot: 1,
+                p_vol_up: 2, p_vol_dn: 3,
+                p_bat: -1, p_chg: -1, p_lamp: -1
+            },
+
+            'esp32s3zero_kh_wechat': {
+                screen_type: 0,
+                lcd_preset: 'st7789_240x240',
+                // Screen params
+                drv: 0, w: 240, h: 240, ox: 0, oy: 0,
+                mx: 0, my: 0, xy: 0, inv: 1, rgb: 0, spi: 3, bli: 0, rot: 0, wechat: 1,
+                // SPI display GPIO
+                p_mosi: 11, p_clk: 10, p_dc: 13, p_rst: 12, p_cs: -1, p_bl: 14,
+                // OLED I2C (not used)
+                oled_sda: -1, oled_scl: -1,
+                // Audio I2S
+                mic_ws: 4, mic_sck: 5, mic_din: 6,
+                spk_dout: 7, spk_bclk: 8, spk_lrck: 9,
+                //Bluetooth UART
+                p_bluetooth_uart_tx: -1, p_bluetooth_uart_rx: -1, p_dout2: -1,
+                // Peripherals
+                p_led: 21, led_count: 1, p_boot: 1,
+                p_vol_up: 2, p_vol_dn: 3,
+                p_bat: -1, p_chg: -1, p_lamp: -1
+            },
             // Mạch Tím ST7789 1.3inch / 1.54inch - 240x240, 7-pin (SPI mode 3, không có CS/BL)
             'machtim_st7789_1.3inch': {
                 screen_type: 0,
-                lcd_preset: 'st7789_240x240_7pin',
+                lcd_preset: 'st7789_240x240',
                 // Screen params
                 drv: 0, w: 240, h: 240, ox: 0, oy: 0,
                 mx: 0, my: 0, xy: 0, inv: 1, rgb: 0, spi: 3, bli: 0, rot: 0, wechat: 0,
@@ -2454,6 +3179,354 @@
             }
         };
 
+        /* ─────────────────────────────────────────────
+         * Board Preset Metadata & Custom Modal
+         * ───────────────────────────────────────────── */
+        const BOARD_DATA = [
+            {
+                group_vi: "Mạch Tím / ESP32-S3 N16R8",
+                group_en: "Purple Board / ESP32-S3 N16R8",
+                items: [
+                    { key: "machtim_oled_091", name: "Mạch Tím / ESP32-S3 N16R8 - OLED 0.91", badge: "OLED 0.91\"" },
+                    { key: "machtim_oled_096", name: "Mạch Tím / ESP32-S3 N16R8 - OLED 0.96", badge: "OLED 0.96\"" },
+                    { key: "machtim_st7789_1.3inch", name: "Mạch Tím - TFT ST7789 1.3\" / 1.54\"", badge: "TFT 1.3\"" },
+                    { key: "esp32s3_retrogo", name: "ESP32-S3 RetroGo - TanDev", badge: "TFT 2.8\"" },
+                    { key: "xingzhi_cube_1.54", name: "Xingzhi Cube 1.54inch", badge: "Cube 1.54\"" },
+                    { key: "esp32s3_lcd_2.8", name: "Freenove ESP32-S3 Display 2.8 LCD", badge: "ILI9341" },
+                    { key: "esp32s3_ostb_3st_touch", name: "OSTB-3ST Touch", badge: "Touch" }
+                ]
+            },
+            {
+                group_vi: "Khách hàng TanDev",
+                group_en: "Khách hàng TanDev",
+                items: [
+                    { key: "esp32s3mini_kh_default", name: "ESP32 S3 Mini (Giao diện mặc định)", badge: "LCD 1.3\"" },
+                    { key: "esp32s3mini_kh_wechat", name: "ESP32 S3 Mini (Giao diện WeChat)", badge: "LCD 1.3\"" },
+                    { key: "esp32s3zero_kh_default", name: "ESP32 S3 Zero (Giao diện mặc định)", badge: "LCD 1.3\"" },
+                    { key: "esp32s3zero_kh_wechat", name: "ESP32 S3 Zero (Giao diện WeChat)", badge: "LCD 1.3\"" }
+                ]
+            },
+            {
+                group_vi: "ESP32 S3 Mini / Zero N4R2 (TanDev)",
+                group_en: "ESP32 S3 Mini / Zero N4R2 (TanDev)",
+                items: [
+                    { key: "esp32s3mini_oled_091", name: "ESP32 S3 Mini / Zero - OLED 0.91", badge: "OLED 0.91\"" },
+                    { key: "esp32s3mini_oled_096", name: "ESP32 S3 Mini / Zero - OLED 0.96", badge: "OLED 0.96\"" }
+                ]
+            },
+            {
+                group_vi: "Tùy chỉnh",
+                group_en: "Custom",
+                items: [
+                    { key: "custom", name: "Tùy chỉnh (Custom - nhập thủ công)", badge: "Manual" }
+                ]
+            }
+        ];
+
+        function getBoardInfo(key) {
+            for (const grp of BOARD_DATA) {
+                for (const item of grp.items) {
+                    if (item.key === key) return item;
+                }
+            }
+            return null;
+        }
+
+        function renderBoardModalList() {
+            const listEl = document.getElementById('boardModalList');
+            if (!listEl) return;
+            const lang = document.getElementById('language')?.value || 'vi-VN';
+            const isVi = (lang === 'vi-VN');
+            const currentKey = document.getElementById('board_preset')?.value || '';
+            const query = (document.getElementById('boardSearchInput')?.value || '').trim().toLowerCase();
+
+            let html = '';
+            let totalMatches = 0;
+
+            BOARD_DATA.forEach(group => {
+                const groupTitle = isVi ? group.group_vi : group.group_en;
+                const matchedItems = group.items.filter(item => {
+                    if (!query) return true;
+                    return item.name.toLowerCase().includes(query) || item.badge.toLowerCase().includes(query) || item.key.toLowerCase().includes(query);
+                });
+
+                if (matchedItems.length > 0) {
+                    totalMatches += matchedItems.length;
+                    html += `<div class="board-group-title">${groupTitle}</div>`;
+                    matchedItems.forEach(item => {
+                        const isSelected = (item.key === currentKey);
+                        html += `
+                            <div class="board-item-card ${isSelected ? 'selected' : ''}" onclick="selectBoardPreset('${item.key}')">
+                                <span class="board-item-name">${item.name}</span>
+                                <span class="board-badge">${item.badge}</span>
+                            </div>
+                        `;
+                    });
+                }
+            });
+
+            if (totalMatches === 0) {
+                html = `<div style="text-align:center;padding:28px 10px;color:var(--text-muted);font-size:13.5px;">${t('board_search_no_results')}</div>`;
+            }
+
+            listEl.innerHTML = html;
+        }
+
+        function openBoardModal() {
+            renderBoardModalList();
+            const overlay = document.getElementById('boardModalOverlay');
+            if (overlay) {
+                overlay.classList.add('open');
+                document.body.style.overflow = 'hidden';
+                const searchInput = document.getElementById('boardSearchInput');
+                if (searchInput) {
+                    searchInput.value = '';
+                    const clearBtn = document.getElementById('boardSearchClear');
+                    if (clearBtn) clearBtn.style.display = 'none';
+                }
+            }
+        }
+
+        function closeBoardModal(event) {
+            if (event && event.target && !event.target.classList.contains('board-modal-overlay') && !event.target.classList.contains('board-modal-close-btn')) {
+                return;
+            }
+            const overlay = document.getElementById('boardModalOverlay');
+            if (overlay) {
+                overlay.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+        }
+
+        function selectBoardPreset(key) {
+            const selectEl = document.getElementById('board_preset');
+            if (selectEl) selectEl.value = key;
+
+            const foundItem = getBoardInfo(key);
+            const titleEl = document.getElementById('board_trigger_title');
+
+            if (foundItem) {
+                if (titleEl) {
+                    titleEl.textContent = foundItem.name;
+                    titleEl.removeAttribute('data-lang');
+                }
+            } else {
+                if (titleEl) {
+                    titleEl.setAttribute('data-lang', 'select_board_option');
+                    titleEl.textContent = t('select_board_option');
+                }
+            }
+
+            // Close modal
+            const overlay = document.getElementById('boardModalOverlay');
+            if (overlay) {
+                overlay.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+
+            // Apply preset parameters
+            applyBoardPreset();
+        }
+
+        function filterBoards() {
+            const searchInput = document.getElementById('boardSearchInput');
+            const clearBtn = document.getElementById('boardSearchClear');
+            if (clearBtn) {
+                clearBtn.style.display = (searchInput && searchInput.value) ? 'block' : 'none';
+            }
+            renderBoardModalList();
+        }
+
+        function clearBoardSearch() {
+            const searchInput = document.getElementById('boardSearchInput');
+            const clearBtn = document.getElementById('boardSearchClear');
+            if (searchInput) searchInput.value = '';
+            if (clearBtn) clearBtn.style.display = 'none';
+            renderBoardModalList();
+            if (searchInput) searchInput.focus();
+        }
+
+        /* ─────────────────────────────────────────────
+         * Universal Select Picker Modal Logic
+         * ───────────────────────────────────────────── */
+        let activePickerSelectId = null;
+
+        function updatePickerDisplay(selectId) {
+            const sel = document.getElementById(selectId);
+            const disp = document.getElementById(selectId + '_display');
+            if (!sel || !disp) return;
+            const selectedOpt = sel.options[sel.selectedIndex];
+            if (selectedOpt) {
+                disp.textContent = selectedOpt.textContent;
+            }
+        }
+
+        function updateAllPickerDisplays() {
+            const ids = [
+                'language', 'max_tx_power', 'screen_type', 'lcd_language',
+                'lcd_preset', 'oled_preset', 'lcd_driver', 'lcd_spi_mode',
+                'lcd_rgb_order', 'lcd_rotate', 'audio_codec_type'
+            ];
+            ids.forEach(id => updatePickerDisplay(id));
+        }
+
+        function openPickerModal(selectId) {
+            const sel = document.getElementById(selectId);
+            if (!sel || sel.disabled) return;
+            const trigger = document.getElementById(selectId + '_trigger');
+            if (trigger && trigger.disabled) return;
+
+            activePickerSelectId = selectId;
+
+            // Set Title & Subtitle
+            const titleEl = document.getElementById('universalPickerTitle');
+            const subEl = document.getElementById('universalPickerSub');
+            const title = sel.getAttribute('data-picker-title') || t('generic_modal_title') || 'Tùy Chọn';
+            const sub = sel.getAttribute('data-picker-sub') || t('generic_modal_sub') || 'Chọn một mục từ danh sách bên dưới';
+            if (titleEl) titleEl.textContent = title;
+            if (subEl) subEl.textContent = sub;
+
+            // Show search bar if total options > 5
+            const searchWrap = document.getElementById('universalPickerSearchWrap');
+            const searchInput = document.getElementById('universalPickerSearchInput');
+            const clearBtn = document.getElementById('universalPickerSearchClear');
+            if (searchInput) {
+                searchInput.value = '';
+                searchInput.placeholder = t('generic_search_placeholder') || 'Tìm kiếm tùy chọn...';
+            }
+            if (clearBtn) clearBtn.style.display = 'none';
+
+            if (searchWrap) {
+                searchWrap.style.display = sel.options.length > 5 ? 'block' : 'none';
+            }
+
+            renderGenericSelectList();
+
+            const overlay = document.getElementById('universalPickerOverlay');
+            if (overlay) {
+                overlay.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeGenericSelectModal(event) {
+            if (event && event.target && !event.target.classList.contains('board-modal-overlay') && !event.target.classList.contains('board-modal-close-btn')) {
+                return;
+            }
+            const overlay = document.getElementById('universalPickerOverlay');
+            if (overlay) {
+                overlay.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+            activePickerSelectId = null;
+        }
+
+        function renderGenericSelectList() {
+            if (!activePickerSelectId) return;
+            const sel = document.getElementById(activePickerSelectId);
+            const listEl = document.getElementById('universalPickerList');
+            if (!sel || !listEl) return;
+
+            const query = (document.getElementById('universalPickerSearchInput')?.value || '').trim().toLowerCase();
+            const currentVal = sel.value;
+            let html = '';
+            let totalMatches = 0;
+
+            const renderOptionCard = (opt) => {
+                const optText = opt.textContent.trim();
+                const optVal = opt.value;
+                if (query && !optText.toLowerCase().includes(query) && !optVal.toLowerCase().includes(query)) {
+                    return '';
+                }
+                totalMatches++;
+                const isSelected = (optVal === currentVal);
+                const escapedVal = optVal.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+                return `
+                    <div class="board-item-card ${isSelected ? 'selected' : ''}" onclick="selectPickerOption('${escapedVal}')">
+                        <span class="board-item-name">${optText}</span>
+                    </div>
+                `;
+            };
+
+            const children = Array.from(sel.children);
+            const hasOptGroup = children.some(ch => ch.tagName.toLowerCase() === 'optgroup');
+
+            if (hasOptGroup) {
+                children.forEach(child => {
+                    if (child.tagName.toLowerCase() === 'optgroup') {
+                        const groupLabel = child.getAttribute('label') || '';
+                        let groupCards = '';
+                        Array.from(child.children).forEach(opt => {
+                            if (opt.tagName.toLowerCase() === 'option') {
+                                groupCards += renderOptionCard(opt);
+                            }
+                        });
+                        if (groupCards) {
+                            html += `<div class="board-group-title">${groupLabel}</div>` + groupCards;
+                        }
+                    } else if (child.tagName.toLowerCase() === 'option') {
+                        html += renderOptionCard(child);
+                    }
+                });
+            } else {
+                Array.from(sel.options).forEach(opt => {
+                    html += renderOptionCard(opt);
+                });
+            }
+
+            if (totalMatches === 0) {
+                html = `<div style="text-align:center;padding:28px 10px;color:var(--text-muted);font-size:13.5px;">${t('generic_no_results')}</div>`;
+            }
+
+            listEl.innerHTML = html;
+        }
+
+        function filterGenericSelect() {
+            const searchInput = document.getElementById('universalPickerSearchInput');
+            const clearBtn = document.getElementById('universalPickerSearchClear');
+            if (clearBtn) {
+                clearBtn.style.display = (searchInput && searchInput.value) ? 'block' : 'none';
+            }
+            renderGenericSelectList();
+        }
+
+        function clearGenericSelectSearch() {
+            const searchInput = document.getElementById('universalPickerSearchInput');
+            const clearBtn = document.getElementById('universalPickerSearchClear');
+            if (searchInput) searchInput.value = '';
+            if (clearBtn) clearBtn.style.display = 'none';
+            renderGenericSelectList();
+            if (searchInput) searchInput.focus();
+        }
+
+        function selectPickerOption(val) {
+            if (!activePickerSelectId) return;
+            const sel = document.getElementById(activePickerSelectId);
+            if (sel) {
+                sel.value = val;
+                updatePickerDisplay(activePickerSelectId);
+                if (typeof sel.onchange === 'function') {
+                    sel.onchange();
+                } else {
+                    sel.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+            }
+            closeGenericSelectModal();
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const overlay = document.getElementById('boardModalOverlay');
+                if (overlay && overlay.classList.contains('open')) {
+                    closeBoardModal();
+                }
+                const univOverlay = document.getElementById('universalPickerOverlay');
+                if (univOverlay && univOverlay.classList.contains('open')) {
+                    closeGenericSelectModal();
+                }
+            }
+        });
+
         /**
          * Apply a full board preset - fills ALL fields on the page
          */
@@ -2538,8 +3611,11 @@
             setVal('p_bluetooth_uart_rx', p.p_bluetooth_uart_rx);
             setVal('p_dout2', p.p_dout2);
 
-            // Show confirmation
-            showToast('✅ Đã tự điền cấu hình: ' + document.getElementById('board_preset').selectedOptions[0].text);
+            // Show confirmation toast
+            const info = getBoardInfo(key);
+            const boardName = info ? info.name : key;
+            const lang = document.getElementById('language')?.value || 'vi-VN';
+            showToast('✅ ' + (lang === 'en-US' ? 'Auto-filled board preset: ' : 'Đã tự điền cấu hình: ') + boardName);
         }
 
         /** All known screen presets (mirrors config.h) */
@@ -2566,8 +3642,8 @@
             'sh1106_128x64': { drv: 1, w: 128, h: 64, mx: 1, my: 1 },
         };
 
-        /** Show/hide LCD vs OLED sections */
-        function onScreenTypeChange() {
+        /** Show/hide LCD vs OLED sections and auto-reset opposite fields when user switches screen type */
+        function onScreenTypeChange(isUserAction = false) {
             const isOled = document.getElementById('screen_type').value === '1';
             // LCD-only sections
             document.getElementById('lcd_preset_section').style.display = isOled ? 'none' : '';
@@ -2580,17 +3656,67 @@
             document.getElementById('oled_gpio_section').style.display = isOled ? '' : 'none';
 
             // OLED forces NoAudioCodecSimplex
+            const codecSel = document.getElementById('audio_codec_type');
+            const codecTrigger = document.getElementById('audio_codec_type_trigger');
             if (isOled) {
-                const codecSel = document.getElementById('audio_codec_type');
                 if (codecSel) {
                     codecSel.value = '0';
                     codecSel.disabled = true;
+                    if (typeof updatePickerDisplay === 'function') updatePickerDisplay('audio_codec_type');
+                }
+                if (codecTrigger) {
+                    codecTrigger.disabled = true;
+                    codecTrigger.style.opacity = '0.6';
+                    codecTrigger.style.cursor = 'not-allowed';
                 }
             } else {
-                const codecSel = document.getElementById('audio_codec_type');
                 if (codecSel) codecSel.disabled = false;
+                if (codecTrigger) {
+                    codecTrigger.disabled = false;
+                    codecTrigger.style.opacity = '1';
+                    codecTrigger.style.cursor = 'pointer';
+                }
             }
             onAudioCodecChange();
+
+            // When user switches screen type, reset previous fills
+            const isUser = (isUserAction === true) || (isUserAction && isUserAction.isTrusted) || (typeof isUserAction === 'object' && isUserAction !== null);
+            if (isUser) {
+                // Reset screen preset selectors
+                setVal('lcd_preset', '');
+                setVal('oled_preset', '');
+
+                // Reset screen dimension & offset inputs
+                setVal('lcd_w', '');
+                setVal('lcd_h', '');
+                setVal('lcd_off_x', 0);
+                setVal('lcd_off_y', 0);
+
+                // Reset LCD specific options
+                setVal('lcd_driver', 0);
+                setVal('lcd_spi_mode', 0);
+                setVal('lcd_rgb_order', 0);
+                setVal('lcd_rotate', 0);
+
+                // Reset checkboxes
+                setVal('lcd_mirror_x', 0);
+                setVal('lcd_mirror_y', 0);
+                setVal('lcd_swap_xy', 0);
+                setVal('lcd_invert', 0);
+                setVal('lcd_bl_inv', 0);
+                setVal('lcd_wechat', 0);
+
+                // Reset GPIO pins for unused screen interface
+                if (isOled) {
+                    ['p_mosi', 'p_clk', 'p_dc', 'p_rst', 'p_cs', 'p_bl'].forEach(id => setVal(id, -1));
+                } else {
+                    ['oled_sda', 'oled_scl'].forEach(id => setVal(id, -1));
+                }
+
+                // Clear previous validation error markings
+                document.querySelectorAll('.has-error').forEach(el => el.classList.remove('has-error'));
+                document.querySelectorAll('.input-error-text').forEach(el => el.style.display = 'none');
+            }
         }
 
         /**
@@ -2624,23 +3750,30 @@
                 }
             }
 
-            // Show/hide codec info note (now placed outside i2c_codec_gpio)
+            // Show/hide codec info note
             const infoNote = document.getElementById('codec_info_note');
-            if (infoNote) infoNote.style.display = isSimple ? 'none' : '';
+            if (infoNote) infoNote.style.display = isSimple ? 'none' : 'flex';
 
             // Update extra note text
             const noteEl = document.getElementById('codec_extra_note');
             if (noteEl) {
-                if (codecType === 1) noteEl.textContent = t('codec_es8311');
-                else if (codecType === 2) noteEl.textContent = t('codec_es8388');
-                else if (codecType === 3) noteEl.textContent = t('codec_box');
-                else noteEl.textContent = '';
+                if (codecType === 1) noteEl.innerHTML = t('codec_es8311');
+                else if (codecType === 2) noteEl.innerHTML = t('codec_es8388');
+                else if (codecType === 3) noteEl.innerHTML = t('codec_box');
+                else noteEl.innerHTML = '';
             }
         }
 
 
         function applyOledPreset() {
             const key = document.getElementById('oled_preset').value;
+            if (!key) {
+                setVal('lcd_w', '');
+                setVal('lcd_h', '');
+                setVal('lcd_mirror_x', 0);
+                setVal('lcd_mirror_y', 0);
+                return;
+            }
             const p = OLED_PRESETS[key];
             if (!p) return;
             setVal('lcd_w', p.w);
@@ -2653,7 +3786,10 @@
             const el = document.getElementById(id);
             if (!el) return;
             if (el.type === 'checkbox') el.checked = (val === 1 || val === true);
-            else el.value = val;
+            else {
+                el.value = val;
+                if (typeof updatePickerDisplay === 'function') updatePickerDisplay(id);
+            }
         }
 
         /** Tên hiển thị cho từng trường - giúp người dùng biết lỗi ở đâu */
@@ -2708,7 +3844,23 @@
         function getBool(id) { return document.getElementById(id).checked ? 1 : 0; }
         function applyLcdPreset() {
             const key = document.getElementById('lcd_preset').value;
-            if (!key || key === 'custom' || !LCD_PRESETS[key]) return;
+            if (!key) {
+                setVal('lcd_driver', 0);
+                setVal('lcd_w', '');
+                setVal('lcd_h', '');
+                setVal('lcd_off_x', 0);
+                setVal('lcd_off_y', 0);
+                setVal('lcd_mirror_x', 0);
+                setVal('lcd_mirror_y', 0);
+                setVal('lcd_swap_xy', 0);
+                setVal('lcd_invert', 0);
+                setVal('lcd_rgb_order', 0);
+                setVal('lcd_spi_mode', 0);
+                setVal('lcd_bl_inv', 0);
+                setVal('lcd_rotate', 0);
+                return;
+            }
+            if (key === 'custom' || !LCD_PRESETS[key]) return;
             const p = LCD_PRESETS[key];
             setVal('lcd_driver', p.drv);
             setVal('lcd_w', p.w);
@@ -2805,6 +3957,7 @@
                         }
                     }
                 }
+                if (typeof updateAllPickerDisplays === 'function') updateAllPickerDisplays();
             } catch (e) {
                 console.warn('Failed to load LCD config:', e);
             }
@@ -2954,6 +4107,7 @@
             loadAPList();
             await loadAdvancedConfig();
             loadLcdConfig(); // new 
+            if (typeof updateAllPickerDisplays === 'function') updateAllPickerDisplays();
         });
 
         /**
@@ -3110,7 +4264,10 @@
                 const el = document.getElementById(id);
                 if (!el || val === undefined || val === null) return;
                 if (el.type === 'checkbox') { el.checked = (val === 1 || val === true); }
-                else { el.value = val; }
+                else {
+                    el.value = val;
+                    if (typeof updatePickerDisplay === 'function') updatePickerDisplay(id);
+                }
             };
             // Screen & LCD
             setVal2('screen_type', cfg.screen_type);
@@ -3171,8 +4328,48 @@
             // Trigger UI show/hide recalculation
             if (typeof onScreenTypeChange === 'function') onScreenTypeChange();
             if (typeof onAudioCodecChange === 'function') onAudioCodecChange();
+            if (typeof updateAllPickerDisplays === 'function') updateAllPickerDisplays();
         }
     </script>
+    <!-- Custom Board Preset Modal / Bottom Sheet -->
+    <div class="board-modal-overlay" id="boardModalOverlay" onclick="closeBoardModal(event)">
+        <div class="board-modal-sheet" onclick="event.stopPropagation()">
+            <div class="board-modal-header">
+                <div>
+                    <h3 class="board-modal-title" data-lang="board_modal_title">Chọn Mạch Có Sẵn</h3>
+                    <p class="board-modal-sub" data-lang="board_modal_sub">Tự động cấu hình GPIO & Màn hình</p>
+                </div>
+                <button type="button" class="board-modal-close-btn" onclick="closeBoardModal()" aria-label="Close">✕</button>
+            </div>
+
+            <div class="board-modal-search">
+                <input type="text" id="boardSearchInput" placeholder="Tìm kiếm mạch..." data-lang-placeholder="board_search_placeholder" oninput="filterBoards()">
+                <button type="button" class="clear-btn" id="boardSearchClear" onclick="clearBoardSearch()" style="display:none;">✕</button>
+            </div>
+
+            <div class="board-modal-body" id="boardModalList"></div>
+        </div>
+    </div>
+
+    <!-- Universal Select Picker Modal / Bottom Sheet -->
+    <div class="board-modal-overlay" id="universalPickerOverlay" onclick="closeGenericSelectModal(event)">
+        <div class="board-modal-sheet" onclick="event.stopPropagation()">
+            <div class="board-modal-header">
+                <div>
+                    <h3 class="board-modal-title" id="universalPickerTitle" data-lang="generic_modal_title">Tùy Chọn</h3>
+                    <p class="board-modal-sub" id="universalPickerSub" data-lang="generic_modal_sub">Chọn một mục từ danh sách bên dưới</p>
+                </div>
+                <button type="button" class="board-modal-close-btn" onclick="closeGenericSelectModal()" aria-label="Close">✕</button>
+            </div>
+
+            <div class="board-modal-search" id="universalPickerSearchWrap" style="display:none;">
+                <input type="text" id="universalPickerSearchInput" placeholder="Tìm kiếm tùy chọn..." data-lang-placeholder="generic_search_placeholder" oninput="filterGenericSelect()">
+                <button type="button" class="clear-btn" id="universalPickerSearchClear" onclick="clearGenericSelectSearch()" style="display:none;">✕</button>
+            </div>
+
+            <div class="board-modal-body" id="universalPickerList"></div>
+        </div>
+    </div>
 </body>
 
 </html>

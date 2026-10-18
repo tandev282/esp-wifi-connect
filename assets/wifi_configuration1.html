@@ -732,7 +732,7 @@
             font-size: 13.5px !important;
             line-height: 1.45 !important;
             margin-top: 8px !important;
-            display: flex !important;
+            display: flex;
             flex-direction: column !important;
             gap: 3px !important;
             border: none !important;
@@ -1462,6 +1462,28 @@
                         </div>
                     </div>
 
+                    <!-- ⓪ Export / Import Config -->
+                    <div class="config-group">
+                        <div class="config-header">
+                            <div class="config-title" data-lang="export_import_title">Xuất / Nhập Cấu Hình (Export / Import Config)</div>
+                            <div class="config-note-red" data-lang="export_import_note">
+                                &#9432; Xuất cấu hình hiện tại ra file <strong>config.json</strong> để chia sẻ hoặc sao lưu.
+                                Nhập file để áp dụng cấu hình nhanh.
+                            </div>
+                        </div>
+                        <div class="export-import-actions" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                            <button type="button" id="btn_export_config" onclick="exportConfig()" class="btn-config-action">
+                                <span data-lang="btn_export">📥 Xuất cấu hình</span>
+                            </button>
+                            <button type="button" id="btn_import_config" onclick="document.getElementById('import_config_file').click()" class="btn-config-action">
+                                <span data-lang="btn_import">📤 Nhập cấu hình</span>
+                            </button>
+                            <input type="file" id="import_config_file" accept=".json,application/json"
+                                style="display:none;" onchange="importConfig(event)">
+                        </div>
+                        <div id="import_status" style="margin-top:10px;font-size:13px;display:none;"></div>
+                    </div>
+
                     <!-- ⓪ Board Preset -->
                     <div class="config-group board-preset-group">
                         <div class="config-header">
@@ -1508,28 +1530,6 @@
                         </label>
                     </div>
 
-                    <!-- ⓪ Export / Import Config -->
-                    <div class="config-group">
-                        <div class="config-header">
-                            <div class="config-title" data-lang="export_import_title">Xuất / Nhập Cấu Hình (Export / Import Config)</div>
-                            <div class="config-note-red" data-lang="export_import_note">
-                                &#9432; Xuất cấu hình hiện tại ra file <strong>config.json</strong> để chia sẻ hoặc sao lưu.
-                                Nhập file để áp dụng cấu hình nhanh.
-                            </div>
-                        </div>
-                        <div class="export-import-actions" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-                            <button type="button" id="btn_export_config" onclick="exportConfig()" class="btn-config-action">
-                                <span data-lang="btn_export">📥 Xuất cấu hình</span>
-                            </button>
-                            <button type="button" id="btn_import_config" onclick="document.getElementById('import_config_file').click()" class="btn-config-action">
-                                <span data-lang="btn_import">📤 Nhập cấu hình</span>
-                            </button>
-                            <input type="file" id="import_config_file" accept=".json,application/json"
-                                style="display:none;" onchange="importConfig(event)">
-                        </div>
-                        <div id="import_status" style="margin-top:10px;font-size:13px;display:none;"></div>
-                    </div>
-
                     <!-- ⓪ Type Screen -->
                     <div class="config-group">
                         <div class="config-header">
@@ -1562,6 +1562,27 @@
                                 </select>
                             </label>
 
+                        </div>
+
+                        <div style="margin-top:14px;padding-top:12px;border-top:1px dashed var(--border);">
+                            <div class="lcd-only-cb" style="margin-bottom:12px;">
+                                <label class="checkbox-item" style="padding:4px 0 !important;">
+                                    <input type="checkbox" id="lcd_wechat">
+                                    <span data-lang="lcd_wechat">Giao diện WeChat (WeChat Message Style)</span>
+                                </label>
+                                <small data-lang="note_lcd_wechat" style="display:block;margin-top:4px;color:var(--text-muted);font-size:12px;line-height:1.35;opacity:0.85;">
+                                    &#9432; Bật hiển thị giao diện hội thoại kiểu tin nhắn WeChat trên màn hình LCD.
+                                </small>
+                            </div>
+                            <div>
+                                <label class="checkbox-item" style="padding:4px 0 !important;">
+                                    <input type="checkbox" id="send_wake_word_data">
+                                    <span data-lang="send_wake_word_data">AI trả lời khi wake word (Send Wake Word Data)</span>
+                                </label>
+                                <small data-lang="note_send_wake_word_data" style="display:block;margin-top:4px;color:var(--text-muted);font-size:12px;line-height:1.35;opacity:0.85;">
+                                    &#9432; Khi bật, thiết bị sẽ gửi dữ liệu âm thanh wake word lên máy chủ và AI sẽ phản hồi chào/trả lời khi gọi từ khóa đánh thức.
+                                </small>
+                            </div>
                         </div>
                     </div>
 
@@ -1741,10 +1762,7 @@
                                 <input type="checkbox" id="lcd_bl_inv"> <span data-lang="lcd_bl_inv">Đảo Đèn Nền
                                     (Backlight Invert)</span>
                             </label>
-                            <label class="checkbox-item lcd-only-cb">
-                                <input type="checkbox" id="lcd_wechat"> <span data-lang="lcd_wechat">Giao diện WeChat
-                                    (WeChat Message Style)</span>
-                            </label>
+
                         </div>
                     </div>
 
@@ -1817,7 +1835,7 @@
                         <div class="config-header">
                             <div class="config-title" data-lang="audio_gpio_title">GPIO Mic & Âm Thanh (Mic & Audio GPIO)</div>
                             <div class="config-note-red" data-lang="audio_codec_note">
-                                &#9432; Khi dùng màn hình OLED, chỉ hỗ trợ <strong>NoAudioCodec Simplex</strong>.
+                                &#9432; Nhập số GPIO tương ứng cho Mic và Loa. Nếu không dùng, nhập <strong>-1</strong>.
                             </div>
                         </div>
 
@@ -1833,44 +1851,56 @@
                                     <option value="1">ES8311 (I2C + I2S Duplex)</option>
                                     <option value="2">ES8388 (I2C + I2S Duplex)</option>
                                     <option value="3">Box Audio Codec (ES8311 + ES7210, I2C + I2S Duplex)</option>
+                                    <option value="4">ES8374 (I2C + I2S Duplex)</option>
+                                    <option value="5">ES8389 (I2C + I2S Duplex)</option>
                                 </select>
                             </label>
-                            <div class="codec-note" id="codec_info_note" style="display:none;">
-                                <div data-lang="note_i2c_codec">&#9432; 1. Codec này dùng <strong>I2S Duplex</strong> (Mic + Loa chung bus) và điều khiển qua <strong>I2C</strong>.</div>
-                                <div id="codec_extra_note"></div>
+                            <div class="codec-note" id="codec_info_note">
+                                <div id="codec_base_note" data-lang="note_simplex_codec">&#9432; Codec này dùng <strong>I2S Simplex</strong> (Mic và Loa dùng 2 bus I2S riêng biệt, không dùng I2C).</div>
+                                <div id="codec_extra_note" style="display:none;"></div>
                             </div>
                         </div>
 
                         <!-- ── SIMPLEX section (NoAudioCodecSimplex, codec_type=0) ── -->
                         <div id="simplex_gpio">
                             <div style="font-weight:600;font-size:13.5px;color:var(--text);margin:6px 0 8px;border-left:3px solid var(--accent);padding-left:8px;" data-lang="simplex_mic_extra">
-                                Micro I2S Riêng (Simplex Mic Extra)
+                                Micro I2S
                             </div>
                             <div id="simplex_gpio_grid"
                                 style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px 12px;margin-bottom:12px;">
-                                <label><span data-lang="mic_ws">WS (Mic)</span>
+                                <label><span data-lang="mic_ws">WS</span>
                                     <input type="number" id="mic_ws" min="-1" max="48"
                                         style="width:100%;padding:4px;box-sizing:border-box;">
                                 </label>
-                                <label><span data-lang="mic_sck">SCK (Mic)</span>
+                                <label><span data-lang="mic_sck">SCK</span>
                                     <input type="number" id="mic_sck" min="-1" max="48"
                                         style="width:100%;padding:4px;box-sizing:border-box;">
                                 </label>
-                                <label id="mic_din_label"><span data-lang="mic_din">DIN (Mic)</span>
+                                <label id="mic_din_label"><span data-lang="mic_din">SD</span>
                                     <input type="number" id="mic_din" min="-1" max="48"
                                         style="width:100%;padding:4px;box-sizing:border-box;">
                                 </label>
                             </div>
+
+                            <div style="margin-top:6px;padding-bottom:14px;border-bottom:1px dashed var(--border);margin-bottom:12px;">
+                                <label class="checkbox-item" style="padding:4px 0 !important;cursor:pointer;">
+                                    <input type="checkbox" id="dual_mic">
+                                    <span data-lang="dual_mic_label" style="font-weight:600;">Micro thứ 2 (kênh Phải - R)</span>
+                                </label>
+                                <small data-lang="note_dual_mic" style="display:block;margin-top:4px;color:var(--text-muted);font-size:12px;line-height:1.35;opacity:0.85;">
+                                    &#9432; Hỗ trợ dùng 2 micro I2S cùng lúc (kênh Trái chân L/R nối GND, kênh Phải chân L/R nối 3.3V). Cả 2 mic đấu chung vào chân WS, SCK, SD.
+                                </small>
+                            </div>
                         </div>
 
-                        <!-- ── CHÂN I2S CHUNG (Common I2S GPIO) ── -->
-                        <div style="font-weight:600;font-size:13.5px;color:var(--text);margin:6px 0 8px;border-left:3px solid var(--accent);padding-left:8px;" data-lang="common_i2s_gpio">
-                            Chân I2S Chung (Common I2S GPIO)
+                        <!-- ── CHÂN I2S CHUNG (Common I2S GPIO) / Loa I2S ── -->
+                        <div id="common_i2s_title" style="font-weight:600;font-size:13.5px;color:var(--text);margin:6px 0 8px;border-left:3px solid var(--accent);padding-left:8px;">
+                            Loa I2S
                         </div>
                         <div id="common_i2s_gpio_grid"
                             style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px 12px;margin-bottom:10px;">
 
-                            <label><span data-lang="spk_dout">DOUT (Loa)</span>
+                            <label><span data-lang="spk_dout">DIN</span>
                                 <input type="number" id="spk_dout" min="-1" max="48"
                                     style="width:100%;padding:4px;box-sizing:border-box;">
                             </label>
@@ -1910,40 +1940,98 @@
                             </div>
 
                         </div>
+
+                        <!-- ── Tinh Chỉnh Độ Nhạy Mic & VAD (Audio Tuning) ── -->
+                        <div style="margin-top:14px;padding-top:12px;border-top:1px dashed var(--border);">
+                            <div>
+                                <label class="checkbox-item" style="padding:4px 0 !important;cursor:pointer;">
+                                    <input type="checkbox" id="enable_audio_tuning" onchange="onAudioTuningToggle()">
+                                    <span data-lang="enable_audio_tuning" style="font-weight:600;">Tinh chỉnh độ nhạy Mic & VAD (Audio Tuning)</span>
+                                </label>
+                                <small data-lang="note_enable_audio_tuning" style="display:block;margin-top:4px;color:var(--text-muted);font-size:12px;line-height:1.35;opacity:0.85;">
+                                    &#9432; Khi không tích, hệ thống sẽ sử dụng giá trị mặc định tối ưu. Khi tích chọn xổ ra, bạn có thể tự nhập mức tùy ý theo nhu cầu.
+                                </small>
+                            </div>
+
+                            <div id="audio_tuning_section" style="display:none;margin-top:12px;padding:12px;background:var(--surface-muted);border:1px solid var(--border);border-radius:var(--radius-sm);">
+                                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 14px;margin-bottom:8px;">
+                                    <div>
+                                        <label><span id="mic_gain_label" data-lang="mic_gain_label">Độ nhạy Mic (Mic Sensitivity / Gain)</span>
+                                            <input type="number" id="mic_gain" style="width:100%;padding:6px;box-sizing:border-box;margin-top:4px;">
+                                        </label>
+                                        <small id="mic_gain_help" style="display:block;margin-top:6px;color:var(--text-muted);font-size:12px;line-height:1.45;">
+                                        </small>
+                                    </div>
+
+                                    <div>
+                                        <label><span data-lang="vad_mode_label">Độ nhạy phát hiện giọng nói (VAD: 0 - 3)</span>
+                                            <button type="button" class="board-trigger-btn" id="vad_mode_trigger" onclick="openPickerModal('vad_mode')" style="margin-top:4px;">
+                                                <span class="board-trigger-title" id="vad_mode_display">0 – Rất nhạy (Mặc định)</span>
+                                                <span class="board-trigger-arrow">▼</span>
+                                            </button>
+                                            <select id="vad_mode" style="display:none;" data-picker-title="Độ Nhạy Phát Hiện Giọng Nói (VAD)" data-picker-sub="Chọn mức nhạy nhận diện giọng nói hoặc lọc ồn (0 đến 3)">
+                                                <option value="0">0 – Rất nhạy (Mặc định / Very Sensitive)</option>
+                                                <option value="1">1 – Nhạy vừa (Lọc ồn nhẹ / Medium)</option>
+                                                <option value="2">2 – Ít nhạy (Lọc ồn cao / Aggressive)</option>
+                                                <option value="3">3 – Kháng ồn mạnh (Very Aggressive)</option>
+                                            </select>
+                                        </label>
+                                        <small id="vad_mode_help" data-lang="vad_mode_help" style="display:block;margin-top:6px;color:var(--text-muted);font-size:12px;line-height:1.45;">
+                                            &#9432; Mức từ <strong>0 đến 3</strong> (Mặc định là <strong>0</strong>).<br>
+                                            &#9432; <strong>Số càng NHỎ (0)</strong>: Bắt giọng nói càng <strong>NHẠY</strong>, phát hiện nhanh khi nói nhỏ hoặc ở xa.<br>
+                                            &#9432; <strong>Số càng LỚN (3)</strong>: Lọc tiếng ồn môi trường càng <strong>MẠNH</strong>, chống kích hoạt nhầm khi xung quanh ồn (cần nói to hơn hoặc gần mic hơn).
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
 
-                    <div class="config-group">
+                    <div class="config-group" id="bluetooth_config_group">
                         <div class="config-header">
                             <div class="config-title" data-lang="bluetooth_a2dp_title">ESP32-WROOM (Bluetooth A2DP)</div>
-                            <div class="config-note-red" data-lang="bluetooth_a2dp_note">
+                        </div>
+
+                        <div>
+                            <label class="checkbox-item" style="padding:4px 0 !important;">
+                                <input type="checkbox" id="enable_bluetooth" onchange="onBluetoothToggle()">
+                                <span data-lang="enable_bluetooth">Sử dụng Bluetooth (ESP32-WROOM A2DP)</span>
+                            </label>
+                            <small data-lang="note_enable_bluetooth" style="display:block;margin-top:4px;color:var(--text-muted);font-size:12px;line-height:1.35;opacity:0.85;">
+                                &#9432; Bật nếu bạn kết nối thêm module ESP32-WROOM để phát nhạc qua Bluetooth A2DP. Khi tắt, các chân GPIO sẽ tự động đặt là <strong>-1</strong>.
+                            </small>
+                        </div>
+
+                        <div id="bluetooth_gpio_section" style="display:none;margin-top:12px;padding-top:12px;border-top:1px dashed var(--border);">
+                            <div class="config-note-red" data-lang="bluetooth_a2dp_note" style="margin-bottom:12px;">
                                 &#9432; Nhập số GPIO tương ứng. Nếu không dùng, nhập <strong>-1</strong>. <br>
                                 &#9432; Bluetooth TX, Bluetooth RX dùng để giao tiếp với ESP32-WROOM khi sử dụng Bluetooth.
                             </div>
-                        </div>
 
-                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px 12px;margin-bottom:10px;">
-                            <label><span>Bluetooth TX</span>
-                                <input type="number" id="p_bluetooth_uart_tx" min="-1" max="48"
-                                    style="width:100%;padding:4px;box-sizing:border-box;">
-                                <small data-lang="note_bt_tx">
-                                    Bluetooth TX trên ESP32-S3 nối với RX trên ESP32-WROOM.
-                                </small>
-                            </label>
-                            <label><span>Bluetooth RX</span>
-                                <input type="number" id="p_bluetooth_uart_rx" min="-1" max="48"
-                                    style="width:100%;padding:4px;box-sizing:border-box;">
-                                <small data-lang="note_bt_rx">
-                                    Bluetooth RX trên ESP32-S3 nối với TX trên ESP32-WROOM.
-                                </small>
-                            </label>
-                            <label><span>Bluetooth DIN</span>
-                                <input type="number" id="p_dout2" min="-1" max="48"
-                                    style="width:100%;padding:4px;box-sizing:border-box;">
-                                <small data-lang="note_bt_din">
-                                    Bluetooth DIN dùng để truyền âm thanh sang ESP32-WROOM khi sử dụng Bluetooth.
-                                </small>
-                            </label>
+                            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px 12px;margin-bottom:10px;">
+                                <label><span>Bluetooth TX</span>
+                                    <input type="number" id="p_bluetooth_uart_tx" min="-1" max="48" value="-1"
+                                        style="width:100%;padding:4px;box-sizing:border-box;">
+                                    <small data-lang="note_bt_tx">
+                                        Bluetooth TX trên ESP32-S3 nối với RX trên ESP32-WROOM.
+                                    </small>
+                                </label>
+                                <label><span>Bluetooth RX</span>
+                                    <input type="number" id="p_bluetooth_uart_rx" min="-1" max="48" value="-1"
+                                        style="width:100%;padding:4px;box-sizing:border-box;">
+                                    <small data-lang="note_bt_rx">
+                                        Bluetooth RX trên ESP32-S3 nối với TX trên ESP32-WROOM.
+                                    </small>
+                                </label>
+                                <label><span>Bluetooth DIN</span>
+                                    <input type="number" id="p_dout2" min="-1" max="48" value="-1"
+                                        style="width:100%;padding:4px;box-sizing:border-box;">
+                                    <small data-lang="note_bt_din">
+                                        Bluetooth DIN dùng để truyền âm thanh sang ESP32-WROOM khi sử dụng Bluetooth.
+                                    </small>
+                                </label>
+                            </div>
                         </div>
                     </div>
 
@@ -2098,6 +2186,8 @@
                 device_config_group_title: 'Screen Configuration',
                 screen_type: 'Type Screen',
                 lcd_language_label: 'Language',
+                send_wake_word_data: 'AI replies on wake word',
+                note_send_wake_word_data: '&#9432; When enabled, wake word audio is sent to server and AI will greet/respond upon wake word detection.',
                 screen_preset_title: 'Screen Preset',
                 screen_preset_note: '&#9432; 1. If unused, leave as 0.<br>&#9432; 2. When rotating screen, use Offset X, Y if it\'s out of bound.<br>&#9432; 3. If your screen size is not listed here, do not select any or enter the values manually.',
                 select_lcd_preset: 'Select preset:',
@@ -2117,22 +2207,34 @@
                 lcd_invert_color: 'Invert Color',
                 lcd_bl_inv: 'Backlight Invert',
                 lcd_wechat: 'WeChat Message Style',
+                note_lcd_wechat: '&#9432; Enable WeChat style message UI on LCD screen.',
                 spi_gpio_title: 'Display SPI GPIO',
                 spi_gpio_note: '&#9432; Enter GPIO numbers. If unused, enter -1.',
                 oled_gpio_title: 'Display I2C GPIO',
                 oled_gpio_note: '&#9432; Enter GPIO for I2C. If unused, enter -1.',
                 audio_gpio_title: 'Mic & Audio GPIO',
                 audio_codec_type: 'Audio Codec Type',
-                audio_codec_note: '&#9432; When using OLED screen, only supports <strong>NoAudioCodec Simplex</strong>.',
+                audio_codec_note: '&#9432; Enter corresponding GPIO for Mic & Speaker. If unused, enter <strong>-1</strong>.',
+                audio_codec_note_oled: '&#9432; When using OLED screen, only supports <strong>NoAudioCodec Simplex</strong>.',
                 common_i2s_gpio: 'Common I2S GPIO',
-                spk_dout: 'DOUT (Speaker)',
-                mic_din: 'DIN (Mic)',
-                simplex_mic_extra: 'Simplex Mic Extra',
-                mic_ws: 'WS (Mic)',
-                mic_sck: 'SCK (Mic)',
+                common_i2s_spk: 'Loa I2S',
+                spk_dout: 'DIN',
+                mic_din: 'SD',
+                simplex_mic_extra: 'Micro I2S',
+                mic_ws: 'WS',
+                mic_sck: 'SCK',
+                dual_mic_label: 'Secondary Microphone (Right Channel - R)',
+                note_dual_mic: '&#9432; Support 2 I2S mics simultaneously (Left mic L/R to GND, Right mic L/R to 3.3V). Both mics share WS, SCK, and SD pins.',
                 i2c_codec_gpio: 'I2S MCLK & I2C Codec GPIO',
                 codec_pa_pin: 'PA (Power Amp)',
+                enable_audio_tuning: 'Audio Tuning (Mic Gain & VAD)',
+                note_enable_audio_tuning: '&#9432; When unchecked (collapsed), system defaults are used. When checked, you can enter custom sensitivity values.',
+                mic_gain_label: 'Mic Sensitivity / Gain',
+                vad_mode_label: 'Voice Activity Detection (VAD: 0 - 3)',
+                vad_mode_help: '&#9432; Range from <strong>0 to 3</strong> (Default is <strong>0</strong>).<br>&#9432; <strong>LOWER value (0)</strong>: Most <strong>SENSITIVE</strong>, detects quiet speech quickly.<br>&#9432; <strong>HIGHER value (3)</strong>: Strongest <strong>NOISE REJECTION</strong>, prevents false triggers in noisy environments (requires speaking louder or closer).',
                 bluetooth_a2dp_title: 'ESP32-WROOM (Bluetooth A2DP)',
+                enable_bluetooth: 'Enable Bluetooth (ESP32-WROOM A2DP)',
+                note_enable_bluetooth: '&#9432; Check if you connect an ESP32-WROOM module to stream music via Bluetooth A2DP. When disabled, GPIOs are set to -1.',
                 bluetooth_a2dp_note: '&#9432; Enter GPIO numbers. If unused, enter -1.<br>&#9432; Bluetooth TX, RX used to communicate with ESP32-WROOM.',
                 peripherals_title: 'Peripherals',
                 peripherals_note: '&#9432; Enter GPIO numbers. If unused, enter -1.',
@@ -2186,8 +2288,8 @@
                 lbl_oled_scl: 'GPIO OLED SCL',
                 lbl_mic_ws: 'GPIO Mic WS',
                 lbl_mic_sck: 'GPIO Mic SCK',
-                lbl_mic_din: 'GPIO Mic DIN',
-                lbl_spk_dout: 'GPIO Speaker DOUT',
+                lbl_mic_din: 'GPIO Mic SD',
+                lbl_spk_dout: 'GPIO Speaker DIN',
                 lbl_spk_bclk: 'GPIO Speaker BCLK',
                 lbl_spk_lrck: 'GPIO Speaker LRCK',
                 lbl_p_bluetooth_uart_tx: 'GPIO Bluetooth UART TX',
@@ -2212,6 +2314,7 @@
                 'note_active_high': 'Active HIGH <small style="color:gray;">(default: off = Active LOW)</small>',
                 'note_charging_active': '&#9432; Turn on if the pin goes <strong>HIGH</strong> when charging.<br>Turn off if the pin is pulled <strong>LOW</strong> when charging (TP4056, BQ24).',
                 'note_lamp': 'Outputs 3.3V on this GPIO to turn on external lights/relays.',
+                'note_simplex_codec': '&#9432; This codec uses <strong>I2S Simplex</strong> (Separate I2S buses for Mic & Speaker, no I2C).',
                 'note_i2c_codec': '&#9432; 1. This codec uses <strong>I2S Duplex</strong> (Mic + Speaker share bus) and is controlled via <strong>I2C</strong>.',
                 'codec_es8311': '&#9432; 2. <strong>ES8311</strong>: Speaker + Mic share 1 I2S Duplex bus.',
                 'codec_es8388': '&#9432; 2. <strong>ES8388</strong>: Speaker + Mic share 1 I2S Duplex bus. Supports Input Reference for echo cancellation.',
@@ -2259,6 +2362,8 @@
                 device_config_group_title: 'Cấu Hình Thiết Bị',
                 screen_type: 'Màn Hình',
                 lcd_language_label: 'Ngôn ngữ',
+                send_wake_word_data: 'AI trả lời khi wake word',
+                note_send_wake_word_data: '&#9432; Khi bật, thiết bị sẽ gửi dữ liệu âm thanh wake word lên máy chủ và AI sẽ phản hồi chào/trả lời khi gọi từ khóa đánh thức.',
                 screen_preset_title: 'Màn Hình',
                 screen_preset_note: '&#9432; 1. Nếu không dùng, đừng chỉnh sửa hoặc nhập 0.<br>&#9432; 2. Khi sử dụng Xoay Màn Hình, có thể màn hình sẽ hiển thị lệch. Hãy sử dụng Độ Lệch X, Y để căn chỉnh lại.<br>&#9432; 3. Nếu không có sẵn kích thước màn hình của bạn ở đây, không chọn hoặc tự nhập theo thiết bị của bạn.',
                 select_lcd_preset: 'Chọn cấu hình có sẵn:',
@@ -2278,22 +2383,34 @@
                 lcd_invert_color: 'Đảo Màu',
                 lcd_bl_inv: 'Đảo Đèn Nền',
                 lcd_wechat: 'Giao diện WeChat',
+                note_lcd_wechat: '&#9432; Bật hiển thị giao diện hội thoại kiểu tin nhắn WeChat trên màn hình LCD.',
                 spi_gpio_title: 'GPIO Màn Hình SPI',
                 spi_gpio_note: '&#9432; Nhập số GPIO tương ứng. Nếu không dùng, nhập -1.',
                 oled_gpio_title: 'GPIO Màn Hình OLED I2C',
                 oled_gpio_note: '&#9432; Nhập số GPIO cho giao tiếp I2C. Nếu không dùng, nhập -1.',
                 audio_gpio_title: 'GPIO Mic & Âm Thanh',
                 audio_codec_type: 'Bộ Audio Codec',
-                audio_codec_note: '&#9432; Khi dùng màn hình OLED, chỉ hỗ trợ <strong>NoAudioCodec Simplex</strong>.',
+                audio_codec_note: '&#9432; Nhập số GPIO tương ứng cho Mic và Loa. Nếu không dùng, nhập <strong>-1</strong>.',
+                audio_codec_note_oled: '&#9432; Khi dùng màn hình OLED, chỉ hỗ trợ <strong>NoAudioCodec Simplex</strong>.',
                 common_i2s_gpio: 'Chân I2S Chung',
-                spk_dout: 'DOUT (Loa)',
-                mic_din: 'DIN (Mic)',
-                simplex_mic_extra: 'Micro I2S Riêng',
-                mic_ws: 'WS (Mic)',
-                mic_sck: 'SCK (Mic)',
+                common_i2s_spk: 'Loa I2S',
+                spk_dout: 'DIN',
+                mic_din: 'SD',
+                simplex_mic_extra: 'Micro I2S',
+                mic_ws: 'WS',
+                mic_sck: 'SCK',
+                dual_mic_label: 'Micro thứ 2 (kênh Phải - R)',
+                note_dual_mic: '&#9432; Hỗ trợ dùng 2 micro I2S cùng lúc (kênh Trái chân L/R nối GND, kênh Phải chân L/R nối 3.3V). Cả 2 mic đấu chung vào chân WS, SCK, SD.',
                 i2c_codec_gpio: 'I2S MCLK & I2C Codec GPIO',
                 codec_pa_pin: 'PA (Power Amp)',
+                enable_audio_tuning: 'Tinh chỉnh độ nhạy Mic & VAD (Audio Tuning)',
+                note_enable_audio_tuning: '&#9432; Khi không tích (không xổ), hệ thống sẽ sử dụng giá trị mặc định tối ưu. Khi tích chọn xổ ra, bạn có thể tự nhập mức tùy ý theo nhu cầu.',
+                mic_gain_label: 'Độ nhạy Mic (Mic Sensitivity / Gain)',
+                vad_mode_label: 'Độ nhạy phát hiện giọng nói (VAD: 0 - 3)',
+                vad_mode_help: '&#9432; Mức từ <strong>0 đến 3</strong> (Mặc định là <strong>0</strong>).<br>&#9432; <strong>Số càng NHỎ (0)</strong>: Bắt giọng nói càng <strong>NHẠY</strong>, phát hiện nhanh khi nói nhỏ hoặc ở xa.<br>&#9432; <strong>Số càng LỚN (3)</strong>: Lọc tiếng ồn môi trường càng <strong>MẠNH</strong>, chống kích hoạt nhầm khi xung quanh ồn (cần nói to hơn hoặc gần mic hơn).',
                 bluetooth_a2dp_title: 'ESP32-WROOM (Bluetooth A2DP)',
+                enable_bluetooth: 'Sử dụng Bluetooth (ESP32-WROOM A2DP)',
+                note_enable_bluetooth: '&#9432; Bật nếu bạn kết nối thêm module ESP32-WROOM để phát nhạc qua Bluetooth A2DP. Khi tắt, các chân GPIO sẽ tự động đặt là -1.',
                 bluetooth_a2dp_note: '&#9432; Nhập số GPIO tương ứng. Nếu không dùng, nhập -1.<br>&#9432; Bluetooth TX, Bluetooth RX dùng để giao tiếp với ESP32-WROOM.',
                 peripherals_title: 'Thiết Bị Ngoại Vi',
                 peripherals_note: '&#9432; Nhập số GPIO tương ứng. Nếu không dùng, nhập -1.',
@@ -2346,8 +2463,8 @@
                 lbl_oled_scl: 'GPIO OLED SCL',
                 lbl_mic_ws: 'GPIO Micro WS',
                 lbl_mic_sck: 'GPIO Micro SCK',
-                lbl_mic_din: 'GPIO Micro DIN',
-                lbl_spk_dout: 'GPIO Loa DOUT',
+                lbl_mic_din: 'GPIO Micro SD',
+                lbl_spk_dout: 'GPIO Loa DIN',
                 lbl_spk_bclk: 'GPIO Loa BCLK',
                 lbl_spk_lrck: 'GPIO Loa LRCK',
                 lbl_p_bluetooth_uart_tx: 'GPIO Bluetooth UART TX',
@@ -2372,6 +2489,7 @@
                 'note_active_high': 'Active HIGH <small style="color:gray;">(mặc định: tắt = Active LOW)</small>',
                 'note_charging_active': '&#9432; Bật nếu chân báo sạc lên <strong>HIGH</strong> khi đang sạc (VD: một số mạch tự chế).<br>Tắt nếu chân kéo xuống <strong>LOW</strong> khi đang sạc (TP4056, BQ24, mặc định).',
                 'note_lamp': 'Khi yêu cầu bật đèn, nó sẽ xuất điện áp 3.3V trên GPIO này để bật tắt đèn/relay bên ngoài.',
+                'note_simplex_codec': '&#9432; Codec này dùng <strong>I2S Simplex</strong> (Mic và Loa dùng 2 bus I2S riêng biệt, không dùng I2C).',
                 'note_i2c_codec': '&#9432; 1. Codec này dùng <strong>I2S Duplex</strong> (Mic + Loa chung bus) và điều khiển qua <strong>I2C</strong>.',
                 'codec_es8311': '&#9432; 2. <strong>ES8311</strong>: Loa + Mic chung 1 bus I2S Duplex.',
                 'codec_es8388': '&#9432; 2. <strong>ES8388</strong>: Loa + Mic chung 1 bus I2S Duplex. Hỗ trợ Input Reference cho echo cancel.',
@@ -2434,6 +2552,13 @@
                 const key = element.getAttribute('data-lang');
                 element.innerHTML = translations[lang][key];
             });
+
+            // Update audio_codec_note dynamically based on OLED / LCD
+            const isOledLang = document.getElementById('screen_type')?.value === '1';
+            const audioNoteEl = document.querySelector('[data-lang="audio_codec_note"]');
+            if (audioNoteEl) {
+                audioNoteEl.innerHTML = isOledLang ? (translations[lang].audio_codec_note_oled || translations[lang].audio_codec_note) : translations[lang].audio_codec_note;
+            }
 
             // Update input values
             document.querySelectorAll('[data-lang-value]').forEach(element => {
@@ -3365,7 +3490,7 @@
             const ids = [
                 'language', 'max_tx_power', 'screen_type', 'lcd_language',
                 'lcd_preset', 'oled_preset', 'lcd_driver', 'lcd_spi_mode',
-                'lcd_rgb_order', 'lcd_rotate', 'audio_codec_type'
+                'lcd_rgb_order', 'lcd_rotate', 'audio_codec_type', 'vad_mode'
             ];
             ids.forEach(id => updatePickerDisplay(id));
         }
@@ -3607,9 +3732,15 @@
             setVal('p_bat', p.p_bat);
             setVal('p_chg', p.p_chg);
             setVal('p_lamp', p.p_lamp);
-            setVal('p_bluetooth_uart_tx', p.p_bluetooth_uart_tx);
-            setVal('p_bluetooth_uart_rx', p.p_bluetooth_uart_rx);
-            setVal('p_dout2', p.p_dout2);
+            const hasBtPreset = (p.p_bluetooth_uart_tx > -1 || p.p_bluetooth_uart_rx > -1 || p.p_dout2 > -1);
+            const btPresetCb = document.getElementById('enable_bluetooth');
+            if (btPresetCb) btPresetCb.checked = hasBtPreset;
+            onBluetoothToggle();
+            if (hasBtPreset) {
+                setVal('p_bluetooth_uart_tx', p.p_bluetooth_uart_tx);
+                setVal('p_bluetooth_uart_rx', p.p_bluetooth_uart_rx);
+                setVal('p_dout2', p.p_dout2);
+            }
 
             // Show confirmation toast
             const info = getBoardInfo(key);
@@ -3626,8 +3757,7 @@
             'st7789_240x320': { drv: 0, w: 240, h: 320, ox: 0, oy: 0, mx: 0, my: 0, xy: 0, inv: 0, rgb: 0, spi: 0, bli: 0, rot: 0 },
             'st7789_170x320': { drv: 0, w: 170, h: 320, ox: 35, oy: 0, mx: 0, my: 0, xy: 0, inv: 1, rgb: 0, spi: 0, bli: 0, rot: 0 },
             'st7789_135x240': { drv: 0, w: 135, h: 240, ox: 52, oy: 40, mx: 0, my: 0, xy: 0, inv: 1, rgb: 0, spi: 3, bli: 0, rot: 0 },
-            'st7789_240x240': { drv: 0, w: 240, h: 240, ox: 0, oy: 0, mx: 0, my: 0, xy: 0, inv: 1, rgb: 0, spi: 0, bli: 0, rot: 0 },
-            'st7789_240x240_7pin': { drv: 0, w: 240, h: 240, ox: 0, oy: 0, mx: 0, my: 0, xy: 0, inv: 1, rgb: 0, spi: 3, bli: 0, rot: 0 },
+            'st7789_240x240': { drv: 0, w: 240, h: 240, ox: 0, oy: 0, mx: 0, my: 0, xy: 0, inv: 1, rgb: 0, spi: 3, bli: 0, rot: 0 },
             'st7735_80x160': { drv: 3, w: 80, h: 160, ox: 25, oy: 0, mx: 1, my: 1, xy: 0, inv: 0, rgb: 1, spi: 0, bli: 0, rot: 0 },
             'st7735_128x128': { drv: 3, w: 128, h: 128, ox: 0, oy: 0, mx: 1, my: 1, xy: 0, inv: 0, rgb: 1, spi: 0, bli: 0, rot: 0 },
             'ili9341_240x320_ips': { drv: 1, w: 240, h: 320, ox: 0, oy: 0, mx: 1, my: 0, xy: 0, inv: 1, rgb: 1, spi: 0, bli: 0, rot: 0 },
@@ -3677,6 +3807,10 @@
                     codecTrigger.style.cursor = 'pointer';
                 }
             }
+            const audioNote = document.querySelector('[data-lang="audio_codec_note"]');
+            if (audioNote) {
+                audioNote.innerHTML = isOled ? t('audio_codec_note_oled') : t('audio_codec_note');
+            }
             onAudioCodecChange();
 
             // When user switches screen type, reset previous fills
@@ -3725,7 +3859,17 @@
          * codec_type 1/2/3 = I2C codec       → hide simplex_gpio, show i2c_codec_gpio
          * codec_type 2/3                     → also show box_extra_gpio (ES8388 ref + ES7210 addr)
          */
-        function onAudioCodecChange() {
+        let lastAudioCodecType = undefined;
+
+        function getDefaultMicGain(codecType) {
+            if (codecType === 1) return 30; // ES8311 (dB)
+            if (codecType === 2 || codecType === 3) return 24; // ES8388 / Box (dB)
+            if (codecType === 4) return 30; // ES8374 (dB)
+            if (codecType === 5) return 40; // ES8389 (dB)
+            return 12; // NoAudioCodec Simplex (I2S bit shift)
+        }
+
+        function onAudioCodecChange(forceDefaultGain = false) {
             const codecType = parseInt(document.getElementById('audio_codec_type').value || '0');
             const isSimple = codecType === 0;
             const hasExtra = codecType === 2 || codecType === 3; // ES8388 or Box
@@ -3750,17 +3894,126 @@
                 }
             }
 
-            // Show/hide codec info note
-            const infoNote = document.getElementById('codec_info_note');
-            if (infoNote) infoNote.style.display = isSimple ? 'none' : 'flex';
+            // Update I2S section title based on codec type (Loa I2S for Simplex, Chân I2S Chung for I2C codec)
+            const commonTitle = document.getElementById('common_i2s_title');
+            if (commonTitle) {
+                const lang = document.getElementById('language')?.value || 'vi-VN';
+                if (isSimple) {
+                    commonTitle.innerHTML = (translations[lang] && translations[lang].common_i2s_spk) ? translations[lang].common_i2s_spk : 'Loa I2S';
+                } else {
+                    commonTitle.innerHTML = (translations[lang] && translations[lang].common_i2s_gpio) ? translations[lang].common_i2s_gpio : 'Chân I2S Chung';
+                }
+            }
 
-            // Update extra note text
+            // Show/hide codec info note & update text
+            const infoNote = document.getElementById('codec_info_note');
+            const baseNoteEl = document.getElementById('codec_base_note');
             const noteEl = document.getElementById('codec_extra_note');
+            if (infoNote) {
+                infoNote.style.display = 'flex';
+            }
+            if (baseNoteEl) {
+                baseNoteEl.innerHTML = isSimple ? t('note_simplex_codec') : t('note_i2c_codec');
+            }
             if (noteEl) {
-                if (codecType === 1) noteEl.innerHTML = t('codec_es8311');
-                else if (codecType === 2) noteEl.innerHTML = t('codec_es8388');
-                else if (codecType === 3) noteEl.innerHTML = t('codec_box');
-                else noteEl.innerHTML = '';
+                if (codecType === 1) {
+                    noteEl.innerHTML = t('codec_es8311');
+                    noteEl.style.display = 'block';
+                } else if (codecType === 2) {
+                    noteEl.innerHTML = t('codec_es8388');
+                    noteEl.style.display = 'block';
+                } else if (codecType === 3) {
+                    noteEl.innerHTML = t('codec_box');
+                    noteEl.style.display = 'block';
+                } else {
+                    noteEl.innerHTML = '';
+                    noteEl.style.display = 'none';
+                }
+            }
+
+            // Tự động gán mức mặc định cho từng codec khi đổi codec hoặc khi chưa có giá trị
+            const micInput = document.getElementById('mic_gain');
+            if (micInput) {
+                const codecChanged = (lastAudioCodecType !== undefined && lastAudioCodecType !== codecType);
+                if (codecChanged || forceDefaultGain || !micInput.value || parseInt(micInput.value) < 0) {
+                    micInput.value = getDefaultMicGain(codecType);
+                }
+            }
+            lastAudioCodecType = codecType;
+
+            if (typeof updateAudioTuningHelp === 'function') {
+                updateAudioTuningHelp();
+            }
+        }
+
+        function onAudioTuningToggle() {
+            const enabled = document.getElementById('enable_audio_tuning')?.checked;
+            const sec = document.getElementById('audio_tuning_section');
+            if (sec) sec.style.display = enabled ? '' : 'none';
+            if (enabled) {
+                const codecType = parseInt(document.getElementById('audio_codec_type')?.value || '0');
+                const micInput = document.getElementById('mic_gain');
+                if (micInput && (!micInput.value || parseInt(micInput.value) < 0)) {
+                    micInput.value = getDefaultMicGain(codecType);
+                }
+                const vadInput = document.getElementById('vad_mode');
+                if (vadInput && (!vadInput.value || parseInt(vadInput.value) < 0)) {
+                    vadInput.value = '0';
+                    if (typeof updatePickerDisplay === 'function') updatePickerDisplay('vad_mode');
+                }
+            }
+            updateAudioTuningHelp();
+        }
+
+        function updateAudioTuningHelp() {
+            const codecType = parseInt(document.getElementById('audio_codec_type')?.value || '0');
+            const isSimple = codecType === 0;
+            const micInput = document.getElementById('mic_gain');
+            const micLabel = document.getElementById('mic_gain_label');
+            const micHelp = document.getElementById('mic_gain_help');
+            const lang = document.getElementById('language')?.value || 'vi-VN';
+            const isVi = lang.startsWith('vi');
+
+            if (isSimple) {
+                if (micInput) {
+                    micInput.min = "8";
+                    micInput.max = "16";
+                    micInput.placeholder = "12";
+                }
+                if (micLabel) {
+                    micLabel.innerHTML = isVi ? 'Độ nhạy Mic (I2S Bit Shift: 8 - 16)' : 'Mic Sensitivity (I2S Bit Shift: 8 - 16)';
+                }
+                if (micHelp) {
+                    micHelp.innerHTML = isVi 
+                        ? '&#9432; <strong>Số càng NHỎ</strong>: Mic thu càng <strong>TO / NHẠY</strong> hơn (11 to x2 lần 12, 10 to x4 lần...).<br>&#9432; <strong>Số càng LỚN</strong>: Mic càng <strong>NHỎ / GIẢM RÈ VỠ TIẾNG</strong> khi nói gần (13 nhỏ hơn 12...). Mặc định: <strong>12</strong> (dải 8 - 16).'
+                        : '&#9432; <strong>LOWER value</strong>: Louder / more sensitive mic (11 is 2x louder than 12, 10 is 4x...).<br>&#9432; <strong>HIGHER value</strong>: Quieter / reduces clipping distortion (13 is quieter than 12...). Default: <strong>12</strong> (range 8 - 16).';
+                }
+            } else {
+                const defDb = (codecType === 1 || codecType === 4) ? 30 : (codecType === 5 ? 40 : 24);
+                if (micInput) {
+                    micInput.min = "0";
+                    micInput.max = "42";
+                    micInput.placeholder = defDb;
+                }
+                if (micLabel) {
+                    micLabel.innerHTML = isVi ? 'Khuếch đại Mic (Mic Gain: 0 - 42 dB)' : 'Mic Gain (0 - 42 dB)';
+                }
+                if (micHelp) {
+                    micHelp.innerHTML = isVi 
+                        ? `&#9432; <strong>Số càng LỚN</strong>: Mic thu càng <strong>TO / NHẠY</strong> (tăng dB khuếch đại).<br>&#9432; <strong>Số càng NHỎ</strong>: Mic thu <strong>NHỎ LẠI</strong> (giảm ồn/rè môi trường). Mặc định: <strong>${defDb} dB</strong> (dải 0 - 42 dB).`
+                        : `&#9432; <strong>HIGHER value</strong>: Louder / more sensitive mic input.<br>&#9432; <strong>LOWER value</strong>: Quieter mic input (reduces ambient noise/distortion). Default: <strong>${defDb} dB</strong> (range 0 - 42 dB).`;
+                }
+            }
+        }
+
+        function onBluetoothToggle() {
+            const enabled = document.getElementById('enable_bluetooth')?.checked;
+            const sec = document.getElementById('bluetooth_gpio_section');
+            if (sec) sec.style.display = enabled ? '' : 'none';
+            if (!enabled) {
+                setVal('p_bluetooth_uart_tx', -1);
+                setVal('p_bluetooth_uart_rx', -1);
+                setVal('p_dout2', -1);
             }
         }
 
@@ -3888,6 +4141,7 @@
                 if (!d.has_nvs_config) return; // no saved config, keep defaults
                 const map = {
                     language: 'lcd_language',
+                    send_wake_word: 'send_wake_word_data',
                     driver: 'lcd_driver', width: 'lcd_w', height: 'lcd_h',
                     offset_x: 'lcd_off_x', offset_y: 'lcd_off_y',
                     mirror_x: 'lcd_mirror_x', mirror_y: 'lcd_mirror_y',
@@ -3910,7 +4164,8 @@
                     i2s_mclk: 'i2s_mclk',
                     codec_i2c_sda: 'codec_i2c_sda',
                     codec_i2c_scl: 'codec_i2c_scl',
-                    codec_pa_pin: 'codec_pa_pin'
+                    codec_pa_pin: 'codec_pa_pin',
+                    dual_mic: 'dual_mic'
                 };
                 // OLED-specific fields
                 const oledMap = {
@@ -3932,6 +4187,37 @@
                 onScreenTypeChange();
                 // Also trigger codec section visibility explicitly (in case screen_type didn't change)
                 onAudioCodecChange();
+
+                // Audio Tuning state: auto-detect if mic_gain >= 0 or vad_mode >= 0
+                const micGainVal = parseInt(d.mic_gain ?? -1);
+                const vadModeVal = parseInt(d.vad_mode ?? -1);
+                const hasTuningLoaded = (micGainVal > -1 || vadModeVal > -1);
+                const tuningLoadCb = document.getElementById('enable_audio_tuning');
+                if (tuningLoadCb) tuningLoadCb.checked = hasTuningLoaded;
+                const tuningLoadSec = document.getElementById('audio_tuning_section');
+                if (tuningLoadSec) tuningLoadSec.style.display = hasTuningLoaded ? '' : 'none';
+                if (hasTuningLoaded) {
+                    if (micGainVal > -1) setVal('mic_gain', micGainVal);
+                    if (vadModeVal > -1) setVal('vad_mode', vadModeVal);
+                } else {
+                    setVal('vad_mode', 0);
+                }
+                if (typeof updateAudioTuningHelp === 'function') updateAudioTuningHelp();
+
+                // Bluetooth state: auto-detect if any pin > -1
+                const btTxVal = parseInt(d.pin_bluetooth_uart_tx ?? -1);
+                const btRxVal = parseInt(d.pin_bluetooth_uart_rx ?? -1);
+                const btDinVal = parseInt(d.pin_dout2 ?? -1);
+                const hasBtLoaded = (btTxVal > -1 || btRxVal > -1 || btDinVal > -1);
+                const btLoadCb = document.getElementById('enable_bluetooth');
+                if (btLoadCb) btLoadCb.checked = hasBtLoaded;
+                const btLoadSec = document.getElementById('bluetooth_gpio_section');
+                if (btLoadSec) btLoadSec.style.display = hasBtLoaded ? '' : 'none';
+                if (!hasBtLoaded) {
+                    setVal('p_bluetooth_uart_tx', -1);
+                    setVal('p_bluetooth_uart_rx', -1);
+                    setVal('p_dout2', -1);
+                }
 
                 // Auto-detect and select matching preset
                 if (d.screen_type === 1) {
@@ -3990,6 +4276,7 @@
                 const payload = {
                     screen_type: screenType,
                     language: getInt('lcd_language'),
+                    send_wake_word: getBool('send_wake_word_data'),
                     // LCD fields: use real values when LCD, defaults when OLED
                     driver: isOled ? 0 : getInt('lcd_driver'),
                     width: getInt('lcd_w'),
@@ -4026,9 +4313,9 @@
                     i2s_spk_bclk: getInt('spk_bclk'),
                     i2s_spk_lrck: getInt('spk_lrck'),
                     // Bluetooth UART GPIO
-                    pin_bluetooth_uart_tx: getInt('p_bluetooth_uart_tx'),
-                    pin_bluetooth_uart_rx: getInt('p_bluetooth_uart_rx'),
-                    pin_dout2: getInt('p_dout2'),
+                    pin_bluetooth_uart_tx: document.getElementById('enable_bluetooth')?.checked ? getInt('p_bluetooth_uart_tx') : -1,
+                    pin_bluetooth_uart_rx: document.getElementById('enable_bluetooth')?.checked ? getInt('p_bluetooth_uart_rx') : -1,
+                    pin_dout2: document.getElementById('enable_bluetooth')?.checked ? getInt('p_dout2') : -1,
                     // Peripherals (common)
                     pin_led: getInt('p_led'),
                     led_count: getInt('led_count'),
@@ -4044,7 +4331,12 @@
                     i2s_mclk: isSimple ? -1 : getInt('i2s_mclk'),
                     codec_i2c_sda: isSimple ? -1 : getInt('codec_i2c_sda'),
                     codec_i2c_scl: isSimple ? -1 : getInt('codec_i2c_scl'),
-                    codec_pa_pin: isSimple ? -1 : getIntSafe('codec_pa_pin', -1)
+                    codec_pa_pin: isSimple ? -1 : getIntSafe('codec_pa_pin', -1),
+                    // Dual mic (only active when NoAudioCodecSimplex)
+                    dual_mic: isSimple ? getBool('dual_mic') : 0,
+                    // Audio tuning: custom values if checked, else -1 (default)
+                    mic_gain: document.getElementById('enable_audio_tuning')?.checked ? getIntSafe('mic_gain', -1) : -1,
+                    vad_mode: document.getElementById('enable_audio_tuning')?.checked ? getIntSafe('vad_mode', -1) : -1
                 };
 
                 const r = await fetch('/lcd/submit', {
@@ -4169,6 +4461,7 @@
             return {
                 screen_type: screenType,
                 language: getInt('lcd_language'),
+                send_wake_word: getBoolV('send_wake_word_data'),
                 driver: getInt('lcd_driver'),
                 width: getInt('lcd_w'),
                 height: getInt('lcd_h'),
@@ -4198,9 +4491,9 @@
                 i2s_spk_dout: getInt('spk_dout'),
                 i2s_spk_bclk: getInt('spk_bclk'),
                 i2s_spk_lrck: getInt('spk_lrck'),
-                pin_bluetooth_uart_tx: getIntS('p_bluetooth_uart_tx', -1),
-                pin_bluetooth_uart_rx: getIntS('p_bluetooth_uart_rx', -1),
-                pin_dout2: getIntS('p_dout2', -1),
+                pin_bluetooth_uart_tx: document.getElementById('enable_bluetooth')?.checked ? getIntS('p_bluetooth_uart_tx', -1) : -1,
+                pin_bluetooth_uart_rx: document.getElementById('enable_bluetooth')?.checked ? getIntS('p_bluetooth_uart_rx', -1) : -1,
+                pin_dout2: document.getElementById('enable_bluetooth')?.checked ? getIntS('p_dout2', -1) : -1,
                 pin_led: getInt('p_led'),
                 led_count: getIntS('led_count', 1),
                 pin_boot: getInt('p_boot'),
@@ -4214,7 +4507,10 @@
                 i2s_mclk: isSimple ? -1 : getInt('i2s_mclk'),
                 codec_i2c_sda: isSimple ? -1 : getInt('codec_i2c_sda'),
                 codec_i2c_scl: isSimple ? -1 : getInt('codec_i2c_scl'),
-                codec_pa_pin: isSimple ? -1 : getIntS('codec_pa_pin', -1)
+                codec_pa_pin: isSimple ? -1 : getIntS('codec_pa_pin', -1),
+                dual_mic: isSimple ? getBool('dual_mic') : 0,
+                mic_gain: document.getElementById('enable_audio_tuning')?.checked ? getIntS('mic_gain', -1) : -1,
+                vad_mode: document.getElementById('enable_audio_tuning')?.checked ? getIntS('vad_mode', -1) : -1
             };
         }
 
@@ -4272,6 +4568,7 @@
             // Screen & LCD
             setVal2('screen_type', cfg.screen_type);
             setVal2('lcd_language', cfg.language);
+            setVal2('send_wake_word_data', cfg.send_wake_word);
             setVal2('lcd_driver', cfg.driver);
             setVal2('lcd_w', cfg.width);
             setVal2('lcd_h', cfg.height);
@@ -4304,9 +4601,18 @@
             setVal2('spk_bclk', cfg.i2s_spk_bclk);
             setVal2('spk_lrck', cfg.i2s_spk_lrck);
             // BT / extras
-            setVal2('p_bluetooth_uart_tx', cfg.pin_bluetooth_uart_tx);
-            setVal2('p_bluetooth_uart_rx', cfg.pin_bluetooth_uart_rx);
-            setVal2('p_dout2', cfg.pin_dout2);
+            const hasBtImport = (cfg.pin_bluetooth_uart_tx > -1 || cfg.pin_bluetooth_uart_rx > -1 || cfg.pin_dout2 > -1);
+            setVal2('enable_bluetooth', hasBtImport);
+            onBluetoothToggle();
+            if (hasBtImport) {
+                setVal2('p_bluetooth_uart_tx', cfg.pin_bluetooth_uart_tx);
+                setVal2('p_bluetooth_uart_rx', cfg.pin_bluetooth_uart_rx);
+                setVal2('p_dout2', cfg.pin_dout2);
+            } else {
+                setVal2('p_bluetooth_uart_tx', -1);
+                setVal2('p_bluetooth_uart_rx', -1);
+                setVal2('p_dout2', -1);
+            }
             // Buttons & peripherals
             setVal2('p_led', cfg.pin_led);
             setVal2('led_count', cfg.led_count);
@@ -4325,6 +4631,26 @@
             setVal2('codec_i2c_sda', cfg.codec_i2c_sda);
             setVal2('codec_i2c_scl', cfg.codec_i2c_scl);
             setVal2('codec_pa_pin', cfg.codec_pa_pin);
+            setVal2('dual_mic', cfg.dual_mic || 0);
+
+            // Audio Tuning
+            const micGainImp = parseInt(cfg.mic_gain ?? -1);
+            const vadModeImp = parseInt(cfg.vad_mode ?? -1);
+            const hasTuningImp = (micGainImp > -1 || vadModeImp > -1);
+            const tuningImpCb = document.getElementById('enable_audio_tuning');
+            if (tuningImpCb) {
+                tuningImpCb.checked = hasTuningImp;
+                const sec = document.getElementById('audio_tuning_section');
+                if (sec) sec.style.display = hasTuningImp ? '' : 'none';
+            }
+            if (hasTuningImp) {
+                if (micGainImp > -1) setVal2('mic_gain', micGainImp);
+                if (vadModeImp > -1) setVal2('vad_mode', vadModeImp);
+            } else {
+                setVal2('vad_mode', 0);
+            }
+            if (typeof updateAudioTuningHelp === 'function') updateAudioTuningHelp();
+
             // Trigger UI show/hide recalculation
             if (typeof onScreenTypeChange === 'function') onScreenTypeChange();
             if (typeof onAudioCodecChange === 'function') onAudioCodecChange();

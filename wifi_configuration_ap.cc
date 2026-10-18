@@ -728,7 +728,9 @@ void WifiConfigurationAp::StartWebServer() {
                 // Audio Codec
                 "aud_type", "i2s_mclk", "cod_sda",  "cod_scl", "cod_pa",
                 // Charging
-                "chg_lvl"
+                "chg_lvl",
+                // Wake word & Audio tuning & Dual mic
+                "snd_wake", "mic_gain", "vad_mode", "dual_mic"
             };
 
             // JSON field names corresponding to the NVS keys
@@ -781,7 +783,12 @@ void WifiConfigurationAp::StartWebServer() {
                                                "codec_i2c_scl",
                                                "codec_pa_pin",
                                                // Charging
-                                               "charging_active_level"};
+                                               "charging_active_level",
+                                               // Wake word & Audio tuning
+                                               "send_wake_word",
+                                               "mic_gain",
+                                               "vad_mode",
+                                               "dual_mic"};
 
             const int N = sizeof(KEYS) / sizeof(KEYS[0]);
 
@@ -919,6 +926,10 @@ void WifiConfigurationAp::StartWebServer() {
             save_int("codec_i2c_scl", "cod_scl");
             save_int("codec_pa_pin", "cod_pa");
             save_int("charging_active_level", "chg_lvl");
+            save_int("send_wake_word", "snd_wake");
+            save_int("mic_gain", "mic_gain");
+            save_int("vad_mode", "vad_mode");
+            save_int("dual_mic", "dual_mic");
 
             nvs_commit(nvs);
             nvs_close(nvs);

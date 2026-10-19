@@ -1286,6 +1286,19 @@
         .btn-reboot:active {
             transform: translateY(1px) !important;
         }
+
+        .prompt-btn-no:hover {
+            background: var(--border) !important;
+        }
+
+        .prompt-btn-yes:hover {
+            background: var(--accent-hover) !important;
+            transform: translateY(-1px);
+        }
+
+        .prompt-btn-yes:active {
+            transform: translateY(1px);
+        }
     </style>
 </head>
 
@@ -1492,6 +1505,10 @@
                                 &#9432; Chọn mạch của bạn để <strong>tự động điền tất cả GPIO</strong>. Sau khi chọn, bạn
                                 vẫn có thể chỉnh sửa thủ công.
                             </div>
+                            <div class="config-note-red" data-lang="board_preset_update_note">
+                                &#9432; Danh sách cấu hình thiết bị có sẵn này sẽ được cập nhật thêm khi có bản update mới.<br>
+                                &#9432; Bạn cũng có thể đóng góp danh sách này bằng cách gửi file cấu hình (.json) tới nhà phát triển (TanDev).
+                            </div>
                         </div>
                         <label><span data-lang="select_board_label">Chọn mạch có sẵn (Select your board):</span>
                             
@@ -1511,6 +1528,7 @@
                                     <option value="machtim_oled_091">Mạch Tím / ESP32-S3 N16R8 - OLED 0.91</option>
                                     <option value="machtim_oled_096">Mạch Tím / ESP32-S3 N16R8 - OLED 0.96</option>
                                     <option value="machtim_st7789_1.3inch">Mạch Tím - TFT ST7789 1.3inch / 1.54inch</option>
+                                    <option value="esp32s3_n16r8_st7789_1.3inch">ESP32 S3 N16R8 - TFT ST7789 1.3" / 1.54"</option>
                                     <option value="esp32s3_retrogo">ESP32-S3 RetroGo - TanDev</option>
                                     <option value="xingzhi_cube_1.54">Xingzhi Cube 1.54inch</option>
                                     <option value="esp32s3_lcd_2.8">Freenove ESP32-S3 Display 2.8 LCD</option>
@@ -2168,6 +2186,7 @@
                 device_config_main_note: '&#9432; 1. First time boot has <strong>no screen output</strong>, <strong>no audio</strong>, please configure hardware first.<br>&#9432; 2. Enter GPIO from <strong>0</strong> to <strong>48</strong>.<br>&#9432; 3. Changes apply after <strong>rebooting</strong>.',
                 board_preset_title: 'Quick Setup - Board Preset',
                 board_preset_note: '&#9432; Select your board to auto-fill all GPIOs. You can manually edit them later.',
+                board_preset_update_note: '&#9432; This preset list will be updated in future releases.<br>&#9432; You can also contribute to this list by sending your .json config file to the developer (TanDev).',
                 select_board_label: 'Select your board:',
                 select_board_option: '-- Select board to auto-fill all --',
                 board_modal_title: 'Select Board Preset',
@@ -2258,6 +2277,11 @@
                 err_invalid_throw: 'Invalid field "{0}" — must be an integer.',
                 save_lcd_success: 'LCD config saved! Please reboot the device.',
                 save_failed: 'An error occurred. Please try again.',
+                wifi_prompt_title: 'Wi-Fi Not Configured',
+                wifi_prompt_sub: 'Network Connection Notice',
+                wifi_prompt_msg: 'Wi-Fi is not configured on this device. Would you like to configure Wi-Fi now?',
+                wifi_prompt_no: 'No',
+                wifi_prompt_yes: 'Yes',
                 reboot_confirm: 'Are you sure you want to reboot the device?',
                 rebooting: 'Rebooting... Please wait.',
                 reboot_failed: 'Error: Something went wrong. Please try again.',
@@ -2344,6 +2368,7 @@
                 device_config_main_note: '&#9432; 1. Lần đầu cài Fw và khởi động, <strong>không có màn hình hiển thị</strong>, <strong>không phát âm thanh</strong>, hãy config theo cấu hình phần cứng của bạn.<br>&#9432; 2. Nhập GPIO từ <strong>0</strong> đến <strong>48</strong>.<br>&#9432; 3. Các thay đổi sẽ có hiệu lực sau khi <strong>khởi động lại</strong> thiết bị.',
                 board_preset_title: 'Cấu Hình Nhanh - Chọn Mạch Có Sẵn',
                 board_preset_note: '&#9432; Chọn mạch của bạn để tự động điền tất cả GPIO. Sau khi chọn, bạn vẫn có thể chỉnh sửa thủ công.',
+                board_preset_update_note: '&#9432; Danh sách cấu hình thiết bị có sẵn này sẽ được cập nhật thêm khi có bản update mới.<br>&#9432; Bạn cũng có thể đóng góp danh sách này bằng cách gửi file cấu hình (.json) tới nhà phát triển (TanDev).',
                 select_board_label: 'Chọn mạch có sẵn:',
                 select_board_option: '-- Chọn mạch để tự điền tất cả',
                 board_modal_title: 'Chọn Mạch Có Sẵn',
@@ -2433,6 +2458,11 @@
                 err_invalid_throw: 'Trường "{0}" không hợp lệ — giá trị phải là số nguyên.',
                 save_lcd_success: 'Lưu cấu hình LCD thành công! Vui lòng khởi động lại thiết bị.',
                 save_failed: 'Có lỗi xảy ra. Vui lòng thử lại.',
+                wifi_prompt_title: 'Chưa cấu hình Wi-Fi',
+                wifi_prompt_sub: 'Thông báo kết nối mạng',
+                wifi_prompt_msg: 'Thiết bị chưa cấu hình WiFi, bạn có muốn cấu hình wifi không ?',
+                wifi_prompt_no: 'Không',
+                wifi_prompt_yes: 'Có',
                 reboot_confirm: 'Bạn có chắc chắn muốn khởi động lại thiết bị?',
                 rebooting: 'Đang khởi động lại... Vui lòng chờ.',
                 reboot_failed: 'Lỗi: Có lỗi xảy ra. Vui lòng thử lại.',
@@ -3208,6 +3238,27 @@
                 p_vol_up: 40, p_vol_dn: 39,
                 p_bat: -1, p_chg: -1, p_lamp: -1
             },
+            // ESP32 S3 N16R8 - TFT ST7789 1.3" / 1.54" - 240x240, 8-pin (CS=2, BL=1)
+            'esp32s3_n16r8_st7789_1.3inch': {
+                screen_type: 0,
+                lcd_preset: 'st7789_240x240',
+                // Screen params
+                drv: 0, w: 240, h: 240, ox: 0, oy: 0,
+                mx: 0, my: 0, xy: 0, inv: 1, rgb: 0, spi: 3, bli: 0, rot: 0, wechat: 0,
+                // SPI display GPIO
+                p_mosi: 41, p_clk: 42, p_dc: 43, p_rst: 44, p_cs: 2, p_bl: 1,
+                // OLED I2C (not used)
+                oled_sda: -1, oled_scl: -1,
+                // Audio I2S
+                mic_ws: 4, mic_sck: 5, mic_din: 6,
+                spk_dout: 7, spk_bclk: 15, spk_lrck: 16,
+                //Bluetooth UART
+                p_bluetooth_uart_tx: -1, p_bluetooth_uart_rx: -1, p_dout2: -1,
+                // Peripherals
+                p_led: 48, led_count: 1, p_boot: 0,
+                p_vol_up: 40, p_vol_dn: 39,
+                p_bat: -1, p_chg: -1, p_lamp: -1
+            },
 
             //ESP32-S3 RetroGo TanDev
             'esp32s3_retrogo': {
@@ -3309,12 +3360,20 @@
          * ───────────────────────────────────────────── */
         const BOARD_DATA = [
             {
+                group_vi: "Tùy chỉnh",
+                group_en: "Custom",
+                items: [
+                    { key: "custom", name: "Tùy chỉnh (Custom - nhập thủ công)", badge: "Manual" }
+                ]
+            },
+            {
                 group_vi: "Mạch Tím / ESP32-S3 N16R8",
                 group_en: "Purple Board / ESP32-S3 N16R8",
                 items: [
                     { key: "machtim_oled_091", name: "Mạch Tím / ESP32-S3 N16R8 - OLED 0.91", badge: "OLED 0.91\"" },
                     { key: "machtim_oled_096", name: "Mạch Tím / ESP32-S3 N16R8 - OLED 0.96", badge: "OLED 0.96\"" },
                     { key: "machtim_st7789_1.3inch", name: "Mạch Tím - TFT ST7789 1.3\" / 1.54\"", badge: "TFT 1.3\"" },
+                    { key: "esp32s3_n16r8_st7789_1.3inch", name: "ESP32 S3 N16R8 - TFT ST7789 1.3\" / 1.54\"", badge: "TFT 1.3\"" },
                     { key: "esp32s3_retrogo", name: "ESP32-S3 RetroGo - TanDev", badge: "TFT 2.8\"" },
                     { key: "xingzhi_cube_1.54", name: "Xingzhi Cube 1.54inch", badge: "Cube 1.54\"" },
                     { key: "esp32s3_lcd_2.8", name: "Freenove ESP32-S3 Display 2.8 LCD", badge: "ILI9341" },
@@ -3323,7 +3382,7 @@
             },
             {
                 group_vi: "Khách hàng TanDev",
-                group_en: "Khách hàng TanDev",
+                group_en: "Customer TanDev",
                 items: [
                     { key: "esp32s3mini_kh_default", name: "ESP32 S3 Mini (Giao diện mặc định)", badge: "LCD 1.3\"" },
                     { key: "esp32s3mini_kh_wechat", name: "ESP32 S3 Mini (Giao diện WeChat)", badge: "LCD 1.3\"" },
@@ -3337,13 +3396,6 @@
                 items: [
                     { key: "esp32s3mini_oled_091", name: "ESP32 S3 Mini / Zero - OLED 0.91", badge: "OLED 0.91\"" },
                     { key: "esp32s3mini_oled_096", name: "ESP32 S3 Mini / Zero - OLED 0.96", badge: "OLED 0.96\"" }
-                ]
-            },
-            {
-                group_vi: "Tùy chỉnh",
-                group_en: "Custom",
-                items: [
-                    { key: "custom", name: "Tùy chỉnh (Custom - nhập thủ công)", badge: "Manual" }
                 ]
             }
         ];
@@ -3421,6 +3473,31 @@
                 overlay.classList.remove('open');
                 document.body.style.overflow = '';
             }
+        }
+
+        function openWifiPromptModal() {
+            const overlay = document.getElementById('wifiPromptModalOverlay');
+            if (overlay) {
+                overlay.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeWifiPromptModal(event) {
+            if (event && event.target && !event.target.classList.contains('board-modal-overlay') && !event.target.classList.contains('board-modal-close-btn')) {
+                return;
+            }
+            const overlay = document.getElementById('wifiPromptModalOverlay');
+            if (overlay) {
+                overlay.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+        }
+
+        function confirmGoToWifiTab() {
+            closeWifiPromptModal();
+            switchTab('wifi');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function selectBoardPreset(key) {
@@ -3648,6 +3725,10 @@
                 const univOverlay = document.getElementById('universalPickerOverlay');
                 if (univOverlay && univOverlay.classList.contains('open')) {
                     closeGenericSelectModal();
+                }
+                const wifiPromptOverlay = document.getElementById('wifiPromptModalOverlay');
+                if (wifiPromptOverlay && wifiPromptOverlay.classList.contains('open')) {
+                    closeWifiPromptModal();
                 }
             }
         });
@@ -4347,6 +4428,17 @@
                 const d = await r.json();
                 if (!d.success) throw new Error(d.error || 'Save failed');
                 showToast(t('save_lcd_success'));
+
+                // Kiểm tra xem đã cấu hình WiFi trong NVS chưa
+                try {
+                    const wRes = await fetch('/saved/list');
+                    const wData = await wRes.json();
+                    if (!Array.isArray(wData) || wData.length === 0) {
+                        openWifiPromptModal();
+                    }
+                } catch (wifiErr) {
+                    console.warn('Check saved wifi failed:', wifiErr);
+                }
             } catch (e) {
                 // Hiển thị lỗi cụ thể cho người dùng
                 showToast('❌ ' + (e.message || t('save_failed')));
@@ -4694,6 +4786,35 @@
             </div>
 
             <div class="board-modal-body" id="universalPickerList"></div>
+        </div>
+    </div>
+
+    <!-- Wi-Fi Configuration Prompt Modal -->
+    <div class="board-modal-overlay" id="wifiPromptModalOverlay" onclick="closeWifiPromptModal(event)">
+        <div class="board-modal-sheet" onclick="event.stopPropagation()" style="max-width: 440px;">
+            <div class="board-modal-header">
+                <div>
+                    <h3 class="board-modal-title" data-lang="wifi_prompt_title">Chưa cấu hình Wi-Fi</h3>
+                    <p class="board-modal-sub" data-lang="wifi_prompt_sub">Thông báo kết nối mạng</p>
+                </div>
+                <button type="button" class="board-modal-close-btn" onclick="closeWifiPromptModal()" aria-label="Close">✕</button>
+            </div>
+
+            <div class="board-modal-body" style="padding: 22px 20px;">
+                <p data-lang="wifi_prompt_msg" style="margin: 0 0 22px 0; font-size: 14.5px; line-height: 1.55; color: var(--text);">
+                    Thiết bị chưa cấu hình WiFi, bạn có muốn cấu hình wifi không ?
+                </p>
+                <div style="display: flex; justify-content: flex-end; gap: 12px;">
+                    <button type="button" onclick="closeWifiPromptModal()" class="prompt-btn-no" data-lang="wifi_prompt_no"
+                        style="padding: 9px 20px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--surface-muted); color: var(--text); font-weight: 500; cursor: pointer; font-size: 14px; transition: all 0.15s;">
+                        Không
+                    </button>
+                    <button type="button" onclick="confirmGoToWifiTab()" class="prompt-btn-yes" data-lang="wifi_prompt_yes"
+                        style="padding: 9px 24px; border-radius: var(--radius-sm); border: none; background: var(--accent); color: #fff; font-weight: 600; cursor: pointer; font-size: 14px; transition: all 0.15s; box-shadow: 0 2px 6px rgba(0,0,0,0.15);">
+                        Có
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </body>

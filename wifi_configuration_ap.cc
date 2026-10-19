@@ -76,6 +76,7 @@ void WifiConfigurationAp::Start() {
     StartWebServer();
 
     // Start scan immediately
+    is_scanning_ = true;
     esp_wifi_scan_start(nullptr, false);
     // Setup periodic WiFi scan timer.
     // skip_unhandled_events = false so the timer can wake the CPU from light
@@ -86,7 +87,8 @@ void WifiConfigurationAp::Start() {
                                               [](void* arg) {
                                                   auto* self =
                                                       static_cast<WifiConfigurationAp*>(arg);
-                                                  if (!self->is_connecting_) {
+                                                  if (!self->is_connecting_ && !self->is_scanning_) {
+                                                      self->is_scanning_ = true;
                                                       esp_wifi_scan_start(nullptr, false);
                                                   }
                                               },
@@ -214,11 +216,11 @@ void WifiConfigurationAp::StartAccessPoint() {
 void WifiConfigurationAp::StartWebServer() {
     // Start the web server
     httpd_config_t config = HTTPD_DEFAULT_CONFIG();
-    config.max_uri_handlers = 24;
+    config.max_uri_handlers = 36;
     config.uri_match_fn = httpd_uri_match_wildcard;
-    // 5G Network takes longer to connect
-    config.recv_wait_timeout = 15;
-    config.send_wait_timeout = 15;
+    config.lru_purge_enable = true;
+    config.recv_wait_timeout = 5;
+    config.send_wait_timeout = 5;
     ESP_ERROR_CHECK(httpd_start(&server_, &config));
 
     // Register the index.html file
@@ -231,6 +233,88 @@ void WifiConfigurationAp::StartWebServer() {
                               },
                               .user_ctx = NULL};
     ESP_ERROR_CHECK(httpd_register_uri_handler(server_, &index_html));
+
+    // Register /favicon.ico handler to avoid 404 warnings and socket hangs
+    httpd_uri_t favicon_ico = {.uri = "/favicon.ico",
+                               .method = HTTP_GET,
+                               .handler = [](httpd_req_t* req) -> esp_err_t {
+                                   httpd_resp_set_status(req, "204 No Content");
+                                   httpd_resp_set_hdr(req, "Connection", "close");
+                                   httpd_resp_send(req, NULL, 0);
+                                   return ESP_OK;
+                               },
+                               .user_ctx = NULL};
+    ESP_ERROR_CHECK(httpd_register_uri_handler(server_, &favicon_ico));
+
+    // Register /sprobe* handler (probe from WeChat / mobile network checks)
+    httpd_uri_t probe_uri = {.uri = "/sprobe*",
+                             .method = HTTP_GET,
+                             .handler = [](httpd_req_t* req) -> esp_err_t {
+                                 httpd_resp_set_status(req, "204 No Content");
+                                 httpd_resp_set_hdr(req, "Connection", "close");
+                                 httpd_resp_send(req, NULL, 0);
+                                 return ESP_OK;
+                             },
+                             .user_ctx = NULL};
+    ESP_ERROR_CHECK(httpd_register_uri_handler(server_, &probe_uri));
+
+    // Register /mmtls/* handler (probe from WeChat / mobile network checks - both GET and POST)
+    httpd_uri_t mmtls_uri = {.uri = "/mmtls/*",
+                             .method = HTTP_GET,
+                             .handler = [](httpd_req_t* req) -> esp_err_t {
+                                 httpd_resp_set_status(req, "204 No Content");
+                                 httpd_resp_set_hdr(req, "Connection", "close");
+                                 httpd_resp_send(req, NULL, 0);
+                                 return ESP_OK;
+                             },
+                             .user_ctx = NULL};
+    ESP_ERROR_CHECK(httpd_register_uri_handler(server_, &mmtls_uri));
+
+    httpd_uri_t mmtls_post = {.uri = "/mmtls/*",
+                              .method = HTTP_POST,
+                              .handler = [](httpd_req_t* req) -> esp_err_t {
+                                  httpd_resp_set_status(req, "204 No Content");
+                                  httpd_resp_set_hdr(req, "Connection", "close");
+                                  httpd_resp_send(req, NULL, 0);
+                                  return ESP_OK;
+                              },
+                              .user_ctx = NULL};
+    ESP_ERROR_CHECK(httpd_register_uri_handler(server_, &mmtls_post));
+
+    // Register /chat* handler (probe from mobile apps)
+    httpd_uri_t chat_get = {.uri = "/chat*",
+                            .method = HTTP_GET,
+                            .handler = [](httpd_req_t* req) -> esp_err_t {
+                                httpd_resp_set_status(req, "204 No Content");
+                                httpd_resp_set_hdr(req, "Connection", "close");
+                                httpd_resp_send(req, NULL, 0);
+                                return ESP_OK;
+                            },
+                            .user_ctx = NULL};
+    ESP_ERROR_CHECK(httpd_register_uri_handler(server_, &chat_get));
+
+    httpd_uri_t chat_post = {.uri = "/chat*",
+                             .method = HTTP_POST,
+                             .handler = [](httpd_req_t* req) -> esp_err_t {
+                                 httpd_resp_set_status(req, "204 No Content");
+                                 httpd_resp_set_hdr(req, "Connection", "close");
+                                 httpd_resp_send(req, NULL, 0);
+                                 return ESP_OK;
+                             },
+                             .user_ctx = NULL};
+    ESP_ERROR_CHECK(httpd_register_uri_handler(server_, &chat_post));
+
+    // Register /chrome-variations/* handler (probe from Chrome browser on PC / mobile)
+    httpd_uri_t chrome_variations = {.uri = "/chrome-variations/*",
+                                     .method = HTTP_GET,
+                                     .handler = [](httpd_req_t* req) -> esp_err_t {
+                                         httpd_resp_set_status(req, "204 No Content");
+                                         httpd_resp_set_hdr(req, "Connection", "close");
+                                         httpd_resp_send(req, NULL, 0);
+                                         return ESP_OK;
+                                     },
+                                     .user_ctx = NULL};
+    ESP_ERROR_CHECK(httpd_register_uri_handler(server_, &chrome_variations));
 
     // Register the /saved/list URI
     httpd_uri_t saved_list = {.uri = "/saved/list",
@@ -301,6 +385,22 @@ void WifiConfigurationAp::StartWebServer() {
         .method = HTTP_GET,
         .handler = [](httpd_req_t* req) -> esp_err_t {
             auto* this_ = static_cast<WifiConfigurationAp*>(req->user_ctx);
+
+            std::string uri = req->uri;
+            if (uri.find("refresh=1") != std::string::npos) {
+                if (!this_->is_connecting_ && !this_->is_scanning_) {
+                    if (this_->scan_timer_) {
+                        esp_timer_stop(this_->scan_timer_);
+                    }
+                    this_->is_scanning_ = true;
+                    esp_wifi_scan_start(nullptr, false);
+                }
+                httpd_resp_set_type(req, "application/json");
+                httpd_resp_set_hdr(req, "Connection", "close");
+                httpd_resp_send(req, "{\"started\":true}", HTTPD_RESP_USE_STRLEN);
+                return ESP_OK;
+            }
+
             std::lock_guard<std::mutex> lock(this_->mutex_);
 
             // Check if 5G is supported
@@ -316,7 +416,7 @@ void WifiConfigurationAp::StartWebServer() {
             httpd_resp_sendstr_chunk(req, support_5g ? "true" : "false");
             httpd_resp_sendstr_chunk(req, ",\"aps\":[");
             for (int i = 0; i < this_->ap_records_.size(); i++) {
-                ESP_LOGI(TAG, "SSID: %s, RSSI: %d, Authmode: %d", (char*)this_->ap_records_[i].ssid,
+                ESP_LOGD(TAG, "SSID: %s, RSSI: %d, Authmode: %d", (char*)this_->ap_records_[i].ssid,
                          this_->ap_records_[i].rssi, this_->ap_records_[i].authmode);
                 char buf[128];
                 snprintf(buf, sizeof(buf), "{\"ssid\":\"%s\",\"rssi\":%d,\"authmode\":%d}",
@@ -512,9 +612,11 @@ void WifiConfigurationAp::StartWebServer() {
     const char* captive_portal_urls[] = {
         "/hotspot-detect.html",       // Apple
         "/generate_204*",             // Android
+        "/gen_204*",                  // Android
         "/mobile/status.php",         // Android
         "/check_network_status.txt",  // Windows
         "/ncsi.txt",                  // Windows
+        "/connecttest.txt*",          // Windows 10/11 NCSI
         "/fwlink/",                   // Microsoft
         "/connectivity-check.html",   // Firefox
         "/success.txt",               // Various
@@ -965,6 +1067,7 @@ bool WifiConfigurationAp::ConnectToWifi(const std::string& ssid, const std::stri
     }
 
     is_connecting_ = true;
+    is_scanning_ = false;
     last_connected_channel_ = 0;
 
     // Upper-level retry loop with delay between attempts.
@@ -1008,6 +1111,7 @@ bool WifiConfigurationAp::ConnectToWifi(const std::string& ssid, const std::stri
 
         xEventGroupClearBits(event_group_, WIFI_CONNECTED_BIT | WIFI_FAIL_BIT);
         esp_wifi_scan_stop();
+        is_scanning_ = false;
 
         wifi_config_t wifi_config;
         bzero(&wifi_config, sizeof(wifi_config));
@@ -1122,15 +1226,29 @@ void WifiConfigurationAp::WifiEventHandler(void* arg, esp_event_base_t event_bas
     } else if (event_id == WIFI_EVENT_STA_DISCONNECTED) {
         xEventGroupSetBits(self->event_group_, WIFI_FAIL_BIT);
     } else if (event_id == WIFI_EVENT_SCAN_DONE) {
+        self->is_scanning_ = false;
+        wifi_event_sta_scan_done_t* event = static_cast<wifi_event_sta_scan_done_t*>(event_data);
+        if (event && event->status != 0) {
+            ESP_LOGW(TAG, "WiFi scan failed or aborted, status: %lu", (unsigned long)event->status);
+            if (self->scan_timer_) {
+                esp_timer_start_once(self->scan_timer_, 10 * 1000000);
+            }
+            return;
+        }
+
         std::lock_guard<std::mutex> lock(self->mutex_);
         uint16_t ap_num = 0;
         esp_wifi_scan_get_ap_num(&ap_num);
 
-        self->ap_records_.resize(ap_num);
-        esp_wifi_scan_get_ap_records(&ap_num, self->ap_records_.data());
+        if (ap_num > 0) {
+            self->ap_records_.resize(ap_num);
+            esp_wifi_scan_get_ap_records(&ap_num, self->ap_records_.data());
+        }
 
         // 扫描完成，等待10秒后再次扫描
-        esp_timer_start_once(self->scan_timer_, 10 * 1000000);
+        if (self->scan_timer_) {
+            esp_timer_start_once(self->scan_timer_, 10 * 1000000);
+        }
     }
 }
 

@@ -65,6 +65,7 @@ private:
     esp_event_handler_instance_t instance_got_ip_;
     esp_timer_handle_t scan_timer_ = nullptr;
     bool is_connecting_ = false;
+    bool is_scanning_ = false;
     esp_netif_t* ap_netif_ = nullptr;
     std::vector<wifi_ap_record_t> ap_records_;
     uint8_t last_connected_channel_ = 0;

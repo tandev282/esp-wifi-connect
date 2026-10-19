@@ -6,6 +6,16 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Security-Policy" content="referrer no-referrer">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script type="text/javascript">
+        (function() {
+            try {
+                var savedTheme = localStorage.getItem('theme');
+                if (savedTheme === 'dark' || savedTheme === 'light') {
+                    document.documentElement.setAttribute('data-theme', savedTheme);
+                }
+            } catch (e) {}
+        })();
+    </script>
     <style type="text/css">
         /* ========== Design Tokens ========== */
         :root {
@@ -27,8 +37,25 @@
             --shadow: 0 10px 30px rgba(15, 23, 42, 0.08), 0 2px 6px rgba(15, 23, 42, 0.04);
         }
 
+        :root[data-theme="light"] {
+            --accent: #2563eb;
+            --accent-hover: #1d4ed8;
+            --accent-soft: rgba(37, 99, 235, 0.10);
+            --bg-grad-1: #eef2ff;
+            --bg-grad-2: #e0f2fe;
+            --surface: #ffffff;
+            --surface-muted: #f5f7fb;
+            --border: #e2e8f0;
+            --border-strong: #cbd5e1;
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --danger: #dc2626;
+            --success: #16a34a;
+            --shadow: 0 10px 30px rgba(15, 23, 42, 0.08), 0 2px 6px rgba(15, 23, 42, 0.04);
+        }
+
         @media (prefers-color-scheme: dark) {
-            :root {
+            :root:not([data-theme="light"]) {
                 --accent: #60a5fa;
                 --accent-hover: #93c5fd;
                 --accent-soft: rgba(96, 165, 250, 0.16);
@@ -44,6 +71,23 @@
                 --success: #4ade80;
                 --shadow: 0 12px 34px rgba(0, 0, 0, 0.45);
             }
+        }
+
+        :root[data-theme="dark"] {
+            --accent: #60a5fa;
+            --accent-hover: #93c5fd;
+            --accent-soft: rgba(96, 165, 250, 0.16);
+            --bg-grad-1: #0b1220;
+            --bg-grad-2: #111827;
+            --surface: #1e293b;
+            --surface-muted: #18233a;
+            --border: #334155;
+            --border-strong: #475569;
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+            --danger: #f87171;
+            --success: #4ade80;
+            --shadow: 0 12px 34px rgba(0, 0, 0, 0.45);
         }
 
         /* ========== Base Styles ========== */
@@ -219,6 +263,48 @@
             cursor: not-allowed;
         }
 
+        .btn-scan {
+            width: 100%;
+            background: var(--surface-muted);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 11px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .btn-scan:hover:not(:disabled) {
+            background: var(--accent-soft);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .btn-scan:active:not(:disabled) {
+            transform: translateY(1px);
+        }
+
+        .btn-scan.loading,
+        .btn-scan:disabled {
+            background: var(--surface-muted) !important;
+            border-color: var(--border) !important;
+            color: var(--text-muted) !important;
+            cursor: not-allowed !important;
+            opacity: 0.55 !important;
+            pointer-events: none !important;
+        }
+
+        .btn-scan svg.spin {
+            animation: spin 0.8s linear infinite;
+        }
+
         .error {
             color: var(--danger);
             font-size: 13px;
@@ -230,7 +316,7 @@
             display: none;
         }
 
-        /* ========== Language Switcher ========== */
+        /* ========== Language Switcher & Theme Toggle ========== */
         .language-switch {
             display: flex;
             align-items: center;
@@ -243,6 +329,64 @@
             height: 18px;
             color: var(--text-muted);
             flex: none;
+        }
+
+        .theme-toggle-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            background: var(--surface-muted);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex: none;
+        }
+
+        .theme-toggle-btn:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+            background: var(--surface);
+        }
+
+        .theme-toggle-btn svg {
+            width: 18px;
+            height: 18px;
+            color: currentColor;
+            transition: transform 0.25s ease;
+        }
+
+        .theme-toggle-btn:hover svg {
+            transform: scale(1.12) rotate(15deg);
+        }
+
+        /* Default (Light) -> Show Moon */
+        .theme-toggle-btn .sun-icon {
+            display: none;
+        }
+        .theme-toggle-btn .moon-icon {
+            display: block;
+        }
+
+        /* Dark mode -> Show Sun */
+        :root[data-theme="dark"] .theme-toggle-btn .sun-icon {
+            display: block;
+        }
+        :root[data-theme="dark"] .theme-toggle-btn .moon-icon {
+            display: none;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) .theme-toggle-btn .sun-icon {
+                display: block;
+            }
+            :root:not([data-theme="light"]) .theme-toggle-btn .moon-icon {
+                display: none;
+            }
         }
 
         .language-switch select {
@@ -1326,15 +1470,24 @@
                     <line x1="12" y1="20" x2="12.01" y2="20" />
                 </svg>
             </span>
-            <!-- Language switcher -->
+            <!-- Language switcher & Theme toggle -->
             <div class="language-switch">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round" aria-hidden="true">
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="2" y1="12" x2="22" y2="12" />
-                    <path
-                        d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-                </svg>
+                <button type="button" class="theme-toggle-btn" id="theme_toggle" onclick="toggleTheme()" data-lang-title="theme_toggle_title" title="Chuyển đổi giao diện Sáng / Tối (Toggle Theme)" aria-label="Toggle Theme">
+                    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5" />
+                        <line x1="12" y1="1" x2="12" y2="3" />
+                        <line x1="12" y1="21" x2="12" y2="23" />
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                        <line x1="1" y1="12" x2="3" y2="12" />
+                        <line x1="21" y1="12" x2="23" y2="12" />
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                    </svg>
+                    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                    </svg>
+                </button>
                 <button type="button" class="board-trigger-btn" id="language_trigger" onclick="openPickerModal('language')" style="width:auto;padding:7px 12px;min-height:36px;font-size:13px;">
                     <span class="board-trigger-title" id="language_display">English</span>
                     <span class="board-trigger-arrow" style="margin-left:6px;">▼</span>
@@ -1382,6 +1535,16 @@
                         </p>
                         <p>
                             <input type="submit" value="Connect" id="button" data-lang-value="connect" disabled>
+                        </p>
+                        <p style="margin-top: 8px;">
+                            <button type="button" id="scan_button" class="btn-scan" onclick="manualScanAPList()">
+                                <svg id="scan_btn_icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M23 4v6h-6"></path>
+                                    <path d="M1 20v-6h6"></path>
+                                    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                                </svg>
+                                <span id="scan_btn_text" data-lang="scan_wifi">Dò tìm Wi-Fi</span>
+                            </button>
                         </p>
                     </form>
                     <div id="ap_list"></div>
@@ -2163,6 +2326,7 @@
         const translations = {
             'en-US': {
                 title: 'Network Configuration',
+                theme_toggle_title: 'Toggle Light / Dark mode',
                 saved_wifi: 'Saved Wi-Fi',
                 new_wifi: 'New Wi-Fi',
                 password: 'Password:',
@@ -2172,6 +2336,8 @@
                 connecting: 'Connecting...',
                 select_wifi: 'Select a 2.4G Wi-Fi from the list below:',
                 select_wifi_5g: 'Select a Wi-Fi from the list below:',
+                scan_wifi: 'Scan Wi-Fi',
+                scanning_wifi: 'Scanning...',
                 scanning: 'Scanning...',
                 wifi_tab: 'Wi-Fi Config',
                 advanced_tab: 'Advanced',
@@ -2346,6 +2512,7 @@
             },
             'vi-VN': {
                 title: 'Cấu hình mạng',
+                theme_toggle_title: 'Chuyển đổi giao diện Sáng / Tối',
                 saved_wifi: 'Wi-Fi đã lưu',
                 new_wifi: 'Wi-Fi mới',
                 password: 'Mật khẩu:',
@@ -2354,6 +2521,8 @@
                 connecting: 'Đang kết nối...',
                 select_wifi: 'Vui lòng chọn mạng Wi-Fi 2.4G từ danh sách dưới đây:',
                 select_wifi_5g: 'Vui lòng chọn mạng Wi-Fi từ danh sách dưới đây:',
+                scan_wifi: 'Dò tìm Wi-Fi',
+                scanning_wifi: 'Đang dò tìm...',
                 scanning: 'Đang quét...',
                 wifi_tab: 'Cấu hình Wi-Fi',
                 advanced_tab: 'Tùy chọn nâng cao',
@@ -2602,6 +2771,14 @@
                 element.placeholder = translations[lang][key];
             });
 
+            // Update titles/tooltips
+            document.querySelectorAll('[data-lang-title]').forEach(element => {
+                const key = element.getAttribute('data-lang-title');
+                if (translations[lang] && translations[lang][key]) {
+                    element.title = translations[lang][key];
+                }
+            });
+
             // Re-render board modal if present
             if (typeof renderBoardModalList === 'function') {
                 renderBoardModalList();
@@ -2696,6 +2873,83 @@
                 });
         }
 
+        // ========== Theme Handling ==========
+        function getEffectiveTheme() {
+            const current = document.documentElement.getAttribute('data-theme');
+            if (current) return current;
+            return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+
+        function toggleTheme() {
+            const current = getEffectiveTheme();
+            const next = (current === 'dark') ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            try {
+                localStorage.setItem('theme', next);
+            } catch (e) {}
+        }
+
+        let apScanTimer = null;
+        let isScanningAP = false;
+
+        function stopAPListPolling() {
+            if (apScanTimer) {
+                clearTimeout(apScanTimer);
+                apScanTimer = null;
+            }
+        }
+
+        function setScanButtonState(scanning) {
+            const btn = document.getElementById('scan_button');
+            const icon = document.getElementById('scan_btn_icon');
+            const text = document.getElementById('scan_btn_text');
+            const lang = document.getElementById('language')?.value || 'vi-VN';
+            const t = translations[lang] || translations['vi-VN'];
+
+            if (!btn) return;
+
+            if (scanning) {
+                btn.disabled = true;
+                btn.classList.add('loading');
+                if (icon) icon.classList.add('spin');
+                if (text) text.textContent = t.scanning_wifi || 'Đang dò tìm...';
+            } else {
+                btn.disabled = false;
+                btn.classList.remove('loading');
+                if (icon) icon.classList.remove('spin');
+                if (text) text.textContent = t.scan_wifi || 'Dò tìm Wi-Fi';
+            }
+        }
+
+        function manualScanAPList() {
+            if (isScanningAP || wifiSubmitting) return;
+
+            isScanningAP = true;
+            stopAPListPolling();
+            setScanButtonState(true);
+
+            const lang = document.getElementById('language')?.value || 'vi-VN';
+            const apList = document.getElementById('ap_list');
+            const hasExistingAPs = apList && apList.querySelector('a') !== null;
+
+            // Only show scanning text if there is NO existing list on screen
+            if (!hasExistingAPs && apList) {
+                apList.innerHTML = '<p class="scanning">' + (translations[lang]?.scanning || 'Đang quét...') + '</p>';
+            }
+
+            // 1. Tell ESP32 to trigger a fresh background Wi-Fi scan
+            fetch('/scan?refresh=1')
+                .catch(() => {})
+                .finally(() => {
+                    // 2. Wait 3.5 seconds for ESP32 to scan 13 channels and return to SoftAP channel
+                    setTimeout(() => {
+                        isScanningAP = false;
+                        // 3. Fetch latest scan results and restore button
+                        loadAPList();
+                    }, 3500);
+                });
+        }
+
         /**
          * Load available Wi-Fi networks
          */
@@ -2704,15 +2958,22 @@
                 return;
             }
 
-            const lang = document.getElementById('language').value;
+            if (isScanningAP) {
+                return;
+            }
+            isScanningAP = true;
+            stopAPListPolling();
+            setScanButtonState(true);
+
+            const lang = document.getElementById('language')?.value || 'vi-VN';
             const apList = document.getElementById('ap_list');
 
             // Check if AP list already has content
-            const hasExistingAPs = apList.querySelector('a') !== null;
+            const hasExistingAPs = apList && apList.querySelector('a') !== null;
 
             // Only show scanning text if there's no existing AP list
-            if (!hasExistingAPs) {
-                apList.innerHTML = '<p class="scanning">' + translations[lang].scanning + '</p>';
+            if (!hasExistingAPs && apList) {
+                apList.innerHTML = '<p class="scanning">' + (translations[lang]?.scanning || 'Đang quét...') + '</p>';
             }
 
             fetch('/scan')
@@ -2721,39 +2982,50 @@
                     // Update global 5G support status
                     support5G = data.support_5g;
 
-                    // Use select_wifi_5g if 5G is supported, otherwise use select_wifi
-                    const selectText = support5G ? translations[lang].select_wifi_5g : translations[lang].select_wifi;
-                    apList.innerHTML = '<p>' + selectText + '</p>';
+                    if (apList) {
+                        // Only replace list if we got valid APs from the scan
+                        if (data.aps && data.aps.length > 0) {
+                            const selectText = support5G ? (translations[lang]?.select_wifi_5g || '') : (translations[lang]?.select_wifi || '');
+                            apList.innerHTML = '<p>' + selectText + '</p>';
 
-                    // Iterate through available APs
-                    data.aps.forEach(ap => {
-                        const link = document.createElement('a');
-                        link.href = '#';
-                        link.textContent = ap.ssid + ' (' + ap.rssi + ' dBm)';
+                            // Iterate through available APs
+                            data.aps.forEach(ap => {
+                                const link = document.createElement('a');
+                                link.href = '#';
+                                link.textContent = ap.ssid + ' (' + ap.rssi + ' dBm)';
 
-                        // Add lock icon for secured networks
-                        if (ap.authmode === 0) {
-                            link.textContent += ' 🌐';
-                        } else {
-                            link.textContent += ' 🔒';
+                                // Add lock icon for secured networks
+                                if (ap.authmode === 0) {
+                                    link.textContent += ' 🌐';
+                                } else {
+                                    link.textContent += ' 🔒';
+                                }
+
+                                link.addEventListener('click', (e) => {
+                                    e.preventDefault();
+                                    ssid.value = ap.ssid;
+                                    selectedApAuthMode = ap.authmode;
+                                    validatePassword();
+                                });
+
+                                apList.appendChild(link);
+                            });
+                        } else if (!hasExistingAPs) {
+                            apList.innerHTML = '<p class="scanning">' + (translations[lang]?.scanning || 'Đang quét...') + '</p>';
                         }
-
-                        link.addEventListener('click', () => {
-                            ssid.value = ap.ssid;
-                            selectedApAuthMode = ap.authmode;
-                            validatePassword();
-                        });
-
-                        apList.appendChild(link);
-                    });
-
-                    // Refresh AP list every 5 seconds
-                    setTimeout(loadAPList, 5000);
+                    }
                 })
                 .catch(error => {
-                    console.error('Error:', error);
-                    // On error, try again after 5 seconds
-                    setTimeout(loadAPList, 5000);
+                    console.error('Error fetching AP list:', error);
+                })
+                .finally(() => {
+                    isScanningAP = false;
+                    setScanButtonState(false);
+
+                    // Schedule next scan every 10 seconds ONLY if Wi-Fi tab is active
+                    if (document.getElementById('wifi-tab')?.classList.contains('active')) {
+                        apScanTimer = setTimeout(loadAPList, 10000);
+                    }
                 });
         }
 
@@ -2909,6 +3181,13 @@
             // Activate selected tab — dùng data-tab thay vì onclick selector để tránh bị minifier phá
             var activeTab = document.querySelector('.tab[data-tab="' + tabName + '"]');
             if (activeTab) activeTab.classList.add('active');
+
+            if (tabName === 'wifi') {
+                loadAPList();
+            } else {
+                stopAPListPolling();
+                setScanButtonState(false);
+            }
         }
 
         /**
@@ -4488,9 +4767,9 @@
             changeLanguage();
             validatePassword();
             loadSavedList();
-            loadAPList();
             await loadAdvancedConfig();
             loadLcdConfig(); // new 
+            loadAPList();
             if (typeof updateAllPickerDisplays === 'function') updateAllPickerDisplays();
         });
 

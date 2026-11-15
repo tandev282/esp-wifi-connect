@@ -33,7 +33,7 @@
             --text: #0f172a;
             --text-muted: #64748b;
             --danger: #dc2626;
-            --success: #16a34a;
+            --success: #15803d;
             --radius: 14px;
             --radius-sm: 10px;
             --shadow: 0 10px 30px rgba(15, 23, 42, 0.08), 0 2px 6px rgba(15, 23, 42, 0.04);
@@ -52,7 +52,7 @@
             --text: #0f172a;
             --text-muted: #64748b;
             --danger: #dc2626;
-            --success: #16a34a;
+            --success: #15803d;
             --shadow: 0 10px 30px rgba(15, 23, 42, 0.08), 0 2px 6px rgba(15, 23, 42, 0.04);
         }
 
@@ -802,6 +802,22 @@
         .icon-btn svg {
             width: 18px;
             height: 18px;
+        }
+
+        .save-status {
+            margin: 0 0 12px;
+            color: var(--success);
+            font-size: 14px;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .save-status:empty {
+            display: none;
+        }
+
+        .save-status:not(:empty)::before {
+            content: "✓ ";
         }
 
         /* ========== Toast Message Styles ========== */
@@ -1686,7 +1702,7 @@
 
             <!-- Advanced Configuration Tab -->
             <div id="advanced-tab" class="tab-content">
-                <form action="/advanced/submit" method="post" autocomplete="off" onsubmit="submitAdvancedForm(event)">
+                <form action="/advanced/submit" method="post" autocomplete="off" onsubmit="submitAdvancedForm(event)" oninput="clearAdvancedStatus()" onchange="clearAdvancedStatus()">
                     <div>
                         <p class="error" id="advanced_error"></p>
 
@@ -1771,6 +1787,7 @@
                             <input type="checkbox" id="pypass_device" name="pypass_device">
                         </div>
 
+                        <p class="save-status" id="advanced_status" role="status" aria-live="polite" aria-atomic="true"></p>
                         <p>
                             <input type="submit" value="Save" id="advanced_button" data-lang-value="save">
                         </p>
@@ -2515,6 +2532,7 @@
                 sleep_timers_help: 'Leave a field blank to use this device\'s default timeout. Set it to 0 to disable that step. Power saving and wake behavior depend on the device.',
                 pypass_device: 'Bypass Device',
                 save: 'Save',
+                settings_saved: 'Saved',
                 lcd_tab: 'Device Config',
                 device_config_main_title: 'Device Configuration',
                 device_config_main_note: '&#9432; 1. First time boot has <strong>no screen output</strong>, <strong>no audio</strong>, please configure hardware first.<br>&#9432; 2. Enter GPIO from <strong>0</strong> to <strong>48</strong>.<br>&#9432; 3. Changes apply after <strong>rebooting</strong>.',
@@ -2714,6 +2732,7 @@
                 sleep_timers_help: 'Để trống để dùng thời gian mặc định của thiết bị. Đặt bằng 0 để tắt bước tương ứng. Hành vi tiết kiệm pin và đánh thức phụ thuộc vào thiết bị.',
                 pypass_device: 'Bypass Device (Gỡ tài khoản tạm thời)',
                 save: 'Lưu',
+                settings_saved: 'Đã lưu',
                 lcd_tab: 'Cấu Hình Thiết Bị',
                 device_config_main_title: 'Cấu Hình Thiết Bị',
                 device_config_main_note: '&#9432; 1. Lần đầu cài Fw và khởi động, <strong>không có màn hình hiển thị</strong>, <strong>không phát âm thanh</strong>, hãy config theo cấu hình phần cứng của bạn.<br>&#9432; 2. Nhập GPIO từ <strong>0</strong> đến <strong>48</strong>.<br>&#9432; 3. Các thay đổi sẽ có hiệu lực sau khi <strong>khởi động lại</strong> thiết bị.',
@@ -3346,6 +3365,7 @@
             const advancedButton = document.getElementById('advanced_button');
             const advancedError = document.getElementById('advanced_error');
             advancedError.textContent = '';
+            clearAdvancedStatus();
             clearSleepTimerError();
 
             const otaUrl = document.getElementById('ota_url').value;
@@ -3416,7 +3436,9 @@
                 }
 
                 advancedButton.disabled = false;
-                showToast('Configuration saved');
+                const lang = document.getElementById('language')?.value || 'vi-VN';
+                document.getElementById('advanced_status').textContent =
+                    (translations[lang] || {}).settings_saved || translations['en-US'].settings_saved;
             } catch (err) {
                 advancedError.textContent = err.message;
                 advancedButton.disabled = false;
@@ -3558,6 +3580,7 @@
          * Load advanced configuration from server
          */
         async function loadAdvancedConfig() {
+            clearAdvancedStatus();
             try {
                 const response = await fetch('/advanced/config');
                 const data = await response.json();
@@ -3607,7 +3630,13 @@
          */
         function clearOtaUrl() {
             document.getElementById('ota_url').value = '';
+            clearAdvancedStatus();
             updateOtaClearButton();
+        }
+
+        function clearAdvancedStatus() {
+            const el = document.getElementById('advanced_status');
+            if (el) el.textContent = '';
         }
 
         function updateOtaClearButton() {

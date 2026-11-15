@@ -558,6 +558,41 @@
             text-decoration: none;
         }
 
+        .ap-name {
+            min-width: 0;
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .ap-details {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: none;
+        }
+
+        .signal-bars {
+            display: inline-flex;
+            align-items: flex-end;
+            gap: 2px;
+            height: 14px;
+            color: var(--text-muted);
+        }
+
+        .signal-bars span {
+            width: 4px;
+            background: currentColor;
+            opacity: 0.25;
+            border-radius: 1px;
+        }
+
+        .signal-bars span:nth-child(1) { height: 5px; }
+        .signal-bars span:nth-child(2) { height: 9px; }
+        .signal-bars span:nth-child(3) { height: 14px; }
+        .signal-bars span.active { opacity: 1; }
+
         /* ========== Advanced rows ========== */
         #ota_url_row {
             margin-bottom: 16px;
@@ -758,6 +793,10 @@
         .icon-btn:hover {
             color: var(--danger);
             border-color: var(--danger);
+        }
+
+        .icon-btn[hidden] {
+            display: none;
         }
 
         .icon-btn svg {
@@ -1620,7 +1659,7 @@
                     <p class="error" id="error"></p>
                     <form action="/submit" method="post" autocomplete="off" onsubmit="submitForm(event)">
                         <p>
-                            <label for="ssid">SSID:</label>
+                            <label for="ssid" data-lang="ssid">Wi-Fi name:</label>
                             <input type="text" id="ssid" name="ssid" autocomplete="off" autocapitalize="none" spellcheck="false" required readonly>
                         </p>
                         <p>
@@ -1655,8 +1694,8 @@
                         <div id="ota_url_row" style="display: none;">
                             <label for="ota_url" data-lang="ota_url">Custom OTA URL:</label>
                             <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
-                                <input type="url" id="ota_url" name="ota_url" maxlength="255" autocomplete="off" autocapitalize="none" spellcheck="false" style="flex: 1;">
-                                <button type="button" class="icon-btn" onclick="clearOtaUrl()" aria-label="Clear">
+                                <input type="url" id="ota_url" name="ota_url" maxlength="255" autocomplete="off" autocapitalize="none" spellcheck="false" oninput="updateOtaClearButton()" style="flex: 1; min-width: 0;">
+                                <button type="button" class="icon-btn" id="clear_ota_url" onclick="clearOtaUrl()" aria-label="Clear OTA URL" data-lang-aria-label="clear_ota_url" hidden>
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round">
                                         <line x1="18" y1="6" x2="6" y2="18" />
@@ -1668,8 +1707,7 @@
 
                         <!-- Max TX Power -->
                         <p class="field-inline">
-                            <label for="max_tx_power" data-lang="max_tx_power" style="white-space: nowrap;">Wi-Fi Max TX
-                                Power:</label>
+                            <label for="max_tx_power" data-lang="max_tx_power" style="white-space: nowrap;">Max TX power:</label>
                             <button type="button" class="board-trigger-btn" id="max_tx_power_trigger" onclick="openPickerModal('max_tx_power')" style="width:auto;min-width:130px;margin-left:auto;">
                                 <span class="board-trigger-title" id="max_tx_power_display">20 dBm</span>
                                 <span class="board-trigger-arrow">▼</span>
@@ -1692,7 +1730,7 @@
                         <!-- Remember BSSID -->
                         <div class="switch-row">
                             <label for="remember_bssid">
-                                <span data-lang="remember_bssid">Remember BSSID when connecting to Wi-Fi</span>
+                                <span data-lang="remember_bssid">Remember BSSID</span>
                             </label>
                             <input type="checkbox" id="remember_bssid" name="remember_bssid">
                         </div>
@@ -1700,7 +1738,7 @@
                         <!-- Sleep Mode (visibility controlled by show_sleep_config from server) -->
                         <section class="sleep-group" id="sleep_config_row" style="display: none;" aria-labelledby="sleep_mode_label">
                             <div class="sleep-header">
-                                <label for="sleep_mode" id="sleep_mode_label" data-lang="sleep_mode">Enable Sleep Mode</label>
+                                <label for="sleep_mode" id="sleep_mode_label" data-lang="sleep_mode">Sleep mode</label>
                                 <input type="checkbox" id="sleep_mode" name="sleep_mode" onchange="toggleSleepTimers()">
                             </div>
                             <div class="sleep-body" id="sleep_timers_row" style="display: none;">
@@ -2445,13 +2483,19 @@
                 theme_toggle_title: 'Toggle Light / Dark mode',
                 saved_wifi: 'Saved Wi-Fi',
                 new_wifi: 'New Wi-Fi',
+                ssid: 'Wi-Fi name:',
                 password: 'Password:',
                 password_too_short: 'Password must be at least 8 characters.',
                 note_wifi: 'Device can remember multiple Wi-Fi networks at the same time, but only connect to the strongest Wi-Fi.',
                 connect: 'Connect',
                 connecting: 'Connecting...',
-                select_wifi: 'Select a 2.4G Wi-Fi from the list below:',
-                select_wifi_5g: 'Select a Wi-Fi from the list below:',
+                select_wifi: 'Choose a 2.4 GHz Wi-Fi:',
+                select_wifi_5g: 'Choose a Wi-Fi:',
+                signal_strong: 'Strong signal',
+                signal_fair: 'Fair signal',
+                signal_weak: 'Weak signal',
+                signal_unknown: 'Signal unavailable',
+                clear_ota_url: 'Clear OTA URL',
                 scan_wifi: 'Scan Wi-Fi',
                 scanning_wifi: 'Scanning...',
                 scanning: 'Scanning...',
@@ -2459,9 +2503,9 @@
                 advanced_tab: 'Advanced',
                 ota_url: 'Custom OTA URL:',
                 invalid_ota_url: 'Enter a valid HTTP(S) URL (max 255 bytes), or leave it empty to use the default.',
-                max_tx_power: 'Wi-Fi Max TX Power:',
-                remember_bssid: 'Remember BSSID when connecting to Wi-Fi',
-                sleep_mode: 'Enable Sleep Mode',
+                max_tx_power: 'Max TX power:',
+                remember_bssid: 'Remember BSSID',
+                sleep_mode: 'Sleep mode',
                 sleep_dim_minutes: 'Screen dim after',
                 sleep_off_minutes: 'Power off after',
                 sleep_default: 'Default',
@@ -2639,12 +2683,18 @@
                 theme_toggle_title: 'Chuyển đổi giao diện Sáng / Tối',
                 saved_wifi: 'Wi-Fi đã lưu',
                 new_wifi: 'Wi-Fi mới',
+                ssid: 'Tên Wi-Fi:',
                 password: 'Mật khẩu:',
                 note_wifi: 'Thiết bị có thể ghi nhớ nhiều Wi-Fi cùng lúc, nhưng chỉ kết nối với một Wi-Fi mạnh nhất.',
                 connect: 'Kết nối',
                 connecting: 'Đang kết nối...',
-                select_wifi: 'Vui lòng chọn mạng Wi-Fi 2.4G từ danh sách dưới đây:',
-                select_wifi_5g: 'Vui lòng chọn mạng Wi-Fi từ danh sách dưới đây:',
+                select_wifi: 'Chọn mạng Wi-Fi 2.4 GHz:',
+                select_wifi_5g: 'Chọn mạng Wi-Fi:',
+                signal_strong: 'Sóng mạnh',
+                signal_fair: 'Sóng trung bình',
+                signal_weak: 'Sóng yếu',
+                signal_unknown: 'Không xác định tín hiệu',
+                clear_ota_url: 'Xóa URL OTA',
                 scan_wifi: 'Dò tìm Wi-Fi',
                 scanning_wifi: 'Đang dò tìm...',
                 scanning: 'Đang quét...',
@@ -2652,9 +2702,9 @@
                 advanced_tab: 'Tùy chọn nâng cao',
                 ota_url: 'URL cập nhật OTA tùy chỉnh:',
                 invalid_ota_url: 'Nhập URL HTTP(S) hợp lệ (tối đa 255 byte), hoặc để trống để dùng mặc định.',
-                max_tx_power: 'Công suất phát sóng Wi-Fi:',
-                remember_bssid: 'Ghi nhớ BSSID khi kết nối với Wi-Fi',
-                sleep_mode: 'Bật chế độ ngủ',
+                max_tx_power: 'Công suất phát tối đa:',
+                remember_bssid: 'Ghi nhớ BSSID',
+                sleep_mode: 'Chế độ ngủ',
                 sleep_dim_minutes: 'Làm mờ màn hình sau',
                 sleep_off_minutes: 'Tắt nguồn sau',
                 sleep_default: 'Mặc định',
@@ -2900,7 +2950,13 @@
             // Update placeholders
             document.querySelectorAll('[data-lang-placeholder]').forEach(element => {
                 const key = element.getAttribute('data-lang-placeholder');
-                element.placeholder = translations[lang][key];
+                element.placeholder = (translations[lang] || {})[key] || (translations['en-US'] || {})[key] || '';
+            });
+
+            // Update aria-labels
+            document.querySelectorAll('[data-lang-aria-label]').forEach(element => {
+                const key = element.getAttribute('data-lang-aria-label');
+                element.setAttribute('aria-label', (translations[lang] || {})[key] || (translations['en-US'] || {})[key] || '');
             });
 
             // Update titles/tooltips
@@ -2924,8 +2980,10 @@
 
             // Update AP list text based on 5G support
             const apList = document.getElementById('ap_list');
-            if (apList.firstChild) {
-                const selectText = support5G ? translations[lang].select_wifi_5g : translations[lang].select_wifi;
+            if (apList && apList.firstChild) {
+                const selectText = support5G
+                    ? ((translations[lang] || {}).select_wifi_5g || translations['en-US'].select_wifi_5g)
+                    : ((translations[lang] || {}).select_wifi || translations['en-US'].select_wifi);
                 apList.firstChild.textContent = selectText;
             }
 
@@ -3124,14 +3182,30 @@
                             data.aps.forEach(ap => {
                                 const link = document.createElement('a');
                                 link.href = '#';
-                                link.textContent = ap.ssid + ' (' + ap.rssi + ' dBm)';
+                                const name = document.createElement('span');
+                                name.className = 'ap-name';
+                                name.textContent = ap.ssid;
+                                link.appendChild(name);
 
-                                // Add lock icon for secured networks
-                                if (ap.authmode === 0) {
-                                    link.textContent += ' 🌐';
-                                } else {
-                                    link.textContent += ' 🔒';
+                                const details = document.createElement('span');
+                                details.className = 'ap-details';
+                                const signal = document.createElement('span');
+                                signal.className = 'signal-bars';
+                                const strength = Number.isFinite(ap.rssi) ? (ap.rssi >= -55 ? 3 : ap.rssi >= -70 ? 2 : 1) : 0;
+                                const signalKey = ['signal_unknown', 'signal_weak', 'signal_fair', 'signal_strong'][strength];
+                                signal.setAttribute('role', 'img');
+                                signal.setAttribute('data-lang-aria-label', signalKey);
+                                signal.setAttribute('aria-label', (translations[lang] || {})[signalKey] || (translations['en-US'] || {})[signalKey]);
+                                for (let i = 0; i < 3; i++) {
+                                    const bar = document.createElement('span');
+                                    if (i < strength) bar.className = 'active';
+                                    signal.appendChild(bar);
                                 }
+                                details.appendChild(signal);
+                                const security = document.createElement('span');
+                                security.textContent = ap.authmode === 0 ? '🌐' : '🔒';
+                                details.appendChild(security);
+                                link.appendChild(details);
 
                                 link.addEventListener('click', (e) => {
                                     e.preventDefault();
@@ -3504,6 +3578,7 @@
 
                 const otaUrl = typeof data.ota_url === 'string' ? data.ota_url : '';
                 document.getElementById('ota_url').value = isValidOtaUrl(otaUrl) ? otaUrl : '';
+                updateOtaClearButton();
                 if (data.max_tx_power) {
                     document.getElementById('max_tx_power').value = data.max_tx_power;
                 }
@@ -3532,6 +3607,14 @@
          */
         function clearOtaUrl() {
             document.getElementById('ota_url').value = '';
+            updateOtaClearButton();
+        }
+
+        function updateOtaClearButton() {
+            const btn = document.getElementById('clear_ota_url');
+            if (btn) {
+                btn.hidden = document.getElementById('ota_url').value === '';
+            }
         }
 
 

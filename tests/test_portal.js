@@ -29,11 +29,20 @@ let config = {};
 let responseFailure = null;
 let networkFailure = false;
 const context = vm.createContext({
-    console, URL, URLSearchParams, setTimeout() {},
+    console, URL, URLSearchParams, setTimeout() {}, clearTimeout() {},
     localStorage: {setItem() {}},
     window: {location: {href: 'http://192.168.4.1/'}, addEventListener() {}},
     document: {
         documentElement: {}, getElementById: element, addEventListener() {},
+        createElement: tag => ({
+            attributes: new Map(),
+            classList: {add() {}, remove() {}, contains() { return false; }},
+            addEventListener() {},
+            setAttribute(key, value) { this.attributes.set(key, value); },
+            getAttribute(key) { return this.attributes.get(key) || null; },
+            removeAttribute(key) { this.attributes.delete(key); },
+            appendChild() {}, insertBefore() {}
+        }),
         querySelector() { return null; },
         querySelectorAll(selector) {
             return selector === '[data-lang-message]' ? [...elements.values()].filter(el => el.getAttribute('data-lang-message')) : [];
@@ -216,5 +225,18 @@ vm.runInContext(script, context);
     element('language').value = 'en-US';
     vm.runInContext('changeLanguage()', context);
     assert.equal(element('advanced_status').textContent, '');
+
+    // A scan started in one language must render in the language selected before it returns.
+    const originalFetch = context.fetch;
+    let finishScan;
+    context.fetch = () => new Promise(resolve => {finishScan = resolve;});
+    element('ap_list').querySelector = () => null;
+    element('language').value = 'en-US';
+    vm.runInContext('loadAPList()', context);
+    element('language').value = 'vi-VN';
+    finishScan({json: async () => ({support_5g: false, aps: [{ssid: 'TestAP', rssi: -60, authmode: 1}]})});
+    await new Promise(setImmediate);
+    assert.ok(element('ap_list').innerHTML.includes(catalogs['vi-VN'].select_wifi));
+    context.fetch = originalFetch;
     console.log(`Portal: ${cases.length} URL cases, timer behavior, Wi-Fi form isolation, and ${Object.keys(catalogs).length} complete locale catalogs with live feedback passed.`);
 })().catch(error => {console.error(error); process.exitCode = 1;});

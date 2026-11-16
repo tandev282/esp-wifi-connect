@@ -3230,6 +3230,7 @@
                 .then(data => {
                     // Update global 5G support status
                     support5G = data.support_5g;
+                    const lang = document.getElementById('language')?.value || 'vi-VN';
 
                     if (apList) {
                         // Only replace list if we got valid APs from the scan

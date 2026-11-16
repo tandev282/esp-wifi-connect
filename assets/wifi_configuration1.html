@@ -332,7 +332,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-left: auto;
+            margin-inline-start: auto;
         }
 
         .language-switch svg {
@@ -406,6 +406,9 @@
             font-size: 13px;
             background-position: right 8px center;
         }
+
+        [dir="rtl"] select { background-position: left 12px center; padding-left: 36px; padding-right: 12px; }
+        [dir="rtl"] .language-switch select { background-position: left 8px center; padding: 7px 10px 7px 30px; }
 
         /* ========== Tab Styles ========== */
         .tabs {
@@ -574,6 +577,7 @@
         }
 
         .signal-bars {
+            direction: ltr;
             display: inline-flex;
             align-items: flex-end;
             gap: 2px;
@@ -612,7 +616,7 @@
         .field-inline select {
             width: auto;
             min-width: 120px;
-            margin-left: auto;
+            margin-inline-start: auto;
         }
 
         .sleep-group {
@@ -1676,11 +1680,11 @@
                     <form action="/submit" method="post" autocomplete="off" onsubmit="submitForm(event)">
                         <p>
                             <label for="ssid" data-lang="ssid">Wi-Fi name:</label>
-                            <input type="text" id="ssid" name="ssid" autocomplete="off" autocapitalize="none" spellcheck="false" required readonly>
+                            <input type="text" id="ssid" name="ssid" autocomplete="off" autocapitalize="none" spellcheck="false" dir="auto" required readonly>
                         </p>
                         <p>
                             <label for="password" data-lang="password">Password:</label>
-                            <input type="password" id="password" name="password" autocomplete="off" oninput="validatePassword()">
+                            <input type="password" id="password" name="password" autocomplete="off" dir="auto" oninput="validatePassword()">
                         </p>
                         <p>
                             <input type="submit" value="Connect" id="button" data-lang-value="connect" disabled>
@@ -1710,7 +1714,7 @@
                         <div id="ota_url_row" style="display: none;">
                             <label for="ota_url" data-lang="ota_url">Custom OTA URL:</label>
                             <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
-                                <input type="url" id="ota_url" name="ota_url" maxlength="255" autocomplete="off" autocapitalize="none" spellcheck="false" oninput="updateOtaClearButton()" style="flex: 1; min-width: 0;">
+                                <input type="url" id="ota_url" name="ota_url" maxlength="255" autocomplete="off" autocapitalize="none" spellcheck="false" dir="ltr" oninput="updateOtaClearButton()" style="flex: 1; min-width: 0;">
                                 <button type="button" class="icon-btn" id="clear_ota_url" onclick="clearOtaUrl()" aria-label="Clear OTA URL" data-lang-aria-label="clear_ota_url" hidden>
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round">
@@ -1728,7 +1732,7 @@
                                 <span class="board-trigger-title" id="max_tx_power_display">20 dBm</span>
                                 <span class="board-trigger-arrow">▼</span>
                             </button>
-                            <select id="max_tx_power" name="max_tx_power" style="display:none;" data-picker-title="Công Suất Wi-Fi (Wi-Fi Max TX Power)" data-picker-sub="Chọn mức công suất phát Wi-Fi của ESP32">
+                            <select id="max_tx_power" name="max_tx_power" dir="ltr" style="display:none;" data-picker-title="Công Suất Wi-Fi (Wi-Fi Max TX Power)" data-picker-sub="Chọn mức công suất phát Wi-Fi của ESP32">
                                 <option value="8">2 dBm</option>
                                 <option value="20">5 dBm</option>
                                 <option value="28">7 dBm</option>
@@ -2496,405 +2500,403 @@
         // ========== Translation Data ==========
         const translations = {
             'en-US': {
-                title: 'Network Configuration',
-                theme_toggle_title: 'Toggle Light / Dark mode',
-                saved_wifi: 'Saved Wi-Fi',
-                new_wifi: 'New Wi-Fi',
-                ssid: 'Wi-Fi name:',
-                password: 'Password:',
-                password_too_short: 'Password must be at least 8 characters.',
-                note_wifi: 'Device can remember multiple Wi-Fi networks at the same time, but only connect to the strongest Wi-Fi.',
-                connect: 'Connect',
-                connecting: 'Connecting...',
-                select_wifi: 'Choose a 2.4 GHz Wi-Fi:',
-                select_wifi_5g: 'Choose a Wi-Fi:',
-                signal_strong: 'Strong signal',
-                signal_fair: 'Fair signal',
-                signal_weak: 'Weak signal',
-                signal_unknown: 'Signal unavailable',
-                clear_ota_url: 'Clear OTA URL',
-                scan_wifi: 'Scan Wi-Fi',
-                scanning_wifi: 'Scanning...',
-                scanning: 'Scanning...',
-                wifi_tab: 'Wi-Fi Config',
-                advanced_tab: 'Advanced',
-                ota_url: 'Custom OTA URL:',
-                invalid_ota_url: 'Enter a valid HTTP(S) URL (max 255 bytes), or leave it empty to use the default.',
-                max_tx_power: 'Max TX power:',
-                remember_bssid: 'Remember BSSID',
-                sleep_mode: 'Sleep mode',
-                sleep_dim_minutes: 'Screen dim after',
-                sleep_off_minutes: 'Power off after',
-                sleep_default: 'Default',
-                sleep_minutes_unit: 'min',
-                invalid_sleep_minutes: 'Enter a whole number from 0 to 1440.',
-                invalid_sleep_order: 'Power off must be later than screen dim.',
-                sleep_timers_help: 'Leave a field blank to use this device\'s default timeout. Set it to 0 to disable that step. Power saving and wake behavior depend on the device.',
-                pypass_device: 'Bypass Device',
-                save: 'Save',
-                settings_saved: 'Saved',
-                lcd_tab: 'Device Config',
-                device_config_main_title: 'Device Configuration',
-                device_config_main_note: '&#9432; 1. First time boot has <strong>no screen output</strong>, <strong>no audio</strong>, please configure hardware first.<br>&#9432; 2. Enter GPIO from <strong>0</strong> to <strong>48</strong>.<br>&#9432; 3. Changes apply after <strong>rebooting</strong>.',
-                board_preset_title: 'Quick Setup - Board Preset',
-                board_preset_note: '&#9432; Select your board to auto-fill all GPIOs. You can manually edit them later.',
-                board_preset_update_note: '&#9432; This preset list will be updated in future releases.<br>&#9432; You can also contribute to this list by sending your .json config file to the developer (TanDev).',
-                select_board_label: 'Select your board:',
-                select_board_option: '-- Select board to auto-fill all --',
-                board_modal_title: 'Select Board Preset',
-                board_modal_sub: 'Auto-fill GPIO pins and display settings for your board',
-                board_search_placeholder: 'Search board name, display, chip...',
-                board_search_no_results: 'No matching board presets found',
-                board_custom_select: 'Click to select board preset...',
-                generic_modal_title: 'Select Option',
-                generic_modal_sub: 'Choose an option from the list below',
-                generic_search_placeholder: 'Search options...',
-                generic_no_results: 'No matching options found',
-                export_import_title: '📤 Export / Import Config',
-                export_import_note: '&#9432; Export current config to config.json for backup. Import to apply quickly.',
-                btn_export: '📥 Export Config',
-                btn_import: '📤 Import Config',
-                device_config_group_title: 'Screen Configuration',
-                screen_type: 'Type Screen',
-                lcd_language_label: 'Language',
-                send_wake_word_data: 'AI replies on wake word',
-                note_send_wake_word_data: '&#9432; When enabled, wake word audio is sent to server and AI will greet/respond upon wake word detection.',
-                screen_preset_title: 'Screen Preset',
-                screen_preset_note: '&#9432; 1. If unused, leave as 0.<br>&#9432; 2. When rotating screen, use Offset X, Y if it\'s out of bound.<br>&#9432; 3. If your screen size is not listed here, do not select any or enter the values manually.',
-                select_lcd_preset: 'Select preset:',
-                select_preset_option: '-- Select preset to auto-fill --',
-                select_oled_preset: 'Select OLED type:',
-                lcd_driver: 'LCD Driver',
-                lcd_width: 'Width',
-                lcd_height: 'Height',
-                lcd_offset_x: 'Offset X',
-                lcd_offset_y: 'Offset Y',
-                lcd_spi_mode: 'SPI Mode',
-                lcd_rgb_order: 'RGB Order',
-                lcd_rotate: 'Rotate Screen',
-                lcd_mirror_x: 'Mirror X',
-                lcd_mirror_y: 'Mirror Y',
-                lcd_swap_xy: 'Swap XY',
-                lcd_invert_color: 'Invert Color',
-                lcd_bl_inv: 'Backlight Invert',
-                lcd_wechat: 'WeChat Message Style',
-                note_lcd_wechat: '&#9432; Enable WeChat style message UI on LCD screen.',
-                spi_gpio_title: 'Display SPI GPIO',
-                spi_gpio_note: '&#9432; Enter GPIO numbers. If unused, enter -1.',
-                oled_gpio_title: 'Display I2C GPIO',
-                oled_gpio_note: '&#9432; Enter GPIO for I2C. If unused, enter -1.',
-                audio_gpio_title: 'Mic & Audio GPIO',
-                audio_codec_type: 'Audio Codec Type',
-                audio_codec_note: '&#9432; Enter corresponding GPIO for Mic & Speaker. If unused, enter <strong>-1</strong>.',
-                audio_codec_note_oled: '&#9432; When using OLED screen, only supports <strong>NoAudioCodec Simplex</strong>.',
-                common_i2s_gpio: 'Common I2S GPIO',
-                common_i2s_spk: 'Loa I2S',
-                spk_dout: 'DIN',
-                mic_din: 'SD',
-                simplex_mic_extra: 'Micro I2S',
-                mic_ws: 'WS',
-                mic_sck: 'SCK',
-                dual_mic_label: 'Secondary Microphone (Right Channel - R)',
-                note_dual_mic: '&#9432; Support 2 I2S mics simultaneously (Left mic L/R to GND, Right mic L/R to 3.3V). Both mics share WS, SCK, and SD pins.',
-                i2c_codec_gpio: 'I2S MCLK & I2C Codec GPIO',
-                codec_pa_pin: 'PA (Power Amp)',
-                enable_audio_tuning: 'Audio Tuning (Mic Gain & VAD)',
-                note_enable_audio_tuning: '&#9432; When unchecked (collapsed), system defaults are used. When checked, you can enter custom sensitivity values.',
-                mic_gain_label: 'Mic Sensitivity / Gain',
-                vad_mode_label: 'Voice Activity Detection (VAD: 0 - 3)',
-                vad_mode_help: '&#9432; Range from <strong>0 to 3</strong> (Default is <strong>0</strong>).<br>&#9432; <strong>LOWER value (0)</strong>: Most <strong>SENSITIVE</strong>, detects quiet speech quickly.<br>&#9432; <strong>HIGHER value (3)</strong>: Strongest <strong>NOISE REJECTION</strong>, prevents false triggers in noisy environments (requires speaking louder or closer).',
-                bluetooth_a2dp_title: 'ESP32-WROOM (Bluetooth A2DP)',
-                enable_bluetooth: 'Enable Bluetooth (ESP32-WROOM A2DP)',
-                note_enable_bluetooth: '&#9432; Check if you connect an ESP32-WROOM module to stream music via Bluetooth A2DP. When disabled, GPIOs are set to -1.',
-                bluetooth_a2dp_note: '&#9432; Enter GPIO numbers. If unused, enter -1.<br>&#9432; Bluetooth TX, RX used to communicate with ESP32-WROOM.',
-                peripherals_title: 'Peripherals',
-                peripherals_note: '&#9432; Enter GPIO numbers. If unused, enter -1.',
-                status_led: 'Status LED',
-                led_count: 'Quantity LED',
-                wakeup_button: 'WakeUp Button',
-                vol_up_button: 'Vol+ Button',
-                vol_dn_button: 'Vol- Button',
-                battery_level: 'Battery Level',
-                charging_pin: 'Charging Pin',
-                charging_active_level: 'Charging Active Level',
-                led_extension: 'Led Extension',
-                save_config: 'Save Config',
-                reboot_device: 'Reboot',
-
-                // Script messages
-                password_too_short: 'M\u1eadt kh\u1ea9u ph\u1ea3i c\u00f3 \u00edt nh\u1ea5t 8 k\u00fd t\u1ef1.',
-                err_empty: '⚠ Empty! Enter -1 if unused',
-                err_empty_throw: 'Missing field "{0}" — please enter a value (or -1 if unused).',
-                err_invalid: '⚠ Invalid value! Must be a number.',
-                err_invalid_throw: 'Invalid field "{0}" — must be an integer.',
-                save_lcd_success: 'LCD config saved! Please reboot the device.',
-                save_failed: 'An error occurred. Please try again.',
-                wifi_prompt_title: 'Wi-Fi Not Configured',
-                wifi_prompt_sub: 'Network Connection Notice',
-                wifi_prompt_msg: 'Wi-Fi is not configured on this device. Would you like to configure Wi-Fi now?',
-                wifi_prompt_no: 'No',
-                wifi_prompt_yes: 'Yes',
-                reboot_confirm: 'Are you sure you want to reboot the device?',
-                rebooting: 'Rebooting... Please wait.',
-                reboot_failed: 'Error: Something went wrong. Please try again.',
-                export_success: '✅ config.json exported successfully!',
-                import_reading: '⏳ Reading file...',
-                import_success: '✅ Config imported! Review and click Save.',
-                import_toast: '✅ config.json imported successfully!',
-                import_invalid: '❌ Invalid JSON file: ',
-
-                // Field labels for errors
-                lbl_screen_type: 'Type Screen',
-                lbl_lcd_language: 'Language',
-                lbl_lcd_driver: 'LCD Driver',
-                lbl_lcd_w: 'Width',
-                lbl_lcd_h: 'Height',
-                lbl_lcd_off_x: 'Offset X',
-                lbl_lcd_off_y: 'Offset Y',
-                lbl_lcd_spi_mode: 'SPI Mode',
-                lbl_lcd_rgb_order: 'RGB Order',
-                lbl_lcd_rotate: 'Rotate Screen',
-                lbl_p_mosi: 'GPIO MOSI (SDA/DIN)',
-                lbl_p_clk: 'GPIO CLK (SCK/SCL)',
-                lbl_p_dc: 'GPIO DC (A0/RS)',
-                lbl_p_rst: 'GPIO RST (Reset)',
-                lbl_p_cs: 'GPIO CS (Chip Select)',
-                lbl_p_bl: 'GPIO BL (Backlight/LED)',
-                lbl_oled_sda: 'GPIO OLED SDA',
-                lbl_oled_scl: 'GPIO OLED SCL',
-                lbl_mic_ws: 'GPIO Mic WS',
-                lbl_mic_sck: 'GPIO Mic SCK',
-                lbl_mic_din: 'GPIO Mic SD',
-                lbl_spk_dout: 'GPIO Speaker DIN',
-                lbl_spk_bclk: 'GPIO Speaker BCLK',
-                lbl_spk_lrck: 'GPIO Speaker LRCK',
-                lbl_p_bluetooth_uart_tx: 'GPIO Bluetooth UART TX',
-                lbl_p_bluetooth_uart_rx: 'GPIO Bluetooth UART RX',
-                lbl_p_dout2: 'GPIO Bluetooth DIN',
-                lbl_p_led: 'GPIO Status LED',
-                lbl_led_count: 'LED Count',
-                lbl_p_boot: 'GPIO Boot Button',
-                lbl_p_vol_up: 'GPIO Vol+ Button',
-                lbl_p_vol_dn: 'GPIO Vol- Button',
-                lbl_p_bat: 'GPIO Battery Level',
-                lbl_p_chg: 'GPIO Charging',
-                lbl_p_lamp: 'GPIO Lamp Extension',
-                // Notes
-                'note_bt_tx': 'Bluetooth TX on ESP32-S3 connects to RX on ESP32-WROOM.',
-                'note_bt_rx': 'Bluetooth RX on ESP32-S3 connects to TX on ESP32-WROOM.',
-                'note_bt_din': 'Bluetooth DIN is used to send audio to ESP32-WROOM.',
-                'note_led_status': 'WS2812 RGB LED shows device status or reacts to music.',
-                'note_led_count': 'Number of WS2812 RGB LEDs. Min 1, Max 128.',
-                'note_battery': 'Displays current battery level.',
-                'note_charging': 'Displays charging status. Use with modules like TP4056.',
-                'note_active_high': 'Active HIGH <small style="color:gray;">(default: off = Active LOW)</small>',
-                'note_charging_active': '&#9432; Turn on if the pin goes <strong>HIGH</strong> when charging.<br>Turn off if the pin is pulled <strong>LOW</strong> when charging (TP4056, BQ24).',
-                'note_lamp': 'Outputs 3.3V on this GPIO to turn on external lights/relays.',
-                'note_simplex_codec': '&#9432; This codec uses <strong>I2S Simplex</strong> (Separate I2S buses for Mic & Speaker, no I2C).',
-                'note_i2c_codec': '&#9432; 1. This codec uses <strong>I2S Duplex</strong> (Mic + Speaker share bus) and is controlled via <strong>I2C</strong>.',
-                'codec_es8311': '&#9432; 2. <strong>ES8311</strong>: Speaker + Mic share 1 I2S Duplex bus.',
-                'codec_es8388': '&#9432; 2. <strong>ES8388</strong>: Speaker + Mic share 1 I2S Duplex bus. Supports Input Reference for echo cancellation.',
-                'codec_box': '&#9432; 2. <strong>Box Codec</strong>: ES8311 (Speaker) + ES7210 (Mic), needs I2C addr configuration for ES7210.',
-            },
+          "title": "Network Configuration",
+          "saved_wifi": "Saved Wi-Fi",
+          "new_wifi": "New Wi-Fi",
+          "ssid": "Wi-Fi name:",
+          "password": "Password:",
+          "connect": "Connect",
+          "connecting": "Connecting...",
+          "select_wifi": "Choose a 2.4 GHz Wi-Fi:",
+          "select_wifi_5g": "Choose a Wi-Fi:",
+          "signal_strong": "Strong signal",
+          "signal_fair": "Fair signal",
+          "signal_weak": "Weak signal",
+          "signal_unknown": "Signal unavailable",
+          "clear_ota_url": "Clear OTA URL",
+          "scanning": "Scanning...",
+          "wifi_tab": "Wi-Fi Config",
+          "advanced_tab": "Advanced",
+          "ota_url": "Custom OTA URL:",
+          "invalid_ota_url": "Enter an HTTP(S) URL (max 255 bytes), or leave the field blank.",
+          "max_tx_power": "Max TX power:",
+          "remember_bssid": "Remember BSSID",
+          "sleep_mode": "Sleep mode",
+          "sleep_dim_minutes": "Screen dim after",
+          "sleep_off_minutes": "Power off after",
+          "sleep_default": "Default",
+          "sleep_minutes_unit": "min",
+          "invalid_sleep_minutes": "Enter a whole number from 0 to 1440.",
+          "invalid_sleep_order": "Power off must be later than screen dim.",
+          "invalid_sleep_timers": "Enter a whole number from 0 to 1440. Power off must be later than screen dim.",
+          "save": "Save",
+          "settings_saved": "Saved",
+          "config_success": "Configuration successful!",
+          "save_failed": "Could not save. Try again.",
+          "connection_failed": "Could not connect to Wi-Fi. Check the name and password.",
+          "invalid_ssid": "The Wi-Fi name must be at most 32 bytes.",
+          "theme_toggle_title": "Toggle Light / Dark mode",
+          "password_too_short": "Password must be at least 8 characters.",
+          "note_wifi": "Device can remember multiple Wi-Fi networks at the same time, but only connect to the strongest Wi-Fi.",
+          "scan_wifi": "Scan Wi-Fi",
+          "scanning_wifi": "Scanning...",
+          "sleep_timers_help": "Leave a field blank to use this device's default timeout. Set it to 0 to disable that step. Power saving and wake behavior depend on the device.",
+          "pypass_device": "Bypass Device",
+          "lcd_tab": "Device Config",
+          "device_config_main_title": "Device Configuration",
+          "device_config_main_note": "&#9432; 1. First time boot has <strong>no screen output</strong>, <strong>no audio</strong>, please configure hardware first.<br>&#9432; 2. Enter GPIO from <strong>0</strong> to <strong>48</strong>.<br>&#9432; 3. Changes apply after <strong>rebooting</strong>.",
+          "board_preset_title": "Quick Setup - Board Preset",
+          "board_preset_note": "&#9432; Select your board to auto-fill all GPIOs. You can manually edit them later.",
+          "board_preset_update_note": "&#9432; This preset list will be updated in future releases.<br>&#9432; You can also contribute to this list by sending your .json config file to the developer (TanDev).",
+          "select_board_label": "Select your board:",
+          "select_board_option": "-- Select board to auto-fill all --",
+          "board_modal_title": "Select Board Preset",
+          "board_modal_sub": "Auto-fill GPIO pins and display settings for your board",
+          "board_search_placeholder": "Search board name, display, chip...",
+          "board_search_no_results": "No matching board presets found",
+          "board_custom_select": "Click to select board preset...",
+          "generic_modal_title": "Select Option",
+          "generic_modal_sub": "Choose an option from the list below",
+          "generic_search_placeholder": "Search options...",
+          "generic_no_results": "No matching options found",
+          "export_import_title": "📤 Export / Import Config",
+          "export_import_note": "&#9432; Export current config to config.json for backup. Import to apply quickly.",
+          "btn_export": "📥 Export Config",
+          "btn_import": "📤 Import Config",
+          "device_config_group_title": "Screen Configuration",
+          "screen_type": "Type Screen",
+          "lcd_language_label": "Language",
+          "send_wake_word_data": "AI replies on wake word",
+          "note_send_wake_word_data": "&#9432; When enabled, wake word audio is sent to server and AI will greet/respond upon wake word detection.",
+          "screen_preset_title": "Screen Preset",
+          "screen_preset_note": "&#9432; 1. If unused, leave as 0.<br>&#9432; 2. When rotating screen, use Offset X, Y if it's out of bound.<br>&#9432; 3. If your screen size is not listed here, do not select any or enter the values manually.",
+          "select_lcd_preset": "Select preset:",
+          "select_preset_option": "-- Select preset to auto-fill --",
+          "select_oled_preset": "Select OLED type:",
+          "lcd_driver": "LCD Driver",
+          "lcd_width": "Width",
+          "lcd_height": "Height",
+          "lcd_offset_x": "Offset X",
+          "lcd_offset_y": "Offset Y",
+          "lcd_spi_mode": "SPI Mode",
+          "lcd_rgb_order": "RGB Order",
+          "lcd_rotate": "Rotate Screen",
+          "lcd_mirror_x": "Mirror X",
+          "lcd_mirror_y": "Mirror Y",
+          "lcd_swap_xy": "Swap XY",
+          "lcd_invert_color": "Invert Color",
+          "lcd_bl_inv": "Backlight Invert",
+          "lcd_wechat": "WeChat Message Style",
+          "note_lcd_wechat": "&#9432; Enable WeChat style message UI on LCD screen.",
+          "spi_gpio_title": "Display SPI GPIO",
+          "spi_gpio_note": "&#9432; Enter GPIO numbers. If unused, enter -1.",
+          "oled_gpio_title": "Display I2C GPIO",
+          "oled_gpio_note": "&#9432; Enter GPIO for I2C. If unused, enter -1.",
+          "audio_gpio_title": "Mic & Audio GPIO",
+          "audio_codec_type": "Audio Codec Type",
+          "audio_codec_note": "&#9432; Enter corresponding GPIO for Mic & Speaker. If unused, enter <strong>-1</strong>.",
+          "audio_codec_note_oled": "&#9432; When using OLED screen, only supports <strong>NoAudioCodec Simplex</strong>.",
+          "common_i2s_gpio": "Common I2S GPIO",
+          "common_i2s_spk": "Loa I2S",
+          "spk_dout": "DIN",
+          "mic_din": "SD",
+          "simplex_mic_extra": "Micro I2S",
+          "mic_ws": "WS",
+          "mic_sck": "SCK",
+          "dual_mic_label": "Secondary Microphone (Right Channel - R)",
+          "note_dual_mic": "&#9432; Support 2 I2S mics simultaneously (Left mic L/R to GND, Right mic L/R to 3.3V). Both mics share WS, SCK, and SD pins.",
+          "i2c_codec_gpio": "I2S MCLK & I2C Codec GPIO",
+          "codec_pa_pin": "PA (Power Amp)",
+          "enable_audio_tuning": "Audio Tuning (Mic Gain & VAD)",
+          "note_enable_audio_tuning": "&#9432; When unchecked (collapsed), system defaults are used. When checked, you can enter custom sensitivity values.",
+          "mic_gain_label": "Mic Sensitivity / Gain",
+          "vad_mode_label": "Voice Activity Detection (VAD: 0 - 3)",
+          "vad_mode_help": "&#9432; Range from <strong>0 to 3</strong> (Default is <strong>0</strong>).<br>&#9432; <strong>LOWER value (0)</strong>: Most <strong>SENSITIVE</strong>, detects quiet speech quickly.<br>&#9432; <strong>HIGHER value (3)</strong>: Strongest <strong>NOISE REJECTION</strong>, prevents false triggers in noisy environments (requires speaking louder or closer).",
+          "bluetooth_a2dp_title": "ESP32-WROOM (Bluetooth A2DP)",
+          "enable_bluetooth": "Enable Bluetooth (ESP32-WROOM A2DP)",
+          "note_enable_bluetooth": "&#9432; Check if you connect an ESP32-WROOM module to stream music via Bluetooth A2DP. When disabled, GPIOs are set to -1.",
+          "bluetooth_a2dp_note": "&#9432; Enter GPIO numbers. If unused, enter -1.<br>&#9432; Bluetooth TX, RX used to communicate with ESP32-WROOM.",
+          "peripherals_title": "Peripherals",
+          "peripherals_note": "&#9432; Enter GPIO numbers. If unused, enter -1.",
+          "status_led": "Status LED",
+          "led_count": "Quantity LED",
+          "wakeup_button": "WakeUp Button",
+          "vol_up_button": "Vol+ Button",
+          "vol_dn_button": "Vol- Button",
+          "battery_level": "Battery Level",
+          "charging_pin": "Charging Pin",
+          "charging_active_level": "Charging Active Level",
+          "led_extension": "Led Extension",
+          "save_config": "Save Config",
+          "reboot_device": "Reboot",
+          "err_empty": "⚠ Empty! Enter -1 if unused",
+          "err_empty_throw": "Missing field \"{0}\" — please enter a value (or -1 if unused).",
+          "err_invalid": "⚠ Invalid value! Must be a number.",
+          "err_invalid_throw": "Invalid field \"{0}\" — must be an integer.",
+          "save_lcd_success": "LCD config saved! Please reboot the device.",
+          "wifi_prompt_title": "Wi-Fi Not Configured",
+          "wifi_prompt_sub": "Network Connection Notice",
+          "wifi_prompt_msg": "Wi-Fi is not configured on this device. Would you like to configure Wi-Fi now?",
+          "wifi_prompt_no": "No",
+          "wifi_prompt_yes": "Yes",
+          "reboot_confirm": "Are you sure you want to reboot the device?",
+          "rebooting": "Rebooting... Please wait.",
+          "reboot_failed": "Error: Something went wrong. Please try again.",
+          "export_success": "✅ config.json exported successfully!",
+          "import_reading": "⏳ Reading file...",
+          "import_success": "✅ Config imported! Review and click Save.",
+          "import_toast": "✅ config.json imported successfully!",
+          "import_invalid": "❌ Invalid JSON file: ",
+          "lbl_screen_type": "Type Screen",
+          "lbl_lcd_language": "Language",
+          "lbl_lcd_driver": "LCD Driver",
+          "lbl_lcd_w": "Width",
+          "lbl_lcd_h": "Height",
+          "lbl_lcd_off_x": "Offset X",
+          "lbl_lcd_off_y": "Offset Y",
+          "lbl_lcd_spi_mode": "SPI Mode",
+          "lbl_lcd_rgb_order": "RGB Order",
+          "lbl_lcd_rotate": "Rotate Screen",
+          "lbl_p_mosi": "GPIO MOSI (SDA/DIN)",
+          "lbl_p_clk": "GPIO CLK (SCK/SCL)",
+          "lbl_p_dc": "GPIO DC (A0/RS)",
+          "lbl_p_rst": "GPIO RST (Reset)",
+          "lbl_p_cs": "GPIO CS (Chip Select)",
+          "lbl_p_bl": "GPIO BL (Backlight/LED)",
+          "lbl_oled_sda": "GPIO OLED SDA",
+          "lbl_oled_scl": "GPIO OLED SCL",
+          "lbl_mic_ws": "GPIO Mic WS",
+          "lbl_mic_sck": "GPIO Mic SCK",
+          "lbl_mic_din": "GPIO Mic SD",
+          "lbl_spk_dout": "GPIO Speaker DIN",
+          "lbl_spk_bclk": "GPIO Speaker BCLK",
+          "lbl_spk_lrck": "GPIO Speaker LRCK",
+          "lbl_p_bluetooth_uart_tx": "GPIO Bluetooth UART TX",
+          "lbl_p_bluetooth_uart_rx": "GPIO Bluetooth UART RX",
+          "lbl_p_dout2": "GPIO Bluetooth DIN",
+          "lbl_p_led": "GPIO Status LED",
+          "lbl_led_count": "LED Count",
+          "lbl_p_boot": "GPIO Boot Button",
+          "lbl_p_vol_up": "GPIO Vol+ Button",
+          "lbl_p_vol_dn": "GPIO Vol- Button",
+          "lbl_p_bat": "GPIO Battery Level",
+          "lbl_p_chg": "GPIO Charging",
+          "lbl_p_lamp": "GPIO Lamp Extension",
+          "note_bt_tx": "Bluetooth TX on ESP32-S3 connects to RX on ESP32-WROOM.",
+          "note_bt_rx": "Bluetooth RX on ESP32-S3 connects to TX on ESP32-WROOM.",
+          "note_bt_din": "Bluetooth DIN is used to send audio to ESP32-WROOM.",
+          "note_led_status": "WS2812 RGB LED shows device status or reacts to music.",
+          "note_led_count": "Number of WS2812 RGB LEDs. Min 1, Max 128.",
+          "note_battery": "Displays current battery level.",
+          "note_charging": "Displays charging status. Use with modules like TP4056.",
+          "note_active_high": "Active HIGH <small style=\"color:gray;\">(default: off = Active LOW)</small>",
+          "note_charging_active": "&#9432; Turn on if the pin goes <strong>HIGH</strong> when charging.<br>Turn off if the pin is pulled <strong>LOW</strong> when charging (TP4056, BQ24).",
+          "note_lamp": "Outputs 3.3V on this GPIO to turn on external lights/relays.",
+          "note_simplex_codec": "&#9432; This codec uses <strong>I2S Simplex</strong> (Separate I2S buses for Mic & Speaker, no I2C).",
+          "note_i2c_codec": "&#9432; 1. This codec uses <strong>I2S Duplex</strong> (Mic + Speaker share bus) and is controlled via <strong>I2C</strong>.",
+          "codec_es8311": "&#9432; 2. <strong>ES8311</strong>: Speaker + Mic share 1 I2S Duplex bus.",
+          "codec_es8388": "&#9432; 2. <strong>ES8388</strong>: Speaker + Mic share 1 I2S Duplex bus. Supports Input Reference for echo cancellation.",
+          "codec_box": "&#9432; 2. <strong>Box Codec</strong>: ES8311 (Speaker) + ES7210 (Mic), needs I2C addr configuration for ES7210."
+},
             'vi-VN': {
-                title: 'Cấu hình mạng',
-                theme_toggle_title: 'Chuyển đổi giao diện Sáng / Tối',
-                saved_wifi: 'Wi-Fi đã lưu',
-                new_wifi: 'Wi-Fi mới',
-                ssid: 'Tên Wi-Fi:',
-                password: 'Mật khẩu:',
-                note_wifi: 'Thiết bị có thể ghi nhớ nhiều Wi-Fi cùng lúc, nhưng chỉ kết nối với một Wi-Fi mạnh nhất.',
-                connect: 'Kết nối',
-                connecting: 'Đang kết nối...',
-                select_wifi: 'Chọn mạng Wi-Fi 2.4 GHz:',
-                select_wifi_5g: 'Chọn mạng Wi-Fi:',
-                signal_strong: 'Sóng mạnh',
-                signal_fair: 'Sóng trung bình',
-                signal_weak: 'Sóng yếu',
-                signal_unknown: 'Không xác định tín hiệu',
-                clear_ota_url: 'Xóa URL OTA',
-                scan_wifi: 'Dò tìm Wi-Fi',
-                scanning_wifi: 'Đang dò tìm...',
-                scanning: 'Đang quét...',
-                wifi_tab: 'Cấu hình Wi-Fi',
-                advanced_tab: 'Tùy chọn nâng cao',
-                ota_url: 'URL cập nhật OTA tùy chỉnh:',
-                invalid_ota_url: 'Nhập URL HTTP(S) hợp lệ (tối đa 255 byte), hoặc để trống để dùng mặc định.',
-                max_tx_power: 'Công suất phát tối đa:',
-                remember_bssid: 'Ghi nhớ BSSID',
-                sleep_mode: 'Chế độ ngủ',
-                sleep_dim_minutes: 'Làm mờ màn hình sau',
-                sleep_off_minutes: 'Tắt nguồn sau',
-                sleep_default: 'Mặc định',
-                sleep_minutes_unit: 'phút',
-                invalid_sleep_minutes: 'Nhập số nguyên từ 0 đến 1440.',
-                invalid_sleep_order: 'Thời gian tắt nguồn phải lớn hơn thời gian làm mờ màn hình.',
-                sleep_timers_help: 'Để trống để dùng thời gian mặc định của thiết bị. Đặt bằng 0 để tắt bước tương ứng. Hành vi tiết kiệm pin và đánh thức phụ thuộc vào thiết bị.',
-                pypass_device: 'Bypass Device (Gỡ tài khoản tạm thời)',
-                save: 'Lưu',
-                settings_saved: 'Đã lưu',
-                lcd_tab: 'Cấu Hình Thiết Bị',
-                device_config_main_title: 'Cấu Hình Thiết Bị',
-                device_config_main_note: '&#9432; 1. Lần đầu cài Fw và khởi động, <strong>không có màn hình hiển thị</strong>, <strong>không phát âm thanh</strong>, hãy config theo cấu hình phần cứng của bạn.<br>&#9432; 2. Nhập GPIO từ <strong>0</strong> đến <strong>48</strong>.<br>&#9432; 3. Các thay đổi sẽ có hiệu lực sau khi <strong>khởi động lại</strong> thiết bị.',
-                board_preset_title: 'Cấu Hình Nhanh - Chọn Mạch Có Sẵn',
-                board_preset_note: '&#9432; Chọn mạch của bạn để tự động điền tất cả GPIO. Sau khi chọn, bạn vẫn có thể chỉnh sửa thủ công.',
-                board_preset_update_note: '&#9432; Danh sách cấu hình thiết bị có sẵn này sẽ được cập nhật thêm khi có bản update mới.<br>&#9432; Bạn cũng có thể đóng góp danh sách này bằng cách gửi file cấu hình (.json) tới nhà phát triển (TanDev).',
-                select_board_label: 'Chọn mạch có sẵn:',
-                select_board_option: '-- Chọn mạch để tự điền tất cả',
-                board_modal_title: 'Chọn Mạch Có Sẵn',
-                board_modal_sub: 'Tự động điền tất cả chân GPIO và thông số màn hình',
-                board_search_placeholder: 'Tìm kiếm tên mạch, màn hình, chip...',
-                board_search_no_results: 'Không tìm thấy mạch phù hợp',
-                board_custom_select: 'Nhấn để chọn danh sách mạch...',
-                generic_modal_title: 'Tùy Chọn',
-                generic_modal_sub: 'Chọn một mục từ danh sách bên dưới',
-                generic_search_placeholder: 'Tìm kiếm tùy chọn...',
-                generic_no_results: 'Không tìm thấy tùy chọn phù hợp',
-                export_import_title: '📤 Xuất / Nhập cấu hình',
-                export_import_note: '&#9432; Xuất cấu hình hiện tại ra file config.json để chia sẻ hoặc sao lưu. Nhập file để áp dụng cấu hình nhanh.',
-                btn_export: '📥 Xuất cấu hình',
-                btn_import: '📤 Nhập cấu hình',
-                device_config_group_title: 'Cấu Hình Thiết Bị',
-                screen_type: 'Màn Hình',
-                lcd_language_label: 'Ngôn ngữ',
-                send_wake_word_data: 'AI trả lời khi wake word',
-                note_send_wake_word_data: '&#9432; Khi bật, thiết bị sẽ gửi dữ liệu âm thanh wake word lên máy chủ và AI sẽ phản hồi chào/trả lời khi gọi từ khóa đánh thức.',
-                screen_preset_title: 'Màn Hình',
-                screen_preset_note: '&#9432; 1. Nếu không dùng, đừng chỉnh sửa hoặc nhập 0.<br>&#9432; 2. Khi sử dụng Xoay Màn Hình, có thể màn hình sẽ hiển thị lệch. Hãy sử dụng Độ Lệch X, Y để căn chỉnh lại.<br>&#9432; 3. Nếu không có sẵn kích thước màn hình của bạn ở đây, không chọn hoặc tự nhập theo thiết bị của bạn.',
-                select_lcd_preset: 'Chọn cấu hình có sẵn:',
-                select_preset_option: '-- Chọn cấu hình có sẵn để tự điền --',
-                select_oled_preset: 'Chọn loại OLED:',
-                lcd_driver: 'Driver:',
-                lcd_width: 'Chiều Rộng',
-                lcd_height: 'Chiều Cao',
-                lcd_offset_x: 'Độ Lệch X:',
-                lcd_offset_y: 'Độ Lệch Y:',
-                lcd_spi_mode: 'Chế Độ SPI:',
-                lcd_rgb_order: 'Thứ Tự Màu:',
-                lcd_rotate: 'Xoay Màn Hình',
-                lcd_mirror_x: 'Lật X',
-                lcd_mirror_y: 'Lật Y',
-                lcd_swap_xy: 'Hoán Đổi XY',
-                lcd_invert_color: 'Đảo Màu',
-                lcd_bl_inv: 'Đảo Đèn Nền',
-                lcd_wechat: 'Giao diện WeChat',
-                note_lcd_wechat: '&#9432; Bật hiển thị giao diện hội thoại kiểu tin nhắn WeChat trên màn hình LCD.',
-                spi_gpio_title: 'GPIO Màn Hình SPI',
-                spi_gpio_note: '&#9432; Nhập số GPIO tương ứng. Nếu không dùng, nhập -1.',
-                oled_gpio_title: 'GPIO Màn Hình OLED I2C',
-                oled_gpio_note: '&#9432; Nhập số GPIO cho giao tiếp I2C. Nếu không dùng, nhập -1.',
-                audio_gpio_title: 'GPIO Mic & Âm Thanh',
-                audio_codec_type: 'Bộ Audio Codec',
-                audio_codec_note: '&#9432; Nhập số GPIO tương ứng cho Mic và Loa. Nếu không dùng, nhập <strong>-1</strong>.',
-                audio_codec_note_oled: '&#9432; Khi dùng màn hình OLED, chỉ hỗ trợ <strong>NoAudioCodec Simplex</strong>.',
-                common_i2s_gpio: 'Chân I2S Chung',
-                common_i2s_spk: 'Loa I2S',
-                spk_dout: 'DIN',
-                mic_din: 'SD',
-                simplex_mic_extra: 'Micro I2S',
-                mic_ws: 'WS',
-                mic_sck: 'SCK',
-                dual_mic_label: 'Micro thứ 2 (kênh Phải - R)',
-                note_dual_mic: '&#9432; Hỗ trợ dùng 2 micro I2S cùng lúc (kênh Trái chân L/R nối GND, kênh Phải chân L/R nối 3.3V). Cả 2 mic đấu chung vào chân WS, SCK, SD.',
-                i2c_codec_gpio: 'I2S MCLK & I2C Codec GPIO',
-                codec_pa_pin: 'PA (Power Amp)',
-                enable_audio_tuning: 'Tinh chỉnh độ nhạy Mic & VAD (Audio Tuning)',
-                note_enable_audio_tuning: '&#9432; Khi không tích (không xổ), hệ thống sẽ sử dụng giá trị mặc định tối ưu. Khi tích chọn xổ ra, bạn có thể tự nhập mức tùy ý theo nhu cầu.',
-                mic_gain_label: 'Độ nhạy Mic (Mic Sensitivity / Gain)',
-                vad_mode_label: 'Độ nhạy phát hiện giọng nói (VAD: 0 - 3)',
-                vad_mode_help: '&#9432; Mức từ <strong>0 đến 3</strong> (Mặc định là <strong>0</strong>).<br>&#9432; <strong>Số càng NHỎ (0)</strong>: Bắt giọng nói càng <strong>NHẠY</strong>, phát hiện nhanh khi nói nhỏ hoặc ở xa.<br>&#9432; <strong>Số càng LỚN (3)</strong>: Lọc tiếng ồn môi trường càng <strong>MẠNH</strong>, chống kích hoạt nhầm khi xung quanh ồn (cần nói to hơn hoặc gần mic hơn).',
-                bluetooth_a2dp_title: 'ESP32-WROOM (Bluetooth A2DP)',
-                enable_bluetooth: 'Sử dụng Bluetooth (ESP32-WROOM A2DP)',
-                note_enable_bluetooth: '&#9432; Bật nếu bạn kết nối thêm module ESP32-WROOM để phát nhạc qua Bluetooth A2DP. Khi tắt, các chân GPIO sẽ tự động đặt là -1.',
-                bluetooth_a2dp_note: '&#9432; Nhập số GPIO tương ứng. Nếu không dùng, nhập -1.<br>&#9432; Bluetooth TX, Bluetooth RX dùng để giao tiếp với ESP32-WROOM.',
-                peripherals_title: 'Thiết Bị Ngoại Vi',
-                peripherals_note: '&#9432; Nhập số GPIO tương ứng. Nếu không dùng, nhập -1.',
-                status_led: 'LED Trạng Thái',
-                led_count: 'Số lượng LED',
-                wakeup_button: 'Nút WakeUp',
-                vol_up_button: 'Nút Tăng Âm',
-                vol_dn_button: 'Nút Giảm Âm',
-                battery_level: 'Báo Pin',
-                charging_pin: 'Báo Sạc Pin',
-                charging_active_level: 'Mức Kích Sạc',
-                led_extension: 'Đèn Mở Rộng',
-                save_config: 'Lưu Cấu Hình',
-                reboot_device: 'Khởi động lại',
-
-                // Script messages
-                err_empty: '⚠ Nếu không dùng, hãy nhập -1',
-                err_empty_throw: 'Thiếu trường "{0}" — vui lòng nhập giá trị (nếu không dùng, nhập -1).',
-                err_invalid: '⚠ Giá trị không hợp lệ! Phải là số.',
-                err_invalid_throw: 'Trường "{0}" không hợp lệ — giá trị phải là số nguyên.',
-                save_lcd_success: 'Lưu cấu hình LCD thành công! Vui lòng khởi động lại thiết bị.',
-                save_failed: 'Có lỗi xảy ra. Vui lòng thử lại.',
-                wifi_prompt_title: 'Chưa cấu hình Wi-Fi',
-                wifi_prompt_sub: 'Thông báo kết nối mạng',
-                wifi_prompt_msg: 'Thiết bị chưa cấu hình WiFi, bạn có muốn cấu hình wifi không ?',
-                wifi_prompt_no: 'Không',
-                wifi_prompt_yes: 'Có',
-                reboot_confirm: 'Bạn có chắc chắn muốn khởi động lại thiết bị?',
-                rebooting: 'Đang khởi động lại... Vui lòng chờ.',
-                reboot_failed: 'Lỗi: Có lỗi xảy ra. Vui lòng thử lại.',
-                export_success: '✅ Đã xuất file config.json thành công!',
-                import_reading: '⏳ Đang đọc file...',
-                import_success: '✅ Nhập cấu hình thành công! Kiểm tra lại và nhấn Lưu.',
-                import_toast: '✅ Nhập config.json thành công!',
-                import_invalid: '❌ File JSON không hợp lệ: ',
-
-                // Field labels for errors
-                lbl_screen_type: 'Màn Hình',
-                lbl_lcd_language: 'Ngôn ngữ',
-                lbl_lcd_driver: 'Driver LCD',
-                lbl_lcd_w: 'Chiều Rộng màn hình',
-                lbl_lcd_h: 'Chiều Cao màn hình',
-                lbl_lcd_off_x: 'Độ Lệch X',
-                lbl_lcd_off_y: 'Độ Lệch Y',
-                lbl_lcd_spi_mode: 'Chế Độ SPI',
-                lbl_lcd_rgb_order: 'Thứ Tự Màu',
-                lbl_lcd_rotate: 'Xoay Màn Hình',
-                lbl_p_mosi: 'GPIO MOSI',
-                lbl_p_clk: 'GPIO CLK',
-                lbl_p_dc: 'GPIO DC',
-                lbl_p_rst: 'GPIO RST',
-                lbl_p_cs: 'GPIO CS',
-                lbl_p_bl: 'GPIO BL (Backlight)',
-                lbl_oled_sda: 'GPIO OLED SDA',
-                lbl_oled_scl: 'GPIO OLED SCL',
-                lbl_mic_ws: 'GPIO Micro WS',
-                lbl_mic_sck: 'GPIO Micro SCK',
-                lbl_mic_din: 'GPIO Micro SD',
-                lbl_spk_dout: 'GPIO Loa DIN',
-                lbl_spk_bclk: 'GPIO Loa BCLK',
-                lbl_spk_lrck: 'GPIO Loa LRCK',
-                lbl_p_bluetooth_uart_tx: 'GPIO Bluetooth UART TX',
-                lbl_p_bluetooth_uart_rx: 'GPIO Bluetooth UART RX',
-                lbl_p_dout2: 'GPIO Bluetooth DIN',
-                lbl_p_led: 'GPIO LED Trạng Thái',
-                lbl_led_count: 'Số lượng LED',
-                lbl_p_boot: 'GPIO Nút WakeUp',
-                lbl_p_vol_up: 'GPIO Nút Tăng Âm',
-                lbl_p_vol_dn: 'GPIO Nút Giảm Âm',
-                lbl_p_bat: 'GPIO Báo Pin',
-                lbl_p_chg: 'GPIO Báo Sạc',
-                lbl_p_lamp: 'GPIO Đèn Mở Rộng',
-                // Notes
-                'note_bt_tx': 'Bluetooth TX trên ESP32-S3 nối với RX trên ESP32-WROOM.',
-                'note_bt_rx': 'Bluetooth RX trên ESP32-S3 nối với TX trên ESP32-WROOM.',
-                'note_bt_din': 'Bluetooth DIN dùng để truyền âm thanh sang ESP32-WROOM khi sử dụng Bluetooth.',
-                'note_led_status': 'LED RGB WS2812 báo trạng thái thiết bị hoặc nháy theo nhạc khi được bật.',
-                'note_led_count': 'Số lượng bóng LED RGB WS2812 được sử dụng. Tối thiểu là 1 bóng, tối đa là 128 bóng.',
-                'note_battery': 'Hiển thị mức pin hiện tại.',
-                'note_charging': 'Hiển thị trạng thái sạc pin. Dùng với module sạc có chân báo sạc như TP4056,...',
-                'note_active_high': 'Active HIGH <small style="color:gray;">(mặc định: tắt = Active LOW)</small>',
-                'note_charging_active': '&#9432; Bật nếu chân báo sạc lên <strong>HIGH</strong> khi đang sạc (VD: một số mạch tự chế).<br>Tắt nếu chân kéo xuống <strong>LOW</strong> khi đang sạc (TP4056, BQ24, mặc định).',
-                'note_lamp': 'Khi yêu cầu bật đèn, nó sẽ xuất điện áp 3.3V trên GPIO này để bật tắt đèn/relay bên ngoài.',
-                'note_simplex_codec': '&#9432; Codec này dùng <strong>I2S Simplex</strong> (Mic và Loa dùng 2 bus I2S riêng biệt, không dùng I2C).',
-                'note_i2c_codec': '&#9432; 1. Codec này dùng <strong>I2S Duplex</strong> (Mic + Loa chung bus) và điều khiển qua <strong>I2C</strong>.',
-                'codec_es8311': '&#9432; 2. <strong>ES8311</strong>: Loa + Mic chung 1 bus I2S Duplex.',
-                'codec_es8388': '&#9432; 2. <strong>ES8388</strong>: Loa + Mic chung 1 bus I2S Duplex. Hỗ trợ Input Reference cho echo cancel.',
-                'codec_box': '&#9432; 2. <strong>Box Codec</strong>: ES8311 (Loa) + ES7210 (Mic), cần cấu hình I2C addr cho ES7210.',
-            },
+          "title": "Cấu hình mạng",
+          "saved_wifi": "Wi-Fi đã lưu",
+          "new_wifi": "Wi-Fi mới",
+          "ssid": "Tên Wi-Fi:",
+          "password": "Mật khẩu:",
+          "connect": "Kết nối",
+          "connecting": "Đang kết nối...",
+          "select_wifi": "Chọn mạng Wi-Fi 2.4 GHz:",
+          "select_wifi_5g": "Chọn mạng Wi-Fi:",
+          "signal_strong": "Sóng mạnh",
+          "signal_fair": "Sóng trung bình",
+          "signal_weak": "Sóng yếu",
+          "signal_unknown": "Không xác định tín hiệu",
+          "clear_ota_url": "Xóa URL OTA",
+          "scanning": "Đang quét...",
+          "wifi_tab": "Cấu hình Wi-Fi",
+          "advanced_tab": "Tùy chọn nâng cao",
+          "ota_url": "URL cập nhật OTA tùy chỉnh:",
+          "invalid_ota_url": "Nhập URL HTTP(S) tối đa 255 byte hoặc để trống.",
+          "max_tx_power": "Công suất phát tối đa:",
+          "remember_bssid": "Ghi nhớ BSSID",
+          "sleep_mode": "Chế độ ngủ",
+          "sleep_dim_minutes": "Làm mờ màn hình sau",
+          "sleep_off_minutes": "Tắt nguồn sau",
+          "sleep_default": "Mặc định",
+          "sleep_minutes_unit": "phút",
+          "invalid_sleep_minutes": "Nhập số nguyên từ 0 đến 1440.",
+          "invalid_sleep_order": "Thời gian tắt nguồn phải lớn hơn thời gian làm mờ màn hình.",
+          "invalid_sleep_timers": "Nhập số nguyên từ 0 đến 1440. Thời gian tắt nguồn phải lớn hơn thời gian làm mờ màn hình.",
+          "save": "Lưu",
+          "settings_saved": "Đã lưu",
+          "config_success": "Cấu hình thành công!",
+          "save_failed": "Không lưu được. Hãy thử lại.",
+          "connection_failed": "Không kết nối được Wi-Fi. Kiểm tra tên và mật khẩu.",
+          "invalid_ssid": "Tên Wi-Fi không được vượt quá 32 byte.",
+          "theme_toggle_title": "Chuyển đổi giao diện Sáng / Tối",
+          "note_wifi": "Thiết bị có thể ghi nhớ nhiều Wi-Fi cùng lúc, nhưng chỉ kết nối với một Wi-Fi mạnh nhất.",
+          "scan_wifi": "Dò tìm Wi-Fi",
+          "scanning_wifi": "Đang dò tìm...",
+          "sleep_timers_help": "Để trống để dùng thời gian mặc định của thiết bị. Đặt bằng 0 để tắt bước tương ứng. Hành vi tiết kiệm pin và đánh thức phụ thuộc vào thiết bị.",
+          "pypass_device": "Bypass Device (Gỡ tài khoản tạm thời)",
+          "lcd_tab": "Cấu Hình Thiết Bị",
+          "device_config_main_title": "Cấu Hình Thiết Bị",
+          "device_config_main_note": "&#9432; 1. Lần đầu cài Fw và khởi động, <strong>không có màn hình hiển thị</strong>, <strong>không phát âm thanh</strong>, hãy config theo cấu hình phần cứng của bạn.<br>&#9432; 2. Nhập GPIO từ <strong>0</strong> đến <strong>48</strong>.<br>&#9432; 3. Các thay đổi sẽ có hiệu lực sau khi <strong>khởi động lại</strong> thiết bị.",
+          "board_preset_title": "Cấu Hình Nhanh - Chọn Mạch Có Sẵn",
+          "board_preset_note": "&#9432; Chọn mạch của bạn để tự động điền tất cả GPIO. Sau khi chọn, bạn vẫn có thể chỉnh sửa thủ công.",
+          "board_preset_update_note": "&#9432; Danh sách cấu hình thiết bị có sẵn này sẽ được cập nhật thêm khi có bản update mới.<br>&#9432; Bạn cũng có thể đóng góp danh sách này bằng cách gửi file cấu hình (.json) tới nhà phát triển (TanDev).",
+          "select_board_label": "Chọn mạch có sẵn:",
+          "select_board_option": "-- Chọn mạch để tự điền tất cả",
+          "board_modal_title": "Chọn Mạch Có Sẵn",
+          "board_modal_sub": "Tự động điền tất cả chân GPIO và thông số màn hình",
+          "board_search_placeholder": "Tìm kiếm tên mạch, màn hình, chip...",
+          "board_search_no_results": "Không tìm thấy mạch phù hợp",
+          "board_custom_select": "Nhấn để chọn danh sách mạch...",
+          "generic_modal_title": "Tùy Chọn",
+          "generic_modal_sub": "Chọn một mục từ danh sách bên dưới",
+          "generic_search_placeholder": "Tìm kiếm tùy chọn...",
+          "generic_no_results": "Không tìm thấy tùy chọn phù hợp",
+          "export_import_title": "📤 Xuất / Nhập cấu hình",
+          "export_import_note": "&#9432; Xuất cấu hình hiện tại ra file config.json để chia sẻ hoặc sao lưu. Nhập file để áp dụng cấu hình nhanh.",
+          "btn_export": "📥 Xuất cấu hình",
+          "btn_import": "📤 Nhập cấu hình",
+          "device_config_group_title": "Cấu Hình Thiết Bị",
+          "screen_type": "Màn Hình",
+          "lcd_language_label": "Ngôn ngữ",
+          "send_wake_word_data": "AI trả lời khi wake word",
+          "note_send_wake_word_data": "&#9432; Khi bật, thiết bị sẽ gửi dữ liệu âm thanh wake word lên máy chủ và AI sẽ phản hồi chào/trả lời khi gọi từ khóa đánh thức.",
+          "screen_preset_title": "Màn Hình",
+          "screen_preset_note": "&#9432; 1. Nếu không dùng, đừng chỉnh sửa hoặc nhập 0.<br>&#9432; 2. Khi sử dụng Xoay Màn Hình, có thể màn hình sẽ hiển thị lệch. Hãy sử dụng Độ Lệch X, Y để căn chỉnh lại.<br>&#9432; 3. Nếu không có sẵn kích thước màn hình của bạn ở đây, không chọn hoặc tự nhập theo thiết bị của bạn.",
+          "select_lcd_preset": "Chọn cấu hình có sẵn:",
+          "select_preset_option": "-- Chọn cấu hình có sẵn để tự điền --",
+          "select_oled_preset": "Chọn loại OLED:",
+          "lcd_driver": "Driver:",
+          "lcd_width": "Chiều Rộng",
+          "lcd_height": "Chiều Cao",
+          "lcd_offset_x": "Độ Lệch X:",
+          "lcd_offset_y": "Độ Lệch Y:",
+          "lcd_spi_mode": "Chế Độ SPI:",
+          "lcd_rgb_order": "Thứ Tự Màu:",
+          "lcd_rotate": "Xoay Màn Hình",
+          "lcd_mirror_x": "Lật X",
+          "lcd_mirror_y": "Lật Y",
+          "lcd_swap_xy": "Hoán Đổi XY",
+          "lcd_invert_color": "Đảo Màu",
+          "lcd_bl_inv": "Đảo Đèn Nền",
+          "lcd_wechat": "Giao diện WeChat",
+          "note_lcd_wechat": "&#9432; Bật hiển thị giao diện hội thoại kiểu tin nhắn WeChat trên màn hình LCD.",
+          "spi_gpio_title": "GPIO Màn Hình SPI",
+          "spi_gpio_note": "&#9432; Nhập số GPIO tương ứng. Nếu không dùng, nhập -1.",
+          "oled_gpio_title": "GPIO Màn Hình OLED I2C",
+          "oled_gpio_note": "&#9432; Nhập số GPIO cho giao tiếp I2C. Nếu không dùng, nhập -1.",
+          "audio_gpio_title": "GPIO Mic & Âm Thanh",
+          "audio_codec_type": "Bộ Audio Codec",
+          "audio_codec_note": "&#9432; Nhập số GPIO tương ứng cho Mic và Loa. Nếu không dùng, nhập <strong>-1</strong>.",
+          "audio_codec_note_oled": "&#9432; Khi dùng màn hình OLED, chỉ hỗ trợ <strong>NoAudioCodec Simplex</strong>.",
+          "common_i2s_gpio": "Chân I2S Chung",
+          "common_i2s_spk": "Loa I2S",
+          "spk_dout": "DIN",
+          "mic_din": "SD",
+          "simplex_mic_extra": "Micro I2S",
+          "mic_ws": "WS",
+          "mic_sck": "SCK",
+          "dual_mic_label": "Micro thứ 2 (kênh Phải - R)",
+          "note_dual_mic": "&#9432; Hỗ trợ dùng 2 micro I2S cùng lúc (kênh Trái chân L/R nối GND, kênh Phải chân L/R nối 3.3V). Cả 2 mic đấu chung vào chân WS, SCK, SD.",
+          "i2c_codec_gpio": "I2S MCLK & I2C Codec GPIO",
+          "codec_pa_pin": "PA (Power Amp)",
+          "enable_audio_tuning": "Tinh chỉnh độ nhạy Mic & VAD (Audio Tuning)",
+          "note_enable_audio_tuning": "&#9432; Khi không tích (không xổ), hệ thống sẽ sử dụng giá trị mặc định tối ưu. Khi tích chọn xổ ra, bạn có thể tự nhập mức tùy ý theo nhu cầu.",
+          "mic_gain_label": "Độ nhạy Mic (Mic Sensitivity / Gain)",
+          "vad_mode_label": "Độ nhạy phát hiện giọng nói (VAD: 0 - 3)",
+          "vad_mode_help": "&#9432; Mức từ <strong>0 đến 3</strong> (Mặc định là <strong>0</strong>).<br>&#9432; <strong>Số càng NHỎ (0)</strong>: Bắt giọng nói càng <strong>NHẠY</strong>, phát hiện nhanh khi nói nhỏ hoặc ở xa.<br>&#9432; <strong>Số càng LỚN (3)</strong>: Lọc tiếng ồn môi trường càng <strong>MẠNH</strong>, chống kích hoạt nhầm khi xung quanh ồn (cần nói to hơn hoặc gần mic hơn).",
+          "bluetooth_a2dp_title": "ESP32-WROOM (Bluetooth A2DP)",
+          "enable_bluetooth": "Sử dụng Bluetooth (ESP32-WROOM A2DP)",
+          "note_enable_bluetooth": "&#9432; Bật nếu bạn kết nối thêm module ESP32-WROOM để phát nhạc qua Bluetooth A2DP. Khi tắt, các chân GPIO sẽ tự động đặt là -1.",
+          "bluetooth_a2dp_note": "&#9432; Nhập số GPIO tương ứng. Nếu không dùng, nhập -1.<br>&#9432; Bluetooth TX, Bluetooth RX dùng để giao tiếp với ESP32-WROOM.",
+          "peripherals_title": "Thiết Bị Ngoại Vi",
+          "peripherals_note": "&#9432; Nhập số GPIO tương ứng. Nếu không dùng, nhập -1.",
+          "status_led": "LED Trạng Thái",
+          "led_count": "Số lượng LED",
+          "wakeup_button": "Nút WakeUp",
+          "vol_up_button": "Nút Tăng Âm",
+          "vol_dn_button": "Nút Giảm Âm",
+          "battery_level": "Báo Pin",
+          "charging_pin": "Báo Sạc Pin",
+          "charging_active_level": "Mức Kích Sạc",
+          "led_extension": "Đèn Mở Rộng",
+          "save_config": "Lưu Cấu Hình",
+          "reboot_device": "Khởi động lại",
+          "err_empty": "⚠ Nếu không dùng, hãy nhập -1",
+          "err_empty_throw": "Thiếu trường \"{0}\" — vui lòng nhập giá trị (nếu không dùng, nhập -1).",
+          "err_invalid": "⚠ Giá trị không hợp lệ! Phải là số.",
+          "err_invalid_throw": "Trường \"{0}\" không hợp lệ — giá trị phải là số nguyên.",
+          "save_lcd_success": "Lưu cấu hình LCD thành công! Vui lòng khởi động lại thiết bị.",
+          "wifi_prompt_title": "Chưa cấu hình Wi-Fi",
+          "wifi_prompt_sub": "Thông báo kết nối mạng",
+          "wifi_prompt_msg": "Thiết bị chưa cấu hình WiFi, bạn có muốn cấu hình wifi không ?",
+          "wifi_prompt_no": "Không",
+          "wifi_prompt_yes": "Có",
+          "reboot_confirm": "Bạn có chắc chắn muốn khởi động lại thiết bị?",
+          "rebooting": "Đang khởi động lại... Vui lòng chờ.",
+          "reboot_failed": "Lỗi: Có lỗi xảy ra. Vui lòng thử lại.",
+          "export_success": "✅ Đã xuất file config.json thành công!",
+          "import_reading": "⏳ Đang đọc file...",
+          "import_success": "✅ Nhập cấu hình thành công! Kiểm tra lại và nhấn Lưu.",
+          "import_toast": "✅ Nhập config.json thành công!",
+          "import_invalid": "❌ File JSON không hợp lệ: ",
+          "lbl_screen_type": "Màn Hình",
+          "lbl_lcd_language": "Ngôn ngữ",
+          "lbl_lcd_driver": "Driver LCD",
+          "lbl_lcd_w": "Chiều Rộng màn hình",
+          "lbl_lcd_h": "Chiều Cao màn hình",
+          "lbl_lcd_off_x": "Độ Lệch X",
+          "lbl_lcd_off_y": "Độ Lệch Y",
+          "lbl_lcd_spi_mode": "Chế Độ SPI",
+          "lbl_lcd_rgb_order": "Thứ Tự Màu",
+          "lbl_lcd_rotate": "Xoay Màn Hình",
+          "lbl_p_mosi": "GPIO MOSI",
+          "lbl_p_clk": "GPIO CLK",
+          "lbl_p_dc": "GPIO DC",
+          "lbl_p_rst": "GPIO RST",
+          "lbl_p_cs": "GPIO CS",
+          "lbl_p_bl": "GPIO BL (Backlight)",
+          "lbl_oled_sda": "GPIO OLED SDA",
+          "lbl_oled_scl": "GPIO OLED SCL",
+          "lbl_mic_ws": "GPIO Micro WS",
+          "lbl_mic_sck": "GPIO Micro SCK",
+          "lbl_mic_din": "GPIO Micro SD",
+          "lbl_spk_dout": "GPIO Loa DIN",
+          "lbl_spk_bclk": "GPIO Loa BCLK",
+          "lbl_spk_lrck": "GPIO Loa LRCK",
+          "lbl_p_bluetooth_uart_tx": "GPIO Bluetooth UART TX",
+          "lbl_p_bluetooth_uart_rx": "GPIO Bluetooth UART RX",
+          "lbl_p_dout2": "GPIO Bluetooth DIN",
+          "lbl_p_led": "GPIO LED Trạng Thái",
+          "lbl_led_count": "Số lượng LED",
+          "lbl_p_boot": "GPIO Nút WakeUp",
+          "lbl_p_vol_up": "GPIO Nút Tăng Âm",
+          "lbl_p_vol_dn": "GPIO Nút Giảm Âm",
+          "lbl_p_bat": "GPIO Báo Pin",
+          "lbl_p_chg": "GPIO Báo Sạc",
+          "lbl_p_lamp": "GPIO Đèn Mở Rộng",
+          "note_bt_tx": "Bluetooth TX trên ESP32-S3 nối với RX trên ESP32-WROOM.",
+          "note_bt_rx": "Bluetooth RX trên ESP32-S3 nối với TX trên ESP32-WROOM.",
+          "note_bt_din": "Bluetooth DIN dùng để truyền âm thanh sang ESP32-WROOM khi sử dụng Bluetooth.",
+          "note_led_status": "LED RGB WS2812 báo trạng thái thiết bị hoặc nháy theo nhạc khi được bật.",
+          "note_led_count": "Số lượng bóng LED RGB WS2812 được sử dụng. Tối thiểu là 1 bóng, tối đa là 128 bóng.",
+          "note_battery": "Hiển thị mức pin hiện tại.",
+          "note_charging": "Hiển thị trạng thái sạc pin. Dùng với module sạc có chân báo sạc như TP4056,...",
+          "note_active_high": "Active HIGH <small style=\"color:gray;\">(mặc định: tắt = Active LOW)</small>",
+          "note_charging_active": "&#9432; Bật nếu chân báo sạc lên <strong>HIGH</strong> khi đang sạc (VD: một số mạch tự chế).<br>Tắt nếu chân kéo xuống <strong>LOW</strong> khi đang sạc (TP4056, BQ24, mặc định).",
+          "note_lamp": "Khi yêu cầu bật đèn, nó sẽ xuất điện áp 3.3V trên GPIO này để bật tắt đèn/relay bên ngoài.",
+          "note_simplex_codec": "&#9432; Codec này dùng <strong>I2S Simplex</strong> (Mic và Loa dùng 2 bus I2S riêng biệt, không dùng I2C).",
+          "note_i2c_codec": "&#9432; 1. Codec này dùng <strong>I2S Duplex</strong> (Mic + Loa chung bus) và điều khiển qua <strong>I2C</strong>.",
+          "codec_es8311": "&#9432; 2. <strong>ES8311</strong>: Loa + Mic chung 1 bus I2S Duplex.",
+          "codec_es8388": "&#9432; 2. <strong>ES8388</strong>: Loa + Mic chung 1 bus I2S Duplex. Hỗ trợ Input Reference cho echo cancel.",
+          "codec_box": "&#9432; 2. <strong>Box Codec</strong>: ES8311 (Loa) + ES7210 (Mic), cần cấu hình I2C addr cho ES7210.",
+          "password_too_short": "Mật khẩu phải có ít nhất 8 ký tự."
+}
         };
 
         // ========== Language Mapping ==========
@@ -2905,6 +2907,38 @@
         };
 
         // ========== Helper Functions ==========
+        function translate(key) {
+            const lang = document.getElementById('language')?.value || 'en-US';
+            return (translations[lang] || {})[key] || translations['en-US'][key];
+        }
+
+        function showLocalizedMessage(id, key) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.setAttribute('data-lang-message', key);
+                element.textContent = translate(key);
+            }
+        }
+
+        function clearLocalizedMessage(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.removeAttribute('data-lang-message');
+                element.textContent = '';
+            }
+        }
+
+        function responseError(message, fallbackKey) {
+            const keys = {
+                'Invalid SSID': 'invalid_ssid',
+                'OTA URL must be empty or a valid HTTP(S) URL (max 255 bytes)': 'invalid_ota_url',
+                'Invalid sleep timer values': 'invalid_sleep_timers'
+            };
+            const error = new Error(message || fallbackKey);
+            error.translationKey = Object.prototype.hasOwnProperty.call(keys, message) ? keys[message] : fallbackKey;
+            return error;
+        }
+
 
         function t(key) {
             const lang = document.getElementById('language')?.value || 'en-US';
@@ -2946,6 +2980,8 @@
 
             // Set page title
             document.title = translations[lang].title;
+            document.documentElement.lang = lang;
+            document.documentElement.dir = ['ar-SA', 'fa-IR', 'he-IL'].includes(lang) ? 'rtl' : 'ltr';
 
             // Update text content
             document.querySelectorAll('[data-lang]').forEach(element => {
@@ -2976,6 +3012,10 @@
             document.querySelectorAll('[data-lang-aria-label]').forEach(element => {
                 const key = element.getAttribute('data-lang-aria-label');
                 element.setAttribute('aria-label', (translations[lang] || {})[key] || (translations['en-US'] || {})[key] || '');
+            });
+
+            document.querySelectorAll('[data-lang-message]').forEach(element => {
+                element.textContent = translate(element.getAttribute('data-lang-message'));
             });
 
             // Update titles/tooltips
@@ -3284,30 +3324,16 @@
          */
         async function submitForm(event) {
             event.preventDefault();
-            validatePassword();
-            if (button.disabled) {
-                return;
-            }
-            wifiSubmitting = true;
             button.disabled = true;
-            error.textContent = '';
+            clearLocalizedMessage('error');
 
             // Show loading animation
             const loadingOverlay = document.getElementById('loadingOverlay');
-            loadingOverlay.classList.add('show');
-
-            const pwd = document.getElementById('password').value;
-            const isOpenNetwork = (selectedApAuthMode === 0);
-            if (!isOpenNetwork && pwd.length < 8) {
-                wifiSubmitting = false;
-                button.disabled = true;
-                loadingOverlay.classList.remove('show');
-                return;
-            }
+            if (loadingOverlay) loadingOverlay.classList.add('show');
 
             const payload = {
                 ssid: ssid.value,
-                password: pwd
+                password: document.getElementById('password').value
             };
 
             try {
@@ -3321,25 +3347,28 @@
 
                 const data = await response.json();
                 if (!data.success) {
-                    throw new Error(data.error || 'Connection failed');
+                    throw responseError(data.error, 'connection_failed');
                 }
 
-                // Connection successful, redirect to done page
-                wifiSubmitting = false;
+                // Connection successful, redirect to done page with localized copy.
                 button.disabled = false;
-                window.location.href = '/done.html';
+                const lang = document.getElementById('language')?.value || 'en-US';
+                const successMessage = (translations[lang] && translations[lang].config_success) ||
+                    translations['en-US'].config_success;
+                const doneUrl = new URL('/done.html', window.location.href);
+                doneUrl.searchParams.set('lang', lang);
+                doneUrl.searchParams.set('message', successMessage);
+                window.location.href = doneUrl.pathname + doneUrl.search;
             } catch (err) {
                 // Hide loading animation on error
-                wifiSubmitting = false;
-                loadingOverlay.classList.remove('show');
-                error.textContent = err.message;
+                if (loadingOverlay) loadingOverlay.classList.remove('show');
+                showLocalizedMessage('error', (err && err.translationKey) || 'connection_failed');
                 button.disabled = false;
-                validatePassword();
             }
         }
 
         /**
-         * Validate custom OTA URL
+         * Submit advanced configuration form
          */
         function isValidOtaUrl(value) {
             if (value === '') return true;
@@ -3363,16 +3392,13 @@
         async function submitAdvancedForm(event) {
             event.preventDefault();
             const advancedButton = document.getElementById('advanced_button');
-            const advancedError = document.getElementById('advanced_error');
-            advancedError.textContent = '';
+            clearLocalizedMessage('advanced_error');
             clearAdvancedStatus();
             clearSleepTimerError();
 
             const otaUrl = document.getElementById('ota_url').value;
             if (!isValidOtaUrl(otaUrl)) {
-                const lang = document.getElementById('language')?.value || 'vi-VN';
-                advancedError.textContent = (translations[lang] || {}).invalid_ota_url ||
-                    translations['en-US'].invalid_ota_url;
+                showLocalizedMessage('advanced_error', 'invalid_ota_url');
                 return;
             }
 
@@ -3405,9 +3431,7 @@
                     errorKey = 'invalid_sleep_order';
                 }
                 if (errorKey) {
-                    const lang = document.getElementById('language')?.value || 'vi-VN';
-                    document.getElementById('sleep_timers_error').textContent =
-                        (translations[lang] || {})[errorKey] || translations['en-US'][errorKey];
+                    showLocalizedMessage('sleep_timers_error', errorKey);
                     document.getElementById(invalidField).setAttribute('aria-invalid', 'true');
                     document.getElementById(invalidField).focus();
                     return;
@@ -3426,7 +3450,7 @@
 
                 const data = await response.json();
                 if (!data.success) {
-                    throw new Error(data.error || 'Save failed');
+                    throw responseError(data.error, 'save_failed');
                 }
 
                 for (const key of Object.keys(savedSleepTimers)) {
@@ -3436,11 +3460,9 @@
                 }
 
                 advancedButton.disabled = false;
-                const lang = document.getElementById('language')?.value || 'vi-VN';
-                document.getElementById('advanced_status').textContent =
-                    (translations[lang] || {}).settings_saved || translations['en-US'].settings_saved;
+                showLocalizedMessage('advanced_status', 'settings_saved');
             } catch (err) {
-                advancedError.textContent = err.message;
+                showLocalizedMessage('advanced_error', (err && err.translationKey) || 'save_failed');
                 advancedButton.disabled = false;
             }
         }
@@ -3570,7 +3592,7 @@
         }
 
         function clearSleepTimerError() {
-            document.getElementById('sleep_timers_error').textContent = '';
+            clearLocalizedMessage('sleep_timers_error');
             for (const key of Object.keys(savedSleepTimers)) {
                 document.getElementById(key).removeAttribute('aria-invalid');
             }
@@ -3635,8 +3657,7 @@
         }
 
         function clearAdvancedStatus() {
-            const el = document.getElementById('advanced_status');
-            if (el) el.textContent = '';
+            clearLocalizedMessage('advanced_status');
         }
 
         function updateOtaClearButton() {
@@ -4168,7 +4189,7 @@
         function updatePickerDisplay(selectId) {
             const sel = document.getElementById(selectId);
             const disp = document.getElementById(selectId + '_display');
-            if (!sel || !disp) return;
+            if (!sel || !disp || !sel.options) return;
             const selectedOpt = sel.options[sel.selectedIndex];
             if (selectedOpt) {
                 disp.textContent = selectedOpt.textContent;
@@ -4577,7 +4598,7 @@
             const micDinLabel = document.getElementById('mic_din_label');
             const simplexGrid = document.getElementById('simplex_gpio_grid');
             const commonGrid = document.getElementById('common_i2s_gpio_grid');
-            if (micDinLabel && simplexGrid && commonGrid) {
+            if (micDinLabel && simplexGrid && commonGrid && typeof simplexGrid.appendChild === 'function' && typeof commonGrid.insertBefore === 'function') {
                 if (isSimple) {
                     simplexGrid.appendChild(micDinLabel);
                     commonGrid.style.gridTemplateColumns = '1fr 1fr 1fr';
